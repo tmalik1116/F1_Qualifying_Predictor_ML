@@ -2,6 +2,8 @@ import fastf1
 import pandas as pd
 import re
 import torch
+import matplotlib.pyplot as plt
+import utils
 
 pole_times_2023 = [
     89.708,
@@ -91,23 +93,36 @@ results = []
 times = [{}] # list of dictionaries ex. {LEC: 01:10.270}, {VER, 01:18.197}
 
 
-for i in range(14):
-    session = fastf1.get_session(2024, i+1, "Q")
-    session.load()
-    results.append(str(session.results.loc[:, ['Abbreviation', 'Q3']]).split('\n'))
+# for i in range(14):
+    
+
+    
+
+#     results.append(str(session.results.loc[:, ['Abbreviation', 'Q3']]).split('\n'))
     # results[]
-for j in range(len(results)): # Loop through
+for j in range(14): # Loop through
+
+    session = fastf1.get_session(2024, j+1, "Q")
+    session.load()
+    # list of drivers
+    drivers = pd.unique(session.laps['Driver']) # list of drivers in format (VER, NOR, HAM)
     # print(f" LENGTH:    {len(results[j])}")
-    for k in range(1, len(results[j])):
+    for k in range(len(drivers)):
         # print(k)
-        item = str(results[j][k]).split()
+        # item = str(results[j][k]).split()
         # print(item)
         # print(j)
-
         try:
-            times[j][re.findall(r'[A-Z]{3}', item[1])[0]] = convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', item[4])[0])
+            times[j][drivers[k]] = convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0])
         except:
-            times[j][re.findall(r'[A-Z]{3}', item[1])[0]] = 150.000
+            if re.findall(r'\d{2}\:\d{2}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime'])):
+                times[j][drivers[k]] = convert_time(re.findall(r'(01:\d{2})', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0] + '.000')
+        # print(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0])
+
+        # try:
+        #     times[j][re.findall(r'[A-Z]{3}', item[1])[0]] = convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', item[4])[0])
+        # except:
+        #     times[j][re.findall(r'[A-Z]{3}', item[1])[0]] = 150.000
 
     times.append({})
 times.pop()
@@ -130,7 +145,17 @@ times.pop()
 for time in times:
     print(f"{dict(sorted(time.items(), key=lambda item: item[1]))}\n\n")
 
-print(len(times))
+# Turn into DataFrame
+df = pd.DataFrame.from_records(times)
+print(df, "\n\n")
+
+df.mean().sort_values()
+print(df.reindex(df.mean().sort_values().index, axis=1))
+
+
+
+# print(len(times))
+# print(times[10]['VER'])
 
 # Idea for equalizing data to calculate something
 # use Q1 times for everyone but add the average improvement from 10 in Q3 to everyone for track evolution
