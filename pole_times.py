@@ -67,10 +67,20 @@ pole_times_2024 = [
     106.168
 ]
 
-avg_difference = 0
+# avg_difference = 0
 
-for i in range(14):
-    avg_difference += pole_times_2023[i] - pole_times_2024[i]
-avg_difference /= 14
+# for i in range(14):
+#     avg_difference += pole_times_2023[i] - pole_times_2024[i]
+# avg_difference /= 14
 
-print(avg_difference)
+# print(avg_difference)
+
+session = fastf1.get_session(2024, '1', "Q")
+session.load()
+
+# list of drivers
+drivers = pd.unique(session.laps['Driver'])
+
+print(drivers)
+
+print(session.laps.pick_driver(1).pick_fastest())
