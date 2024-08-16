@@ -44,23 +44,6 @@ pole_times_2023 = [
     83.445
 ]
 
-pole_times_2024 = [
-    89.165,
-    87.472,
-    75.915,
-    88.197,
-    93.660,
-    87.241,
-    74.746,
-    70.270,
-    71.742,
-    71.383,
-    64.314,
-    85.819,
-    75.227,
-    113.159
-]
-
 extrapolated_pole_times_2024 = [
     89.165,
     87.472,
@@ -75,8 +58,8 @@ extrapolated_pole_times_2024 = [
     64.314,
     85.819,
     75.227,
-    106.168,
-    70.030,
+    106.168, 
+    70.030, # guesswork starts here
     79.757,
     90.447,
     88.340,
@@ -88,55 +71,55 @@ extrapolated_pole_times_2024 = [
     82.908
 ]
 
-track_list = [
-    "Bahrain",
-    "Jeddah",
-    "Australia",
-    "Suzuka",
-    "China",
-    "Miami",
-    "Imola",
-    "Monaco",
-    "Canada",
-    "Spain",
-    "Austria",
-    "Silverstone",
-    "Hungary",
-    "Spa",
-    "Zandvoort",
-    "Monza",
-    "Baku",
-    "Singapore",
-    "Austin",
-    "Mexico",
-    "Brazil",
-    "Las Vegas",
-    "Qatar",
-    "Abu Dhabi"
-]
+track_list = {
+    "Bahrain": 90.021,
+    "Jeddah": 88.584,
+    "Australia": 77.014,
+    "Suzuka": 89.285,
+    "China": 94.837,
+    "Miami": 88.051,
+    "Imola": 75.737,
+    "Monaco": 71.266,
+    "Canada": 72.705,
+    "Spain": 72.256,
+    "Austria": 65.288,
+    "Silverstone": 88.924,
+    "Hungary": 76.498,
+    "Spa-Francorchamps": 106.075,
+    "Zandvoort": 76.690, # from zandvoort onwards should subtract 0.5-1s for 2024 cars
+    "Monza": 81.451,
+    "Baku": 102.465,
+    "Singapore": 92.076,
+    "Austin": 95.585,
+    "Mexico": 78.306,
+    "Brazil": 70.513,
+    "Las Vegas": 93.913,
+    "Qatar": 85.297,
+    "Abu Dhabi": 84.216
+}
 
 # from statsf1.com
 average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrain, Jeddah, ... Abu Dhabi)
-    "VER": [5.64, 5.75, 4.13, 4.38, 8.17, 4.33, 2.0, 7.78, 5.63, 3.4, 2.92, 4.0, 5.1, 7.2, 1.0, 8.78, 4.43, 5.57, 7.25, 3.25, 3.63, 2.0, 4.0, 3.89],
-    "PER": [9.21, 2.5, 12.5, 8.5, 10.0, 3.0, 6.75, 11.17, 12.27, 10.0, 10.54, 12.31, 11.57, 6.38, 10.67, 10.15, 5.29, 12.09, 9.91, 8.38, 11.25, 11.0, 15.5, 9.15],
-    "HAM": [3.94, 7.75, 4.06, 4.14, 5.5, 9.0, 6.25, 5.47, 2.47, 4.33, 4.23, 4.05, 3.5, 4.0, 6.33, 4.65, 4.14, 2.93, 2.45, 2.88, 5.19, 10.0, 2.0, 2.67],
-    "RUS": [9.71, 7.5, 8.5, 10.75, 12.5, 8.33, 10.5, 10.6, 7.75, 12.0, 10.5, 11.5, 13.33, 8.33, 6.67, 10.6, 11.75, 13.33, 11.75, 11.25, 11.0, 3.0, 8.5, 12.2],
-    "LEC": [5.75, 5.0, 7.0, 5.2, 9.67, 3.33, 4.0, 6.33, 11.2, 8.14, 7.56, 5.75, 6.86, 7.43, 5.33, 6.33, 4.8, 4.5, 6.0, 5.2, 6.8, 1.0, 9.0, 5.83],
-    "SAI": [8.64, 7.33, 8.13, 9.5, 10.5, 2.67, 7.25, 6.89, 11.25, 7.0, 9.0, 9.0, 8.1, 10.1, 5.0, 9.89, 9.14, 7.71, 8.13, 7.13, 10.63, 12.0, 8.5, 10.33],
-    "NOR": [10.71, 10.75, 7.0, 6.0, 9.5, 5.0, 5.75, 7.2, 8.0, 7.0, 4.75, 5.57, 4.83, 10.67, 7.33, 7.4, 8.5, 6.33, 5.75, 12.75, 6.75, 15.0, 7.0, 5.0],
-    "PIA": [13.0, 6.5, 10.5, 4.0, 5.0, 12.5, 5.0, 6.5, 6.0, 9.0, 10.0, 4.0, 3.0, 5.0, 8.0, 7.0, 10.0, 17.0, 10.0, 7.0, 10.0, 18.0, 6.0, 3.0],
-    "ALO": [8.0, 6.5, 8.42, 10.33, 6.31, 9.33, 10.38, 8.1, 6.37, 7.29, 14.08, 9.05, 7.29, 9.63, 9.0, 9.35, 11.33, 7.31, 11.3, 13.29, 8.8, 9.0, 3.5, 9.69],
-    "STR": [13.56, 11.5, 13.83, 15.33, 13.75, 13.0, 13.25, 15.57, 15.33, 13.0, 11.9, 13.11, 13.25, 13.63, 11.0, 10.0, 13.0, 17.0, 13.67, 17.33, 14.0, 19.0, 14.0, 13.57],
-    "RIC": [8.69, 13.0, 10.0, 11.36, 7.22, 17.0, 6.5, 7.73, 7.4, 9.5, 9.75, 10.21, 10.71, 10.29, 13.5, 10.92, 8.5, 9.9, 8.27, 7.63, 12.75, 14.0, 14.0, 10.62],
-    "TSU": [13.5, 13.0, 11.0, 10.67, 19.0, 12.0, 13.0, 11.0, 15.67, 15.25, 12.8, 14.5, 14.75, 16.75, 13.33, 15.33, 7.67, 12.5, 13.33, 16.0, 17.0, 20.0, 9.5, 8.33],
-    "HUL": [11.25, 14.0, 10.91, 12.55, 11.0, 10.5, 10.0, 11.64, 9.73, 13.45, 8.75, 9.31, 10.73, 12.73, 14.0, 11.9, 14.8, 10.5, 10.0, 8.83, 8.6, 13.0, 14.0, 9.0],
-    "MAG": [13.4, 12.0, 12.0, 14.63, 13.5, 12.67, 14.33, 13.63, 14.38, 12.44, 12.5, 14.4, 15.67, 12.56, 19.0, 13.38, 15.5, 12.0, 13.71, 16.0, 11.0, 8.0, 18.0, 15.13],
-    "GAS": [11.25, 10.5, 14.8, 13.17, 12.67, 8.0, 10.25, 9.67, 13.8, 10.14, 9.67, 11.0, 11.71, 10.43, 9.0, 13.0, 12.8, 11.25, 11.0, 13.33, 11.0, 4.0, 4.5, 13.29],
-    "OCO": [11.88, 9.25, 12.2, 11.67, 14.0, 13.67, 12.25, 9.33, 9.6, 9.86, 11.22, 11.88, 12.29, 10.25, 12.0, 12.71, 11.6, 13.8, 12.17, 13.5, 14.67, 16.0, 8.5, 11.0],
-    "ALB": [11.67, 15.0, 13.25, 12.25, 17.0, 14.33, 12.67, 12.0, 11.0, 14.6, 11.5, 10.5, 14.2, 10.6, 9.5, 7.67, 13.33, 12.67, 9.67, 12.0, 12.33, 5.0, 13.0, 10.75],
-    "SAR": [17.6, 19.5, 18.0, 19.5, 20.0, 18.5, 19.0, 15.5, 15.5, 19.5, 18.5, 13.0, 17.0, 18.0, 10.0, 15.0, 14.0, 18.0, 16.0, 19.0, 19.0, 6.0, 15.0, 20.0],
-    "BOT": [5.92, 10.0, 12.33, 8.2, 6.25, 10.33, 8.0, 10.0, 7.3, 6.42, 6.69, 8.31, 6.08, 9.67, 12.33, 8.45, 7.43, 9.67, 7.2, 5.63, 7.6, 7.0, 7.5, 9.27],
-    "ZHO": [15.0, 14.33, 16.67, 17.67, 16.0, 16.67, 18.5, 19.0, 16.67, 14.33, 16.67, 13.33, 11.67, 18.0, 14.5, 12.5, 14.5, 16.5, 15.0, 11.0, 16.5, 17.0, 19.0, 17.0]
+    "VER": {"Bahrain": 5.64, "Jeddah": 5.75, "Australia": 4.13, "Suzuka": 4.38, "China": 8.17, "Miami": 4.33, "Imola": 2.0, "Monaco": 7.78, "Canada": 5.63, "Spain": 3.4, "Austria": 2.92, "Silverstone": 4.0, "Hungary": 5.1, "Spa": 7.2, "Zandvoort": 1.0, "Monza": 8.78, "Baku": 4.43, "Singapore": 5.57, "Austin": 7.25, "Mexico": 3.25, "Brazil": 3.63, "Las Vegas": 2.0, "Qatar": 4.0, "Abu Dhabi": 3.89},
+    "PER": {"Bahrain": 9.21, "Jeddah": 2.5, "Australia": 12.5, "Suzuka": 8.5, "China": 10.0, "Miami": 3.0, "Imola": 6.75, "Monaco": 11.17, "Canada": 12.27, "Spain": 10.0, "Austria": 10.54, "Silverstone": 12.31, "Hungary": 11.57, "Spa": 6.38, "Zandvoort": 10.67, "Monza": 10.15, "Baku": 5.29, "Singapore": 12.09, "Austin": 9.91, "Mexico": 8.38, "Brazil": 11.25, "Las Vegas": 11.0, "Qatar": 15.5, "Abu Dhabi": 9.15},
+    "HAM": {"Bahrain": 3.94, "Jeddah": 7.75, "Australia": 4.06, "Suzuka": 4.14, "China": 5.5, "Miami": 9.0, "Imola": 6.25, "Monaco": 5.47, "Canada": 2.47, "Spain": 4.33, "Austria": 4.23, "Silverstone": 4.05, "Hungary": 3.5, "Spa": 4.0, "Zandvoort": 6.33, "Monza": 4.65, "Baku": 4.14, "Singapore": 2.93, "Austin": 2.45, "Mexico": 2.88, "Brazil": 5.19, "Las Vegas": 10.0, "Qatar": 2.0, "Abu Dhabi": 2.67},
+    "RUS": {"Bahrain": 9.71, "Jeddah": 7.5, "Australia": 8.5, "Suzuka": 10.75, "China": 12.5, "Miami": 8.33, "Imola": 10.5, "Monaco": 10.6, "Canada": 7.75, "Spain": 12.0, "Austria": 10.5, "Silverstone": 11.5, "Hungary": 13.33, "Spa": 8.33, "Zandvoort": 6.67, "Monza": 10.6, "Baku": 11.75, "Singapore": 13.33, "Austin": 11.75, "Mexico": 11.25, "Brazil": 11.0, "Las Vegas": 3.0, "Qatar": 8.5, "Abu Dhabi": 12.2},
+    "LEC": {"Bahrain": 5.75, "Jeddah": 5.0, "Australia": 7.0, "Suzuka": 5.2, "China": 9.67, "Miami": 3.33, "Imola": 4.0, "Monaco": 6.33, "Canada": 11.2, "Spain": 8.14, "Austria": 7.56, "Silverstone": 5.75, "Hungary": 6.86, "Spa": 7.43, "Zandvoort": 5.33, "Monza": 6.33, "Baku": 4.8, "Singapore": 4.5, "Austin": 6.0, "Mexico": 5.2, "Brazil": 6.8, "Las Vegas": 1.0, "Qatar": 9.0, "Abu Dhabi": 5.83},
+    "SAI": {"Bahrain": 8.64, "Jeddah": 7.33, "Australia": 8.13, "Suzuka": 9.5, "China": 10.5, "Miami": 2.67, "Imola": 7.25, "Monaco": 6.89, "Canada": 11.25, "Spain": 7.0, "Austria": 9.0, "Silverstone": 9.0, "Hungary": 8.1, "Spa": 10.1, "Zandvoort": 5.0, "Monza": 9.89, "Baku": 9.14, "Singapore": 7.71, "Austin": 8.13, "Mexico": 7.13, "Brazil": 10.63, "Las Vegas": 12.0, "Qatar": 8.5, "Abu Dhabi": 10.33},
+    "NOR": {"Bahrain": 10.71, "Jeddah": 10.75, "Australia": 7.0, "Suzuka": 6.0, "China": 9.5, "Miami": 5.0, "Imola": 5.75, "Monaco": 7.2, "Canada": 8.0, "Spain": 7.0, "Austria": 4.75, "Silverstone": 5.57, "Hungary": 4.83, "Spa": 10.67, "Zandvoort": 7.33, "Monza": 7.4, "Baku": 8.5, "Singapore": 6.33, "Austin": 5.75, "Mexico": 12.75, "Brazil": 6.75, "Las Vegas": 15.0, "Qatar": 7.0, "Abu Dhabi": 5.0},
+    "PIA": {"Bahrain": 13.0, "Jeddah": 6.5, "Australia": 10.5, "Suzuka": 4.0, "China": 5.0, "Miami": 12.5, "Imola": 5.0, "Monaco": 6.5, "Canada": 6.0, "Spain": 9.0, "Austria": 10.0, "Silverstone": 4.0, "Hungary": 3.0, "Spa": 5.0, "Zandvoort": 8.0, "Monza": 7.0, "Baku": 10.0, "Singapore": 17.0, "Austin": 10.0, "Mexico": 7.0, "Brazil": 10.0, "Las Vegas": 18.0, "Qatar": 6.0, "Abu Dhabi": 3.0},
+    "ALO": {"Bahrain": 8.0, "Jeddah": 6.5, "Australia": 8.42, "Suzuka": 10.33, "China": 6.31, "Miami": 9.33, "Imola": 10.38, "Monaco": 8.1, "Canada": 6.37, "Spain": 7.29, "Austria": 14.08, "Silverstone": 9.05, "Hungary": 7.29, "Spa": 9.63, "Zandvoort": 9.0, "Monza": 9.35, "Baku": 11.33, "Singapore": 7.31, "Austin": 11.3, "Mexico": 13.29, "Brazil": 8.8, "Las Vegas": 9.0, "Qatar": 3.5, "Abu Dhabi": 9.69},
+    "STR": {"Bahrain": 13.56, "Jeddah": 11.5, "Australia": 13.83, "Suzuka": 15.33, "China": 13.75, "Miami": 13.0, "Imola": 13.25, "Monaco": 15.57, "Canada": 15.33, "Spain": 13.0, "Austria": 11.9, "Silverstone": 13.11, "Hungary": 13.25, "Spa": 13.63, "Zandvoort": 11.0, "Monza": 10.0, "Baku": 13.0, "Singapore": 17.0, "Austin": 13.67, "Mexico": 17.33, "Brazil": 14.0, "Las Vegas": 19.0, "Qatar": 14.0, "Abu Dhabi": 13.57},
+    "RIC": {"Bahrain": 8.69, "Jeddah": 13.0, "Australia": 10.0, "Suzuka": 11.36, "China": 7.22, "Miami": 17.0, "Imola": 6.5, "Monaco": 7.73, "Canada": 7.4, "Spain": 9.5, "Austria": 9.75, "Silverstone": 10.21, "Hungary": 10.71, "Spa": 10.29, "Zandvoort": 13.5, "Monza": 10.92, "Baku": 8.5, "Singapore": 9.9, "Austin": 8.27, "Mexico": 7.63, "Brazil": 12.75, "Las Vegas": 14.0, "Qatar": 14.0, "Abu Dhabi": 10.62},
+    "TSU": {"Bahrain": 13.5, "Jeddah": 13.0, "Australia": 11.0, "Suzuka": 10.67, "China": 19.0, "Miami": 12.0, "Imola": 13.0, "Monaco": 11.0, "Canada": 15.67, "Spain": 15.25, "Austria": 12.8, "Silverstone": 14.5, "Hungary": 14.75, "Spa": 16.75, "Zandvoort": 13.33, "Monza": 15.33, "Baku": 7.67, "Singapore": 12.5, "Austin": 13.33, "Mexico": 16.0, "Brazil": 17.0, "Las Vegas": 20.0, "Qatar": 9.5, "Abu Dhabi": 8.33},
+    "HUL": {"Bahrain": 11.25, "Jeddah": 14.0, "Australia": 10.91, "Suzuka": 12.55, "China": 11.0, "Miami": 10.5, "Imola": 10.0, "Monaco": 11.64, "Canada": 9.73, "Spain": 13.45, "Austria": 8.75, "Silverstone": 9.31, "Hungary": 10.73, "Spa": 12.73, "Zandvoort": 14.0, "Monza": 11.9, "Baku": 14.8, "Singapore": 10.5, "Austin": 10.0, "Mexico": 8.83, "Brazil": 8.6, "Las Vegas": 13.0, "Qatar": 14.0, "Abu Dhabi": 9.0},
+    "MAG": {"Bahrain": 13.4, "Jeddah": 12.0, "Australia": 12.0, "Suzuka": 14.63, "China": 13.5, "Miami": 12.67, "Imola": 14.33, "Monaco": 13.63, "Canada": 14.38, "Spain": 12.44, "Austria": 12.5, "Silverstone": 14.4, "Hungary": 15.67, "Spa": 12.56, "Zandvoort": 19.0, "Monza": 13.38, "Baku": 15.5, "Singapore": 12.0, "Austin": 13.71, "Mexico": 16.0, "Brazil": 11.0, "Las Vegas": 8.0, "Qatar": 18.0, "Abu Dhabi": 15.13},
+    "GAS": {"Bahrain": 11.25, "Jeddah": 10.5, "Australia": 14.8, "Suzuka": 13.17, "China": 12.67, "Miami": 8.0, "Imola": 10.25, "Monaco": 9.67, "Canada": 13.8, "Spain": 10.14, "Austria": 9.67, "Silverstone": 11.0, "Hungary": 11.71, "Spa": 10.43, "Zandvoort": 9.0, "Monza": 13.0, "Baku": 12.8, "Singapore": 11.25, "Austin": 11.0, "Mexico": 13.33, "Brazil": 11.0, "Las Vegas": 4.0, "Qatar": 4.5, "Abu Dhabi": 13.29},
+    "OCO": {"Bahrain": 11.88, "Jeddah": 9.25, "Australia": 12.2, "Suzuka": 11.67, "China": 14.0, "Miami": 13.67, "Imola": 12.25, "Monaco": 9.33, "Canada": 9.6, "Spain": 9.86, "Austria": 11.22, "Silverstone": 11.88, "Hungary": 12.29, "Spa": 10.25, "Zandvoort": 12.0, "Monza": 12.71, "Baku": 11.6, "Singapore": 13.8, "Austin": 12.17, "Mexico": 13.5, "Brazil": 14.67, "Las Vegas": 16.0, "Qatar": 8.5, "Abu Dhabi": 11.0},
+    "ALB": {"Bahrain": 11.67, "Jeddah": 15.0, "Australia": 13.25, "Suzuka": 12.25, "China": 17.0, "Miami": 14.33, "Imola": 12.67, "Monaco": 12.0, "Canada": 11.0, "Spain": 14.6, "Austria": 11.5, "Silverstone": 10.5, "Hungary": 14.2, "Spa": 10.6, "Zandvoort": 9.5, "Monza": 7.67, "Baku": 13.33, "Singapore": 12.67, "Austin": 9.67, "Mexico": 12.0, "Brazil": 12.33, "Las Vegas": 5.0, "Qatar": 13.0, "Abu Dhabi": 10.75},
+    "SAR": {"Bahrain": 17.6, "Jeddah": 19.5, "Australia": 18.0, "Suzuka": 19.5, "China": 20.0, "Miami": 18.5, "Imola": 19.0, "Monaco": 15.5, "Canada": 15.5, "Spain": 19.5, "Austria": 18.5, "Silverstone": 13.0, "Hungary": 17.0, "Spa": 18.0, "Zandvoort": 10.0, "Monza": 15.0, "Baku": 14.0, "Singapore": 18.0, "Austin": 16.0, "Mexico": 19.0, "Brazil": 19.0, "Las Vegas": 6.0, "Qatar": 15.0, "Abu Dhabi": 20.0},
+    "BOT": {"Bahrain": 5.92, "Jeddah": 10.0, "Australia": 12.33, "Suzuka": 8.2, "China": 6.25, "Miami": 10.33, "Imola": 8.0, "Monaco": 10.0, "Canada": 7.3, "Spain": 6.42, "Austria": 6.69, "Silverstone": 8.31, "Hungary": 6.08, "Spa": 9.67, "Zandvoort": 12.33, "Monza": 8.45, "Baku": 7.43, "Singapore": 9.67, "Austin": 7.2, "Mexico": 5.63, "Brazil": 7.6, "Las Vegas": 7.0, "Qatar": 7.5, "Abu Dhabi": 9.27},
+    "ZHO": {"Bahrain": 15.0, "Jeddah": 14.33, "Australia": 16.67, "Suzuka": 17.67, "China": 16.0, "Miami": 16.67, "Imola": 18.5, "Monaco": 19.0, "Canada": 16.67, "Spain": 14.33, "Austria": 16.67, "Silverstone": 13.33, "Hungary": 11.67, "Spa": 18.0, "Zandvoort": 14.5, "Monza": 12.5, "Baku": 14.5, "Singapore": 16.5, "Austin": 15.0, "Mexico": 11.0, "Brazil": 16.5, "Las Vegas": 17.0, "Qatar": 19.0, "Abu Dhabi": 17.}
 }
 
 # STRATEGY FOR PREDICTING TIMES:
@@ -168,12 +151,20 @@ def convert_time(time: str) -> float:
     return num
 
 
+# Finds the version of the event in my database (country name or city name)
+def get_track(session) -> str:
+    if session.event['Country'] in track_list.keys():
+        return str(session.event['Country'])
+    else:
+        return str(session.event['Location'])
+    
 
-
-def get_avg_grid_pos(driver: str) -> float: # should not be needed anymore (dictionary is sufficient)
-    match driver:
-        case 'VER':
-            return # the correct dirver for this position <V>^^^^^
+# Checks if the session had rain or not and outputs corresponding boolean value. 
+def is_rain(session) -> bool:
+    if "True" in str(session.weather_data['Rainfall']):
+        return True
+    else:
+        return False
 
 
 # Retreives the data from the API and writes it to a DataFrame.
@@ -183,28 +174,27 @@ def get_data():
         session = fastf1.get_session(2023, j+1, "Q") # starting with 2023
         session.load()
 
+        track = get_track(session)
+        avg_lap_time = 0.0
+
         # list of drivers
         drivers = pd.unique(session.laps['Driver']) # list of drivers in format (VER, NOR, HAM)
 
-        for k in range(len(drivers)):
-            try:
-                ### old code ###
-                times[j][drivers[k]] = convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0])
 
-                # new code (using more data and different data structure)
-                lap_data['driver'].append(drivers[k]) # get driver
-                lap_data['track'].append(session.event['Country']) # get track name - figure out how
-                lap_data['year'].append(re.findall(r'\d{4}', str(session.date))[0]) # can make this dynamic instead of hardcoding
-                lap_data['avg_grid_pos_track'].append(average_grid_positions[drivers[k]]) # in progress, finish the avg_grid list
-                lap_data["track_avg_lap_time"].append() # find the average lap time for the track (can do avg for one session or try and do historical avg - hist would be less accurate to current cars)
-                lap_data['temperature'].append(session.weather_data['TrackTemp']) # see how this outputs (if it's even correct)
-                lap_data["target_time"].append() # what we're predicting (eq. to y in pytorch examples, will compare predicted time to this for model testing)
+        for k in range(len(drivers)):
+            # new code (using more data and different data structure)
+            lap_data['driver'].append(drivers[k]) # get driver
+            lap_data['track'].append(track) # get track name - figure out how
+            lap_data['year'].append(re.findall(r'\d{4}', str(session.date))[0]) # get the year
+            lap_data['avg_grid_pos_track'].append(average_grid_positions[drivers[k]][track]) # get the current driver's avg grid position for the given track
+            lap_data["track_avg_lap_time"].append(track_list[track]) # find the average lap time for the track (can do avg for one session or try and do historical avg - hist would be less accurate to current cars)
+            lap_data['temperature'].append([float(session.weather_data['TrackTemp'][0]), is_rain(session)]) # see how this outputs (if it's even correct)
+
+            try:
+                lap_data["target_time"].append(float(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime'])))[0]) # what we're predicting (eq. to y in pytorch examples, will compare predicted time to this for model testing)
             except:
                 if re.findall(r'\d{2}\:\d{2}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime'])):
-                    times[j][drivers[k]] = convert_time(re.findall(r'(01:\d{2})', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0] + '.000')
-
-        times.append({})
-    times.pop()
+                    lap_data["target_time"].append(convert_time(re.findall(r'(01:\d{2})', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime']))[0] + '.000'))
     
     # Turn into DataFrame
     df = pd.DataFrame.from_records(times)
