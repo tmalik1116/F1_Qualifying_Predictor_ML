@@ -18,10 +18,14 @@ def is_rain(session) -> bool:
     else:
         return False
 
-session = fastf1.get_session(2024, "Austria", "Q")
+session = fastf1.get_session(2023, "Australia", "Q")
 session.load(weather=True)
 
-# drivers = pd.unique(session.laps['Driver'])
+drivers = pd.unique(session.laps['Driver'])
+
+for i in range(20):
+    print(str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']))
+    print(str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']).__contains__('nan'))
 
 # avg_time = 0.0
 # num = 20
@@ -43,6 +47,6 @@ session.load(weather=True)
 #################################
 
 
-print(is_rain(session))
+# print(is_rain(session))
 
 # print(session.laps.pick_drivers("HAM").pick_fastest()['LapTime'])
