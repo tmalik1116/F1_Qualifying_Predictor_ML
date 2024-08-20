@@ -2,22 +2,13 @@ import fastf1
 import pandas as pd
 import numpy as np
 import re
-import torch
-from torch import nn
+import warnings
+import xgboost as xgb
 import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import root_mean_squared_error
 # import utils
-
-
-class CustomModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.weights = nn.Parameter(torch.randn(1, dtype=torch.float, requires_grad=True))
-
-        self.bias = nn.Parameter(torch.randn(1, dtype=torch.float, requires_grad=True))
-
-    def forward(self, x: torch.Tensor):
-        return self.weights * x + self.bias # y = mx+b (purely linear, not expecting it to work well)
-
 
 pole_times_2023 = [
     89.708,
@@ -152,7 +143,7 @@ def read_data() -> pd.DataFrame:
 # Converts the default string output from the database into a float that can be worked with
 def convert_time(time: str) -> float:
     arr = time.split(':')
-    num = 60.00
+    num = 60.0 * int(arr[0])
     num += float(arr[1])
     return num
 
@@ -269,36 +260,123 @@ def get_data() -> pd.DataFrame:
     # df.mean().sort_values()
     # print(df.reindex(df.mean().sort_values().index, axis=1))
 
+    df = df.dropna(subset=['target_time'])
+
     df.to_csv('lap_data.csv')
-    # df.to_sql('lap_data.db')
-    df.to_xml('lap_data.xml')
-    df.to_markdown('lap_data.md')
 
     return df
 
 
-print(get_data())
+# Remove the target times from the dataset (what we're predicting)
+def split_data(data: pd.DataFrame) -> tuple:
+    X, y = data.drop('target_time', axis=1), data[['target_time']]
+    
+    # Extract test features
+    cats = X.select_dtypes(exclude=np.number).columns.tolist()
 
-# read the data
-# data = torch.tensor(read_data().values)
+    # Convert to Pandas category
+    for col in cats:
+        X[col] = X[col].astype('category')
+    
+    # Split into testing and training sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    return X_train, X_test, y_train, y_test
 
-# # Split data into training and testing sets
-# train_split = int(0.8 * len(data))
-# train_data, test_data = data[:train_split], data[train_split:]
 
-# print(len(train_data), len(test_data))
+# Create DMatrixes for training and testing data (required for native implementation of XGBoost)
+def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
+    dtrain_reg = xgb.DMatrix(X_train, y_train, enable_categorical=True)
+    dtest_reg = xgb.DMatrix(X_test, y_test, enable_categorical=True)
 
-# # Set manual seed
-# torch.manual_seed(42)
+    return dtrain_reg, dtest_reg
 
-# # Instantiate the model
-# model = CustomModel()
 
-# # Make predictions
-# with torch.inference_mode():
-#     preds = model(test_data)
+# Creates a new XGBoost model and trains it for a specified number of epochs
+def train_model(dtrain_reg, dtest_reg, epochs=100) -> xgb.Booster:
+    # Define hyperparameters
+    params = {"objective": "reg:squarederror", "tree_method": "hist"}
 
-#     print(torch.argmax(torch.softmax(preds, dim=1), dim=1))
+    evals = [(dtrain_reg, "train"), (dtest_reg, "validation")]
+
+    n = epochs # num_epochs
+    model = xgb.train(
+        params=params,
+        dtrain=dtrain_reg,
+        num_boost_round=n,
+        evals=evals
+    )
+
+    return model
+
+
+# Tests the model using whatever loss function and reporting on it
+def test_model(model, dtest_reg, y_test):
+    preds = model.predict(dtest_reg)
+
+    # results = xgb.cv(
+    #     params, dtrain_reg,
+    #     num_boost_round=n,
+    #     nfold=5,
+    #     early_stopping_rounds=20
+    # )
+
+    rmse = root_mean_squared_error(y_test, preds)
+
+    print(f"RMSE of the base model: {rmse:.3f}")
+
+
+# Predicts the qualifying lap time for a specific driver-race combination.
+def predict_specific_input(model: xgb.Booster, driver: str, track: str, year: int, data: pd.DataFrame) -> float:
+    # Create a DataFrame for the specific input
+    specific_input = pd.DataFrame({
+        'driver': [driver],
+        'track': [track],
+        'year': [year],
+        'avg_grid_pos_track': [average_grid_positions[driver][track]],
+        'track_avg_lap_time': [track_list[track]],
+        'temperature': [data[data['track'] == track]['temperature'].mean()], # get average temperature for track
+        'rain': [False]
+    })
+
+    cats = specific_input.select_dtypes(exclude=np.number).columns.tolist()
+
+    for col in cats:
+        specific_input[col] = specific_input[col].astype('category')
+
+    # Create DMatrix for prediction
+    dinput = xgb.DMatrix(specific_input, enable_categorical=True)
+
+    # Make and return prediction
+    prediction = model.predict(dinput)[0]
+    return prediction
+
+
+def train_and_test_model(data: pd.DataFrame) -> xgb.Booster:
+    # Split the data up
+    X_train, X_test, y_train, y_test = split_data(data)
+
+    dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
+
+    model = train_model(dtrain_reg, dtest_reg, 100)
+    test_model(model, dtest_reg, y_test)
+    return model
+
+########## NEW IDEA ###########
+# later could expand dataset by taking every lap done by every driver for the existing sessions in the database
+# would hugely increase the size of the dataset and would introduce data required to consider track evolution
+# each element of the lap_data dictionary would now have a (Q1, Q2, Q3) indicator
+
+# print(get_data())
+
+
+data = pd.read_csv('F1 Stuff/lap_data.csv').drop('Unnamed: 0', axis=1)
+
+model = train_and_test_model(data)
+
+data = pd.read_csv('F1 Stuff/lap_data.csv').drop('Unnamed: 0', axis=1)
+predicted_time = predict_specific_input(model, 'LEC', 'Silverstone', 2024, data)
+print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
+
 
 # Idea for equalizing data to calculate something
 # use Q1 times for everyone but add the average improvement from 10 in Q3 to everyone for track evolution
