@@ -1,9 +1,22 @@
 import pandas as pd
 import os
 
-df = pd.read_csv('F1 Stuff/lap_data.csv')
+# df = pd.read_csv('F1 Stuff/lap_data.csv')
 
-print(df, '\n\n')
+# print(df, '\n\n')
+
+def convert_time(time):
+    if isinstance(time, str):
+        arr = time.split(':')
+        num = 60.0 * int(arr[0])
+        num += float(arr[1])
+        return num
+    else:
+        mins = time // 60
+        string = f"0{int(mins)}:{time - (60.0 * mins):.3f}"
+        return string
+
+print(convert_time('01:16.542'))
 
 # df.mean().sort_values()
 # print(df.reindex(df.mean().sort_values().index, axis=1))

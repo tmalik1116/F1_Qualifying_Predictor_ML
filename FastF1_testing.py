@@ -124,7 +124,6 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
 # Figure out how to format this and if more data is required.
 
 results = []
-times = [{}] # list of dictionaries ex. {LEC: 01:10.270}, {VER, 01:18.197}
 
 lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever bullshit)
     'driver': [],
@@ -142,12 +141,17 @@ def read_data() -> pd.DataFrame:
     df = pd.read_csv('times.csv')
     return df
 
-# Converts the default string output from the database into a float that can be worked with
-def convert_time(time: str) -> float:
-    arr = time.split(':')
-    num = 60.0 * int(arr[0])
-    num += float(arr[1])
-    return num
+# Converts lap times between strings and floats (can pass in either)
+def convert_time(time):
+    if isinstance(time, str):
+        arr = time.split(':')
+        num = 60.0 * int(arr[0])
+        num += float(arr[1])
+        return num
+    else:
+        mins = time // 60
+        string = f"0{int(mins)}:{time - (60.0 * mins):2.3f}"
+        return string
 
 
 # Finds the version of the event in my database (country name or city name)
@@ -364,7 +368,7 @@ def predict_specific_input(model: xgb.Booster,
         'rain': [False]
     })
 
-    print(specific_input)
+    # print(specific_input)
 
     cats = specific_input.select_dtypes(exclude=np.number).columns.tolist()
 
@@ -428,9 +432,9 @@ print(feature_importances)
 # plt.title('XGBoost Feature Importances')
 # plt.show()
 
-running = True
+to_predict = input("Predict results for a driver or a session?")
 
-while running:
+while to_predict == "driver":
     try:
         driver, track, year = input("Get prediction for: ").split()
     except:
@@ -440,6 +444,30 @@ while running:
     data = pd.read_csv('lap_data.csv').drop('Unnamed: 0', axis=1)
     predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
     print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
+
+
+while to_predict == "session":
+    try:
+        track, year = input("Get prediction for: ").split()
+    except:
+        if "exit" in [track, year]:
+            break
+
+    times = {}
+
+    data = pd.read_csv('lap_data.csv').drop('Unnamed: 0', axis=1)
+    for driver in average_grid_positions:
+        predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
+        times[driver] = (convert_time(predicted_time))
+
+    # Sort the times from fastest to slowest
+    keys = list(times.keys())
+    values = list(times.values())
+    sorted_value_index = np.argsort(values)
+    sorted_times = {keys[i]: values[i] for i in sorted_value_index}
+
+    for time in sorted_times:
+        print(f"{time}: {sorted_times[time]}")
 
 
 # Idea for equalizing data to calculate something
