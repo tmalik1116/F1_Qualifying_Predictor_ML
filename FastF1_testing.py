@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OneHotEncoder
 # import utils
 
 pole_times_2023 = [
@@ -270,7 +272,23 @@ def get_data() -> pd.DataFrame:
 # Remove the target times from the dataset (what we're predicting)
 def split_data(data: pd.DataFrame) -> tuple:
     X, y = data.drop('target_time', axis=1), data[['target_time']]
+
+    # Implement one-hot encoding for categorical features
+    categorical_features = ['driver', 'track']
+    ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False) # Instantiate OHE
+    ohe.fit(X[categorical_features])
+    encoded_features = pd.DataFrame(ohe.transform(X[categorical_features]),
+                                    columns=ohe.get_feature_names_out(categorical_features))
+    X = X.drop(categorical_features, axis=1).reset_index(drop=True) # Remove original categoricals (not encoded)
+    X = pd.concat([X, encoded_features], axis=1) # concatenate encoded features to DataFrame
     
+    # Extract numerical features for scaling
+    num_cols = X.select_dtypes(include=np.number).columns.tolist()
+
+    # Apply StandardScaler (or MinMaxScaler)
+    scaler = StandardScaler()
+    X[num_cols] = scaler.fit_transform(X[num_cols])
+
     # Extract test features
     cats = X.select_dtypes(exclude=np.number).columns.tolist()
 
@@ -280,7 +298,7 @@ def split_data(data: pd.DataFrame) -> tuple:
     
     # Split into testing and training sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
-    return X_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols
 
 
 # Create DMatrixes for training and testing data (required for native implementation of XGBoost)
@@ -325,8 +343,16 @@ def test_model(model, dtest_reg, y_test):
     print(f"RMSE of the base model: {rmse:.3f}")
 
 
-# Predicts the qualifying lap time for a specific driver-race combination.
-def predict_specific_input(model: xgb.Booster, driver: str, track: str, year: int, data: pd.DataFrame) -> float:
+# Takes a trained model and predicts the qualifying lap time for a specific driver-race combination.
+def predict_specific_input(model: xgb.Booster, 
+                           driver: str, 
+                           track: str, 
+                           year: int, 
+                           data: pd.DataFrame, 
+                           encoder: OneHotEncoder, 
+                           categorical_features, 
+                           scaler: StandardScaler, 
+                           num_cols) -> float:
     # Create a DataFrame for the specific input
     specific_input = pd.DataFrame({
         'driver': [driver],
@@ -338,10 +364,22 @@ def predict_specific_input(model: xgb.Booster, driver: str, track: str, year: in
         'rain': [False]
     })
 
+    print(specific_input)
+
     cats = specific_input.select_dtypes(exclude=np.number).columns.tolist()
 
     for col in cats:
         specific_input[col] = specific_input[col].astype('category')
+
+
+    # One-hot encode using the trained encoder
+    encoded_features = pd.DataFrame(encoder.transform(specific_input[categorical_features]),
+                                    columns=encoder.get_feature_names_out(categorical_features))
+    specific_input = specific_input.drop(categorical_features, axis=1).reset_index(drop=True)
+    specific_input = pd.concat([specific_input, encoded_features], axis=1)
+
+    # Apply the scaler to match training data
+    specific_input[num_cols] = scaler.transform(specific_input[num_cols])
 
     # Create DMatrix for prediction
     dinput = xgb.DMatrix(specific_input, enable_categorical=True)
@@ -351,15 +389,15 @@ def predict_specific_input(model: xgb.Booster, driver: str, track: str, year: in
     return prediction
 
 
-def train_and_test_model(data: pd.DataFrame) -> xgb.Booster:
+def train_and_test_model(data: pd.DataFrame) -> tuple:
     # Split the data up
-    X_train, X_test, y_train, y_test = split_data(data)
+    X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols = split_data(data)
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 100)
+    model = train_model(dtrain_reg, dtest_reg)
     test_model(model, dtest_reg, y_test)
-    return model
+    return model, ohe, categorical_features, scaler, num_cols
 
 ########## NEW IDEA ###########
 # later could expand dataset by taking every lap done by every driver for the existing sessions in the database
@@ -369,13 +407,39 @@ def train_and_test_model(data: pd.DataFrame) -> xgb.Booster:
 # print(get_data())
 
 
-data = pd.read_csv('F1 Stuff/lap_data.csv').drop('Unnamed: 0', axis=1)
+data = pd.read_csv('lap_data.csv').drop('Unnamed: 0', axis=1)
 
-model = train_and_test_model(data)
+print("Training...")
+model, ohe, categorical_features, scaler, num_cols = train_and_test_model(data)
+importance_scores = model.get_score(importance_type='gain')
 
-data = pd.read_csv('F1 Stuff/lap_data.csv').drop('Unnamed: 0', axis=1)
-predicted_time = predict_specific_input(model, 'LEC', 'Silverstone', 2024, data)
-print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
+# Create DataFrame from importance scores 
+feature_importances = pd.DataFrame({
+    'Feature': list(importance_scores.keys()), 
+    'Importance': list(importance_scores.values())
+}).sort_values('Importance', ascending=False)
+
+print(feature_importances)
+
+# (Optional) Visualize feature importances
+# plt.figure(figsize=(10, 6))
+# plt.barh(feature_importances['Feature'], feature_importances['Importance'])
+# plt.xlabel('Importance Score')
+# plt.title('XGBoost Feature Importances')
+# plt.show()
+
+running = True
+
+while running:
+    try:
+        driver, track, year = input("Get prediction for: ").split()
+    except:
+        if "exit" in [driver, track, year]:
+            break
+
+    data = pd.read_csv('lap_data.csv').drop('Unnamed: 0', axis=1)
+    predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
+    print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
 
 
 # Idea for equalizing data to calculate something
