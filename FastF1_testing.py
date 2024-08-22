@@ -158,7 +158,7 @@ def convert_time(time):
         return num
     else:
         mins = time // 60
-        string = f"0{int(mins)}:{time - (60.0 * mins):2.3f}"
+        string = f"0{int(mins)}:{time - (60.0 * mins):06.3f}"
         return string
 
 
@@ -361,7 +361,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg)
+    model = train_model(dtrain_reg, dtest_reg, 100)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
