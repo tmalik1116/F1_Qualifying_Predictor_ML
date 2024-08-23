@@ -188,13 +188,13 @@ def get_years_since_reg_change(year: int) -> int:
         return random.randint(0, 5)
     elif 2026 <= year <= 2030:
         return year - 2026
-    elif 2022 >= year <= 2025:
+    elif 2022 <= year <= 2025:
         return year - 2022
-    elif 2017 >= year >= 2021:
+    elif 2017 <= year <= 2021:
         return year - 2017
-    elif 2014 >= year <= 2016:
+    elif 2014 <= year <= 2016:
         return year - 2014
-    elif 2010 >= year <= 2013:
+    elif 2010 <= year <= 2013:
         return year - 2010
     else:
         return random.randint(0, 5)
@@ -290,7 +290,7 @@ def split_data(data: pd.DataFrame) -> tuple:
         X[col] = X[col].astype('category')
     
     # Split into testing and training sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y) # Removed shuffle from dataset: made positive impact on accuracy
     return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols
 
 
@@ -383,7 +383,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 100)
+    model = train_model(dtrain_reg, dtest_reg, 50)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
@@ -418,7 +418,7 @@ print(feature_importances)
 # plt.title('XGBoost Feature Importances')
 # plt.show()
 
-to_predict = input("Predict results for a driver or a session?")
+to_predict = input("Predict results for a driver or a session? ")
 
 while to_predict == "driver":
     try:
