@@ -5,6 +5,7 @@ import re
 import warnings
 import xgboost as xgb
 import matplotlib.pyplot as plt
+import random
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
@@ -141,7 +142,8 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'track_avg_lap_time': [],
     'temperature': [], # higher temp == slower laps (significant, from tire deg and lower engine RPM)
     'rain': [],
-    'target_time': [] # just get the actual times basically
+    'target_time': [], # just get the actual times basically
+    'years_since_reg_change': []
 }
 
 # Reads the time data from a csv and turns it into a DataFrame
@@ -178,6 +180,24 @@ def is_rain(session) -> bool:
         return True
     else:
         return False
+    
+
+# Returns the number fo years since a reg change for known time periods, otherwise returns random reasonable value
+def get_years_since_reg_change(year: int) -> int:
+    if year > 2030:
+        return random.randint(0, 5)
+    elif 2026 <= year <= 2030:
+        return year - 2026
+    elif 2022 <= year <= 2025:
+        return year - 2022
+    elif 2017 <= year <= 2021:
+        return year - 2017
+    elif 2014 <= year <= 2016:
+        return year - 2014
+    elif 2010 <= year <= 2013:
+        return year - 2010
+    else:
+        return random.randint(0, 5)
 
 
 # Retreives the data from the API and writes it to a DataFrame.
@@ -270,7 +290,7 @@ def split_data(data: pd.DataFrame) -> tuple:
         X[col] = X[col].astype('category')
     
     # Split into testing and training sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y) # Removed shuffle from dataset: made positive impact on accuracy
     return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols
 
 
@@ -318,7 +338,8 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
                            encoder: OneHotEncoder, 
                            categorical_features, 
                            scaler: StandardScaler, 
-                           num_cols) -> float:
+                           num_cols,
+                           rain=False) -> float:
     # Create a DataFrame for the specific input
     specific_input = pd.DataFrame({
         'driver': [driver],
@@ -327,7 +348,8 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
         'avg_grid_pos_track': [average_grid_positions[driver][track]],
         'track_avg_lap_time': [track_list[track]],
         'temperature': [data[data['track'] == track]['temperature'].mean()], # get average temperature for track
-        'rain': [False]
+        'rain': [rain],
+        'years_since_reg_change': [get_years_since_reg_change(year)]
     })
 
     # print(specific_input)
@@ -361,7 +383,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 100)
+    model = train_model(dtrain_reg, dtest_reg, 50)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
@@ -382,21 +404,21 @@ model, ohe, categorical_features, scaler, num_cols = train_and_test_model(data)
 importance_scores = model.get_score(importance_type='gain')
 
 # # Create DataFrame from importance scores 
-# feature_importances = pd.DataFrame({
-#     'Feature': list(importance_scores.keys()), 
-#     'Importance': list(importance_scores.values())
-# }).sort_values('Importance', ascending=False)
+feature_importances = pd.DataFrame({
+    'Feature': list(importance_scores.keys()), 
+    'Importance': list(importance_scores.values())
+}).sort_values('Importance', ascending=False)
 
-# print(feature_importances)
+print(feature_importances)
 
 # # (Optional) Visualize feature importances
-# # plt.figure(figsize=(10, 6))
-# # plt.barh(feature_importances['Feature'], feature_importances['Importance'])
-# # plt.xlabel('Importance Score')
-# # plt.title('XGBoost Feature Importances')
-# # plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.barh(feature_importances['Feature'], feature_importances['Importance'])
+# plt.xlabel('Importance Score')
+# plt.title('XGBoost Feature Importances')
+# plt.show()
 
-to_predict = input("Predict results for a driver or a session?")
+to_predict = input("Predict results for a driver or a session? ")
 
 while to_predict == "driver":
     try:
@@ -411,17 +433,24 @@ while to_predict == "driver":
 
 
 while to_predict == "session":
+    rain = False
     try:
-        track, year = input("Get prediction for: ").split()
+        list_input = input("Get prediction for: ").split()
+        if len(list_input) < 3:
+            track, year = list_input
+        else:
+            track, year, rain = list_input
     except:
         if "exit" in [track, year]:
             break
+
+    year = int(year)
 
     times = {}
 
     data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
     for driver in average_grid_positions:
-        predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
+        predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
         times[driver] = (convert_time(predicted_time))
 
     # Sort the times from fastest to slowest
