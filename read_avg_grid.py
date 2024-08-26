@@ -105,10 +105,10 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'years_since_reg_change': []
 }
 
-session = fastf1.get_session(2024, "Zandvoort", "Q")
-session.load(weather=True)
+session = fastf1.get_session(2017, "Monaco", "Q")
+session.load()
 
-track = 'Zandvoort'
+track = 'Monaco'
 
 drivers = pd.unique(session.laps['Driver'])
 
