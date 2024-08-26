@@ -1,9 +1,15 @@
 import pandas as pd
 import os
+import random
 
-df = pd.read_csv('fake_2025.csv')
+df = pd.read_csv('fake_2025.csv').drop('Unnamed: 0', axis=1)
 
 data = df.to_dict()
+for i in range(len(data['driver'])):
+    data['target_time'][i] -= random.randint(30, 100) / 100.0
+
+df = pd.DataFrame.from_dict(data)
+df.to_csv('2025_0.csv')
 
 # print(df, '\n\n')
 
