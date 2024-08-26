@@ -274,6 +274,8 @@ def split_data(data: pd.DataFrame) -> tuple:
                                     columns=ohe.get_feature_names_out(categorical_features))
     X = X.drop(categorical_features, axis=1).reset_index(drop=True) # Remove original categoricals (not encoded)
     X = pd.concat([X, encoded_features], axis=1) # concatenate encoded features to DataFrame
+
+    X['year_x_ysrc'] = X['year'] * X['years_since_reg_change']
     
     # Extract numerical features for scaling
     num_cols = X.select_dtypes(include=np.number).columns.tolist()
@@ -296,8 +298,19 @@ def split_data(data: pd.DataFrame) -> tuple:
 
 # Create DMatrixes for training and testing data (required for native implementation of XGBoost)
 def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
-    dtrain_reg = xgb.DMatrix(X_train, y_train, enable_categorical=True)
-    dtest_reg = xgb.DMatrix(X_test, y_test, enable_categorical=True)
+    # 1. Get unique years and assign weights
+    unique_years = X_train['year'].unique()
+    year_weights = {}
+    for i, year in enumerate(sorted(unique_years)):
+        year_weights[year] = i**2 # assign weights (higher for more recent years)
+
+    # 2. Create weight arrays for training and testing data
+    train_year_weight = np.array([year_weights[year] for year in X_train['year']])
+    test_year_weight = np.array([year_weights[year] for year in X_test['year']])
+
+    # Create DMatrixes with weights
+    dtrain_reg = xgb.DMatrix(X_train, y_train, enable_categorical=True, weight=train_year_weight)
+    dtest_reg = xgb.DMatrix(X_test, y_test, enable_categorical=True, weight=test_year_weight)
 
     return dtrain_reg, dtest_reg
 
@@ -305,7 +318,9 @@ def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
 # Creates a new XGBoost model and trains it for a specified number of epochs
 def train_model(dtrain_reg, dtest_reg, epochs=100) -> xgb.Booster:
     # Define hyperparameters
-    params = {"objective": "reg:squarederror", "tree_method": "hist"}
+    params = {"objective": "reg:squarederror", 
+              "tree_method": "hist",
+              "monotone_constraints": "(0,0,0,0,0,0,0,0,-1)"}
 
     evals = [(dtrain_reg, "train"), (dtest_reg, "validation")]
 
@@ -365,6 +380,8 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
                                     columns=encoder.get_feature_names_out(categorical_features))
     specific_input = specific_input.drop(categorical_features, axis=1).reset_index(drop=True)
     specific_input = pd.concat([specific_input, encoded_features], axis=1)
+
+    specific_input['year_x_ysrc'] = specific_input['year'] * specific_input['years_since_reg_change']
 
     # Apply the scaler to match training data
     specific_input[num_cols] = scaler.transform(specific_input[num_cols])
