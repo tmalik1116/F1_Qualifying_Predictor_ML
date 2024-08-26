@@ -73,7 +73,7 @@ track_list = {
     "China": 94.837,
     "Miami": 88.051,
     "Imola": 75.737,
-    "Monaco": 70.766,
+    "Monaco": 71.266,
     "Canada": 72.705,
     "Spain": 72.256,
     "Austria": 65.288,
@@ -98,13 +98,13 @@ track_list = {
     "Nürburgring": 86.637
 }
 
-# from statsf1.com  # Note: adjusted Leclerc Monaco results to remove outliers
+# from statsf1.com
 average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrain, Jeddah, ... Abu Dhabi + additionals now (any circuit from 2018 - 2024))
     "VER": {"Bahrain": 5.64, "Jeddah": 5.75, "Australia": 4.13, "Suzuka": 4.38, "China": 8.17, "Miami": 4.33, "Imola": 2.0, "Monaco": 7.78, "Canada": 5.63, "Spain": 3.4, "Austria": 2.92, "Silverstone": 4.0, "Hungary": 5.1, "Spa-Francorchamps": 7.2, "Zandvoort": 1.0, "Monza": 8.78, "Baku": 4.43, "Singapore": 5.57, "Austin": 7.25, "Mexico": 3.25, "Brazil": 3.63, "Las Vegas": 2.0, "Qatar": 4.0, "Abu Dhabi": 3.89, "France": 2.75, "Hockenheim": 3.33, "Russia": 10.71, "Turkey": 2.0, "Portugal": 3.0, "Nürburgring": 3.0},
     "PER": {"Bahrain": 9.21, "Jeddah": 2.5, "Australia": 12.5, "Suzuka": 8.5, "China": 10.0, "Miami": 3.0, "Imola": 6.75, "Monaco": 11.17, "Canada": 12.27, "Spain": 10.0, "Austria": 10.54, "Silverstone": 12.31, "Hungary": 11.57, "Spa-Francorchamps": 6.38, "Zandvoort": 10.67, "Monza": 10.15, "Baku": 5.29, "Singapore": 12.09, "Austin": 9.91, "Mexico": 8.38, "Brazil": 11.25, "Las Vegas": 11.0, "Qatar": 15.5, "Abu Dhabi": 9.15, "France": 8.5, "Hockenheim": 10.8, "Russia": 8.13, "Turkey": 8.0, "Portugal": 4.5, "Nürburgring": 12.33},
     "HAM": {"Bahrain": 3.94, "Jeddah": 7.75, "Australia": 4.06, "Suzuka": 4.14, "China": 5.5, "Miami": 9.0, "Imola": 6.25, "Monaco": 5.47, "Canada": 2.47, "Spain": 4.33, "Austria": 4.23, "Silverstone": 4.05, "Hungary": 3.5, "Spa-Francorchamps": 4.0, "Zandvoort": 6.33, "Monza": 4.65, "Baku": 4.14, "Singapore": 2.93, "Austin": 2.45, "Mexico": 2.88, "Brazil": 5.19, "Las Vegas": 10.0, "Qatar": 2.0, "Abu Dhabi": 2.67, "France": 2.0, "Hockenheim": 7.29, "Russia": 3.25, "Turkey": 6.29, "Portugal": 1.5, "Nürburgring": 4.0},
     "RUS": {"Bahrain": 9.71, "Jeddah": 7.5, "Australia": 8.5, "Suzuka": 10.75, "China": 12.5, "Miami": 8.33, "Imola": 10.5, "Monaco": 10.6, "Canada": 7.75, "Spain": 12.0, "Austria": 10.5, "Silverstone": 11.5, "Hungary": 13.33, "Spa-Francorchamps": 8.33, "Zandvoort": 6.67, "Monza": 10.6, "Baku": 11.75, "Singapore": 13.33, "Austin": 11.75, "Mexico": 11.25, "Brazil": 11.0, "Las Vegas": 3.0, "Qatar": 8.5, "Abu Dhabi": 12.2, "France": 13.33, "Hockenheim": 17.0, "Russia": 11.0, "Turkey": 16.5, "Portugal": 12.5, "Nürburgring": 17},
-    "LEC": {"Bahrain": 5.75, "Jeddah": 5.0, "Australia": 7.0, "Suzuka": 5.2, "China": 9.67, "Miami": 3.33, "Imola": 4.0, "Monaco": 2.25, "Canada": 11.2, "Spain": 8.14, "Austria": 7.56, "Silverstone": 5.75, "Hungary": 6.86, "Spa-Francorchamps": 7.43, "Zandvoort": 5.33, "Monza": 6.33, "Baku": 4.8, "Singapore": 4.5, "Austin": 6.0, "Mexico": 5.2, "Brazil": 6.8, "Las Vegas": 1.0, "Qatar": 9.0, "Abu Dhabi": 5.83, "France": 4.75, "Hockenheim": 9.5, "Russia": 9.25, "Turkey": 7.5, "Portugal": 6.0, "Nürburgring": 4.0},
+    "LEC": {"Bahrain": 5.75, "Jeddah": 5.0, "Australia": 7.0, "Suzuka": 5.2, "China": 9.67, "Miami": 3.33, "Imola": 4.0, "Monaco": 6.33, "Canada": 11.2, "Spain": 8.14, "Austria": 7.56, "Silverstone": 5.75, "Hungary": 6.86, "Spa-Francorchamps": 7.43, "Zandvoort": 5.33, "Monza": 6.33, "Baku": 4.8, "Singapore": 4.5, "Austin": 6.0, "Mexico": 5.2, "Brazil": 6.8, "Las Vegas": 1.0, "Qatar": 9.0, "Abu Dhabi": 5.83, "France": 4.75, "Hockenheim": 9.5, "Russia": 9.25, "Turkey": 7.5, "Portugal": 6.0, "Nürburgring": 4.0},
     "SAI": {"Bahrain": 8.64, "Jeddah": 7.33, "Australia": 8.13, "Suzuka": 9.5, "China": 10.5, "Miami": 2.67, "Imola": 7.25, "Monaco": 6.89, "Canada": 11.25, "Spain": 7.0, "Austria": 9.0, "Silverstone": 9.0, "Hungary": 8.1, "Spa-Francorchamps": 10.1, "Zandvoort": 5.0, "Monza": 9.89, "Baku": 9.14, "Singapore": 7.71, "Austin": 8.13, "Mexico": 7.13, "Brazil": 10.63, "Las Vegas": 12.0, "Qatar": 8.5, "Abu Dhabi": 10.33, "France": 9.25, "Hockenheim": 10.0, "Russia": 9.86, "Turkey": 17.0, "Portugal": 6.0, "Nürburgring": 10.0},
     "NOR": {"Bahrain": 10.71, "Jeddah": 10.75, "Australia": 7.0, "Suzuka": 6.0, "China": 9.5, "Miami": 5.0, "Imola": 5.75, "Monaco": 7.2, "Canada": 8.0, "Spain": 7.0, "Austria": 4.75, "Silverstone": 5.57, "Hungary": 4.83, "Spa-Francorchamps": 10.67, "Zandvoort": 7.33, "Monza": 7.4, "Baku": 8.5, "Singapore": 6.33, "Austin": 5.75, "Mexico": 12.75, "Brazil": 6.75, "Las Vegas": 15.0, "Qatar": 7.0, "Abu Dhabi": 5.0, "France": 6.0, "Hockenheim": 19.0, "Russia": 5.33, "Turkey": 10.5, "Portugal": 7.5, "Nürburgring": 8.0},
     "PIA": {"Bahrain": 13.0, "Jeddah": 6.5, "Australia": 10.5, "Suzuka": 4.0, "China": 5.0, "Miami": 12.5, "Imola": 5.0, "Monaco": 6.5, "Canada": 6.0, "Spain": 9.0, "Austria": 10.0, "Silverstone": 4.0, "Hungary": 3.0, "Spa-Francorchamps": 5.0, "Zandvoort": 8.0, "Monza": 7.0, "Baku": 10.0, "Singapore": 17.0, "Austin": 10.0, "Mexico": 7.0, "Brazil": 10.0, "Las Vegas": 18.0, "Qatar": 6.0, "Abu Dhabi": 3.0, "France": 7.94, "Hockenheim": 7.94, "Russia": 7.94, "Turkey": 7.94, "Portugal": 7.94, "Nürburgring": 7.94},
@@ -122,7 +122,7 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
     "ZHO": {"Bahrain": 15.0, "Jeddah": 14.33, "Australia": 16.67, "Suzuka": 17.67, "China": 16.0, "Miami": 16.67, "Imola": 18.5, "Monaco": 19.0, "Canada": 16.67, "Spain": 14.33, "Austria": 16.67, "Silverstone": 13.33, "Hungary": 11.67, "Spa-Francorchamps": 18.0, "Zandvoort": 14.5, "Monza": 12.5, "Baku": 14.5, "Singapore": 16.5, "Austin": 15.0, "Mexico": 11.0, "Brazil": 16.5, "Las Vegas": 17.0, "Qatar": 19.0, "Abu Dhabi": 17.0, "France": 16.0, "Hockenheim": 15.69, "Russia": 15.69, "Turkey": 15.69, "Portugal": 15.69, "Nürburgring": 15.69}
 }
 
-num_races = [21, 21, 17, 22, 22, 22, 15]
+num_races = [21, 21, 17, 22, 22, 22, 14]
 
 # STRATEGY FOR PREDICTING TIMES:
 # take each driver's proximity to pole (avg) and use in conjunction with previous year pole time for prediction <- old strategy doesn't account for additional data
@@ -274,9 +274,6 @@ def split_data(data: pd.DataFrame) -> tuple:
                                     columns=ohe.get_feature_names_out(categorical_features))
     X = X.drop(categorical_features, axis=1).reset_index(drop=True) # Remove original categoricals (not encoded)
     X = pd.concat([X, encoded_features], axis=1) # concatenate encoded features to DataFrame
-
-    # Adding extra features to enhance accuracy
-    # X['year_x_track_avg_lap_time'] = X['year'] * X['track_avg_lap_time']
     
     # Extract numerical features for scaling
     num_cols = X.select_dtypes(include=np.number).columns.tolist()
@@ -293,7 +290,7 @@ def split_data(data: pd.DataFrame) -> tuple:
         X[col] = X[col].astype('category')
     
     # Split into testing and training sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.9) # Removed shuffle from dataset: made positive impact on accuracy
+    X_train, X_test, y_train, y_test = train_test_split(X, y) # Removed shuffle from dataset: made positive impact on accuracy
     return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols
 
 
@@ -369,9 +366,6 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
     specific_input = specific_input.drop(categorical_features, axis=1).reset_index(drop=True)
     specific_input = pd.concat([specific_input, encoded_features], axis=1)
 
-    # Add additional feature before scaling
-    # specific_input['year_x_track_avg_lap_time'] = specific_input['year'] * specific_input['track_avg_lap_time']
-
     # Apply the scaler to match training data
     specific_input[num_cols] = scaler.transform(specific_input[num_cols])
 
@@ -390,7 +384,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
     model = train_model(dtrain_reg, dtest_reg, 50)
-    # test_model(model, dtest_reg, y_test)
+    test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
 ########## NEW IDEA ###########
