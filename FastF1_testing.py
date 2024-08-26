@@ -122,7 +122,7 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
     "ZHO": {"Bahrain": 15.0, "Jeddah": 14.33, "Australia": 16.67, "Suzuka": 17.67, "China": 16.0, "Miami": 16.67, "Imola": 18.5, "Monaco": 19.0, "Canada": 16.67, "Spain": 14.33, "Austria": 16.67, "Silverstone": 13.33, "Hungary": 11.67, "Spa-Francorchamps": 18.0, "Zandvoort": 14.5, "Monza": 12.5, "Baku": 14.5, "Singapore": 16.5, "Austin": 15.0, "Mexico": 11.0, "Brazil": 16.5, "Las Vegas": 17.0, "Qatar": 19.0, "Abu Dhabi": 17.0, "France": 16.0, "Hockenheim": 15.69, "Russia": 15.69, "Turkey": 15.69, "Portugal": 15.69, "Nürburgring": 15.69}
 }
 
-num_races = [21, 21, 17, 22, 22, 22, 14]
+num_races = [21, 21, 17, 22, 22, 22, 15]
 
 # STRATEGY FOR PREDICTING TIMES:
 # take each driver's proximity to pole (avg) and use in conjunction with previous year pole time for prediction <- old strategy doesn't account for additional data
