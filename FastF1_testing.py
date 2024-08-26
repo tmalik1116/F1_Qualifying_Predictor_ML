@@ -302,7 +302,7 @@ def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
     unique_years = X_train['year'].unique()
     year_weights = {}
     for i, year in enumerate(sorted(unique_years)):
-        year_weights[year] = i**2 # assign weights (higher for more recent years)
+        year_weights[year] = i**10 # assign weights (higher for more recent years)
 
     # 2. Create weight arrays for training and testing data
     train_year_weight = np.array([year_weights[year] for year in X_train['year']])

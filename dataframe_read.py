@@ -1,7 +1,9 @@
 import pandas as pd
 import os
 
-# df = pd.read_csv('F1 Stuff/lap_data.csv')
+df = pd.read_csv('fake_2025.csv')
+
+data = df.to_dict()
 
 # print(df, '\n\n')
 
