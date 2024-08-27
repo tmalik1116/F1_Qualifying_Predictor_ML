@@ -80,4 +80,8 @@ session = fastf1.get_session(year=2017,
                              identifier="Q",
                              backend='ergast')
 session.load()
-print(session.results['Q3'])
+# print(f"{session.results['Abbreviation']} {session.results['Q3']}")
+# for result in session.results:
+#     print(session.results[result])
+
+print(session.results['Q3'], session.results['Q3'].dtype)
