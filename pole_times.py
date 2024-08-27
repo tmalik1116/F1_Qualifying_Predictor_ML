@@ -75,12 +75,9 @@ pole_times_2024 = [
 
 # print(avg_difference)
 
-session = fastf1.get_session(2024, '1', "Q")
+session = fastf1.get_session(year=2017, 
+                             gp='australia', 
+                             identifier="Q",
+                             backend='ergast')
 session.load()
-
-# list of drivers
-drivers = pd.unique(session.laps['Driver'])
-
-print(drivers)
-
-print(session.laps.pick_driver(1).pick_fastest())
+print(session.results['Q3'])
