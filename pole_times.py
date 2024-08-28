@@ -1,92 +1,78 @@
 import fastf1
 import pandas as pd
 import re
+# import FastF1_testing
 
 from fastf1.core import Laps
+from fastf1.ergast import Ergast
 
-pole_laps = []
 
-# for i in range(14):
-#     session = fastf1.get_session(2024, i+1, 'Q')
-#     session.load()
+num_races = [19, 19, 21, 20]
 
-#     drivers = pd.unique(session.laps['Driver'])
+lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever bullshit)
+    'driver': [],
+    'track': [],
+    'year': [],
+    'avg_grid_pos_track': [],
+    'track_avg_lap_time': [],
+    'temperature': [], # higher temp == slower laps (significant, from tire deg and lower engine RPM)
+    'rain': [],
+    'target_time': [], # just get the actual times basically
+    'years_since_reg_change': []
+}
 
-#     list_fastest_laps = list()
-#     for drv in drivers:
-#         drvs_fastest_lap = session.laps.pick_driver(drv).pick_fastest()
-#         list_fastest_laps.append(drvs_fastest_lap)
-#     fastest_laps = Laps(list_fastest_laps) \
-#     .sort_values(by='LapTime') \
-#     .reset_index(drop=True)
-    
-#     pole_lap = fastest_laps.pick_fastest()
-#     pole_laps.append(pole_lap['LapTime'])
 
-# for lap in pole_laps:
-#     print(lap)
 
-pole_times_2023 = [
-    89.708,
-    88.265,
-    76.732,
-    100.203,
-    86.814,
-    71.365,
-    72.272,
-    78.725,
-    64.391,
-    86.720,
-    76.609,
-    106.168,
-    70.567,
-    80.294,
-    90.984,
-    88.877,
-    83.778,
-    94.723,
-    77.166,
-    70.021,
-    92.726,
-    83.445
-]
-
-pole_times_2024 = [
-    89.165,
-    87.472,
-    75.915,
-    88.197,
-    93.660,
-    87.241,
-    74.746,
-    70.270,
-    71.742,
-    71.383,
-    64.314,
-    85.819,
-    75.227,
-    106.168
-]
-
-# avg_difference = 0
-
-# for i in range(14):
-#     avg_difference += pole_times_2023[i] - pole_times_2024[i]
-# avg_difference /= 14
-
-# print(avg_difference)
-
-session = fastf1.get_session(year=2017, 
-                             gp='australia', 
-                             identifier="Q",
-                             backend='ergast')
-session.load()
 # print(f"{session.results['Abbreviation']} {session.results['Q3']}")
 # for result in session.results['Q3']:
 #     print(result, session._drivers_results_from_ergast())
 
 # print(session.results['Q3'], session.results['Abbreviation'])
 
-df = session._drivers_results_from_ergast(load_drivers=True, load_results=True)
-df = df.drop(labels=['DriverNumber', 'TeamId', 'DriverId', 'LastName', 'FirstName', 'FullName'], axis=1)
-print(df)
+# df = session._drivers_results_from_ergast(load_drivers=True, load_results=True)
+# df = df.drop(labels=['DriverNumber', 'TeamId', 'DriverId', 'LastName', 'FirstName', 'FullName'], axis=1)
+# print(df)
+
+# # for index, row in df.iterrows():
+# #     print(row['Abbreviation'], row['Q3'])
+
+
+# year = 2014
+# for num in num_races:
+#     for j in range(num):
+
+#         session = fastf1.get_session(year, 
+#                              j+1, 
+#                              "Q",
+#                              'ergast')
+#         session.load()
+
+#         track = re.findall()
+
+#         for i in range(20): # use this to create more dataset entries (how far back?)
+#             if i < 10:
+#                 try:
+#                     print(re.findall(r'[A-Z]{3}', str(df.iloc[i]))[0], re.findall(r'0\d\:\d{2}\.\d{3}', str(df.iloc[i]))[2]) # get driver, Q3 time (HAM 01:23.456)
+#                 except:
+#                     continue # skip entry if no lap time set, not relevant
+#             elif i < 15:
+#                 try:
+#                     print(re.findall(r'[A-Z]{3}', str(df.iloc[i]))[0], re.findall(r'0\d\:\d{2}\.\d{3}', str(df.iloc[i]))[1]) # get driver, Q2 time (HAM 01:23.456)
+#                 except:
+#                     continue # skip entry if no lap time set, not relevant
+#             else:
+#                 try:
+#                     print(re.findall(r'[A-Z]{3}', str(df.iloc[i]))[0], re.findall(r'0\d\:\d{2}\.\d{3}', str(df.iloc[i]))[0]) # get driver,  Q1 time (HAM 01:23.456)
+#                 except:
+#                     continue # skip entry if no lap time set, not relevant
+
+erg = Ergast('pandas')
+
+# don't understand this object, read https://docs.fastf1.dev/ergast.html#fastf1.ergast.interface.ErgastMultiResponse
+data = erg.get_qualifying_results(
+                                     season=2017,
+                                        round=3,
+                                        result_type='pandas'
+                                        )
+
+print(data)
