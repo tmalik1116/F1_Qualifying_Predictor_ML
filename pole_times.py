@@ -1,5 +1,6 @@
 import fastf1
 import pandas as pd
+import re
 
 from fastf1.core import Laps
 
@@ -81,7 +82,11 @@ session = fastf1.get_session(year=2017,
                              backend='ergast')
 session.load()
 # print(f"{session.results['Abbreviation']} {session.results['Q3']}")
-# for result in session.results:
-#     print(session.results[result])
+# for result in session.results['Q3']:
+#     print(result, session._drivers_results_from_ergast())
 
-print(session.results['Q3'], session.results['Q3'].dtype)
+# print(session.results['Q3'], session.results['Abbreviation'])
+
+df = session._drivers_results_from_ergast(load_drivers=True, load_results=True)
+df = df.drop(labels=['DriverNumber', 'TeamId', 'DriverId', 'LastName', 'FirstName', 'FullName'], axis=1)
+print(df)
