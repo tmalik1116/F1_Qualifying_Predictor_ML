@@ -1,7 +1,7 @@
 import fastf1
 import pandas as pd
 import re
-# import FastF1_testing
+import F1_Quali
 
 from fastf1.core import Laps
 from fastf1.ergast import Ergast
@@ -60,26 +60,17 @@ print(new_dict['Q3'])
 
 drivers = new_dict['driverCode'].keys()
 
-for driver in drivers:
-    print(driver)
-    
-
 # print(result.content[0])
 
 year = 2014
 for num in num_races:
     for j in range(num):
 
-        session = fastf1.get_session(year, 
-                             j+1, 
-                             "Q",
-                             'ergast')
-        session.load()
-
         track = re.findall()
 
         for i in range(20): # use this to create more dataset entries (how far back?)
             if i < 10:
+                
                 try:
                     print(re.findall(r'[A-Z]{3}', str(df.iloc[i]))[0], re.findall(r'0\d\:\d{2}\.\d{3}', str(df.iloc[i]))[2]) # get driver, Q3 time (HAM 01:23.456)
                 except:
