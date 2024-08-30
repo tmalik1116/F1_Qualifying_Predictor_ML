@@ -8,5 +8,5 @@
 ## Usage:
 
 - Clone repository
-- Run FastF1Testing.py
+- Run F1_Quali.py
 - Profit?
