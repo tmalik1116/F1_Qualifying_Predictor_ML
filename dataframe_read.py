@@ -24,7 +24,7 @@ def convert_time(time):
         string = f"0{int(mins)}:{time - (60.0 * mins):.3f}"
         return string
 
-print(convert_time('01:16.542'))
+# print(convert_time('01:16.542'))
 
 # df.mean().sort_values()
 # print(df.reindex(df.mean().sort_values().index, axis=1))

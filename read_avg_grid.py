@@ -145,7 +145,7 @@ for key in lap_data:
 
 data = pd.DataFrame.from_dict(lap_data)
 data = data.dropna(subset=['target_time'])
-data.to_csv('new_race.csv')
+data.to_csv('data/new_race.csv')
 
 # for i in range(20):
 #     print(str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']))
