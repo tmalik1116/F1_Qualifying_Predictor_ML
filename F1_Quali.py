@@ -464,7 +464,7 @@ def plot_importances(feature_importances: pd.DataFrame):
 
 # Runs everything needed for manual testing/making predictions. Trains model, outputs feature importances, and runs user interface.
 def __main__():
-    dataset = 'lap_data_0.csv'
+    dataset = 'data/lap_data_0.csv'
 
     data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
 
