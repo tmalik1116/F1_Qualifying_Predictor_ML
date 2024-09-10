@@ -9,4 +9,4 @@
 
 - Clone repository
 - Run F1_Quali.py
-- Profit?
+- Follow instructions in terminal
