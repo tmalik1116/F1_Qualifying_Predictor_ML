@@ -143,37 +143,58 @@ for num in num_races:
         # df = df.drop(labels=['DriverNumber', 'TeamId', 'DriverId', 'LastName', 'FirstName', 'FullName'], axis=1)
 
         for i in range(20): # use this to create more dataset entries (how far back?)
+            # Code is same for all cases
+
+            try:
+                driver = re.findall(r'[A-Z]{3}', str(data.iloc[i]))[0]
+            except:
+                continue
+
+            if driver not in average_grid_positions.keys():
+                continue
+
+            if driver == 'VER' and year < 2017: # skip Jean Eric-Vergne (will cause errors when trying to find data for VER)
+                continue
+
+            if driver == 'VES':
+                driver = 'VER'
+
             # print(str(data.iloc[i]))
             if i < 10: # driver made it to Q3
                 
                 try: 
-                    lap_data['target_time'].append(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[2])
+                    lap_data['target_time'].append(F1_Quali.convert_time(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[2]))
                 except:
                     continue # skip entry if no lap time set, not relevant
             elif i < 15: # driver made it to Q2
                 try:
-                    lap_data['target_time'].append(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[1])
+                    lap_data['target_time'].append(F1_Quali.convert_time(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[1]))
                 except:
                     continue
             else: # driver made it to Q1
                 try:
-                    lap_data['target_time'].append(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[0])
+                    lap_data['target_time'].append(F1_Quali.convert_time(re.findall(r'0\d\:\d{2}\.\d{3}', str(data.iloc[i]))[0]))
                 except:
                     continue
 
-            # Code is same for all cases
-            driver = re.findall(r'[A-Z]{3}', str(data.iloc[i]))[0]
+
             lap_data['driver'].append(driver)
             lap_data["track"].append(track)
             lap_data["year"].append(year)
-            lap_data["avg_grid_pos_track"].append(average_grid_positions[driver[track]])
+            lap_data["avg_grid_pos_track"].append(average_grid_positions[driver][track])
             lap_data["rain"].append(False) # for now, don't know what approach to take
+            lap_data["track_avg_lap_time"].append(track_list[track])
+            lap_data['temperature'].append(25.0)
+            lap_data['years_since_reg_change'].append(F1_Quali.get_years_since_reg_change(year))
     year += 1
 
 
-print(lap_data['driver'])
-print(lap_data['year'])
-print(len(lap_data["driver"]))
+for key in lap_data:
+    print(key, len(lap_data[key]))
+
+df = pd.DataFrame(lap_data)
+print(df)
+df.to_csv('data/old_data.csv')
 
 
 # print(re.findall(r'\S\S+', str(result.description['country']))[0]) # can retreive country and locality and use whatever matches 
