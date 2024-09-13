@@ -278,7 +278,7 @@ def split_data(data: pd.DataFrame) -> tuple:
     X = X.drop(categorical_features, axis=1).reset_index(drop=True) # Remove original categoricals (not encoded)
     X = pd.concat([X, encoded_features], axis=1) # concatenate encoded features to DataFrame
 
-    X['year_x_ysrc'] = X['year'] * X['years_since_reg_change']
+    X['year_x_avg_time'] = X['year'] * X['track_avg_lap_time']
     
     # Extract numerical features for scaling
     num_cols = X.select_dtypes(include=np.number).columns.tolist()
@@ -305,7 +305,7 @@ def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
     unique_years = X_train['year'].unique()
     year_weights = {}
     for i, year in enumerate(sorted(unique_years)):
-        year_weights[year] = i * (2**(year * 2)) # assign weights (higher for more recent years)
+        year_weights[year] = i * (year**2) # assign weights (higher for more recent years)
 
     # 2. Create weight arrays for training and testing data
     train_year_weight = np.array([year_weights[year] for year in X_train['year']])
@@ -384,7 +384,7 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
     specific_input = specific_input.drop(categorical_features, axis=1).reset_index(drop=True)
     specific_input = pd.concat([specific_input, encoded_features], axis=1)
 
-    specific_input['year_x_ysrc'] = specific_input['year'] * specific_input['years_since_reg_change']
+    specific_input['year_x_avg_time'] = specific_input['year'] * specific_input['track_avg_lap_time']
 
     # Apply the scaler to match training data
     specific_input[num_cols] = scaler.transform(specific_input[num_cols])
@@ -403,54 +403,60 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 75)
+    model = train_model(dtrain_reg, dtest_reg, 100)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
 def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categorical_features, scaler, num_cols):
-    to_predict = input("Predict results for a driver or a session? ")
+    while True:
+        to_predict = input("Predict results for a driver or a session? ")
 
-    while to_predict == "driver":
-        try:
-            driver, track, year = input("Get prediction for: ").split()
-        except:
-            if "exit" in [driver, track, year]:
-                break
+        while to_predict == "driver":
+            try:
+                driver, track, year = input("Get prediction for: ").split()
+            except:
+                if "exit" in [driver, track, year]:
+                    break
 
-        data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
-        predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
-        print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
+            data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
+            predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
+            print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
 
 
-    while to_predict == "session":
-        rain = False
-        try:
-            list_input = input("Get prediction for: ").split()
-            if len(list_input) < 3:
-                track, year = list_input
-            else:
-                track, year, rain = list_input
-        except:
-            if "exit" in [track, year]:
-                break
+        while to_predict == "session":
+            rain = False
+            try:
+                list_input = input("Get prediction for: ").split()
+                if len(list_input) < 3:
+                    track, year = list_input
+                else:
+                    track, year, rain = list_input
+            except:
+                if "exit" in [track, year]:
+                    break
 
-        year = int(year)
+            year = int(year)
 
-        times = {}
+            times = {}
 
-        data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
-        for driver in average_grid_positions:
-            predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
-            times[driver] = (convert_time(predicted_time))
+            data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
+            for driver in average_grid_positions:
+                predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
+                times[driver] = (convert_time(predicted_time))
 
-        # Sort the times from fastest to slowest
-        keys = list(times.keys())
-        values = list(times.values())
-        sorted_value_index = np.argsort(values)
-        sorted_times = {keys[i]: values[i] for i in sorted_value_index}
+            # Sort the times from fastest to slowest
+            keys = list(times.keys())
+            values = list(times.values())
+            sorted_value_index = np.argsort(values)
+            sorted_times = {keys[i]: values[i] for i in sorted_value_index}
 
-        for time in sorted_times:
-            print(f"{time}: {sorted_times[time]}")
+            counter = 1
+            for driver in sorted_times:
+                if counter < 10:
+                    print(f"P{counter}  - {driver}: {sorted_times[driver]}")
+                else:
+                    print(f"P{counter} - {driver}: {sorted_times[driver]}")
+                counter += 1
 
 
 def plot_importances(feature_importances: pd.DataFrame):
