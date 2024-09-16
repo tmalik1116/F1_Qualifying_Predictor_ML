@@ -105,18 +105,18 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'years_since_reg_change': []
 }
 
-session = fastf1.get_session(year=2024, gp=16, identifier='Q')
-session.load(laps=True)
+track = 'Baku'
 
-track = 'Monza'
+session = fastf1.get_session(year=2024, gp=track, identifier='Q')
+session.load(laps=True)
 
 drivers = pd.unique(session.laps['Driver'])
 
 for k in range(len(drivers)):
 
     # Skip entry if driver is not one of the current 20 drivers
-    if drivers[k] not in average_grid_positions.keys():
-        continue
+    # if drivers[k] not in average_grid_positions.keys():
+    #     continue
 
     # new code (using more data and different data structure)
     lap_data['driver'].append(drivers[k]) # get driver
