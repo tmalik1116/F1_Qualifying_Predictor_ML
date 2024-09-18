@@ -7,6 +7,7 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 import random
 import math
+import requests
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
@@ -100,6 +101,32 @@ track_list = {
 }
 
 current_drivers = ['VER', 'PER', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'RIC', 'TSU', 'HUL', 'MAG', 'GAS', 'OCO', 'ALB', 'COL', 'BOT', 'ZHO']
+
+driver_id_mapping = {
+    "VER": 'max_verstappen',
+    "PER": 'perez',
+    "HAM": 'hamilton',
+    "RUS": 'russell',
+    "LEC": 'leclerc',
+    "SAI": 'sainz',
+    "NOR": 'norris',
+    "PIA": 'piastri',
+    "ALO": 'alonso',
+    "STR": 'stroll',
+    "RIC": 'ricciardo',
+    "TSU": 'tsunoda',
+    "HUL": 'hulkenberg',
+    "MAG": 'kevin_magnussen',
+    "GAS": 'gasly',
+    "OCO": 'ocon',
+    "ALB": 'albon',
+    "SAR": 'sargeant',
+    "BOT": 'bottas',
+    "ZHO": 'zhou',
+    "COL": 'colapinto',
+    "BEA": 'bearman',
+    "VET": 'vettel'
+}
 
 # from statsf1.com Leclercs is altered
 average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrain, Jeddah, ... Abu Dhabi + additionals now (any circuit from 2018 - 2024))
@@ -204,6 +231,32 @@ def get_years_since_reg_change(year: int) -> int:
         return year - 2010
     else:
         return random.randint(0, 5)
+
+    
+#Gets the driver's team using the Ergast API.
+def get_driver_team_ergast(driver: str, year: int) -> str:
+    driver_id = driver_id_mapping[driver]
+
+    url = f"http://ergast.com/api/f1/{year}/drivers/{driver_id}/constructors.json"
+    response = requests.get(url)
+    if response.status_code == 200: # OK
+        try:
+            # Use response.text instead of response.content for better handling of encodings
+            data = response.json()
+
+            constructors = data['MRData']['ConstructorTable']['Constructors']
+            if constructors:
+                return constructors[0]['name']  # Assume driver only raced for one constructor in the year
+            else:
+                return response.text
+
+        except requests.exceptions.JSONDecodeError as e:
+            print(f"Error decoding JSON response for {driver_id} in {year}. Details: {e}")
+            print(f"Raw response: {response.text}")
+            return None
+    else:
+        print(f"Error fetching data from Ergast API: {response.status_code}")
+        return None
 
 
 # Retreives the data from the API and writes it to a DataFrame.
@@ -310,7 +363,7 @@ def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
     unique_years = X_train['year'].unique()
     year_weights = {}
     for i, year in enumerate(sorted(unique_years)):
-        year_weights[year] = math.fabs(year**2) # assign weights (higher for more recent years)
+        year_weights[year] = abs(year**2) # assign weights (higher for more recent years)
 
     # 2. Create weight arrays for training and testing data
     train_year_weight = np.array([year_weights[year] for year in X_train['year']])
@@ -366,6 +419,7 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
     # Create a DataFrame for the specific input
     specific_input = pd.DataFrame({
         'driver': [driver],
+        'constructor': [get_driver_team_ergast(driver, year)],
         'track': [track],
         'year': [year],
         'avg_grid_pos_track': [average_grid_positions[driver][track]],
@@ -492,6 +546,8 @@ def __main__():
     print(feature_importances)
 
     run_interface(dataset, model, ohe, categorical_features, scaler, num_cols)
+    # for driver in average_grid_positions:
+    #     print(get_driver_team_ergast(driver, 2024))
 
 
 if __name__=="__main__":
