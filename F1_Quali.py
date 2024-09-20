@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import random
 import math
 import requests
+import statistics
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
@@ -327,8 +328,17 @@ def get_data() -> pd.DataFrame:
 def split_data(data: pd.DataFrame) -> tuple:
     X, y = data.drop('target_time', axis=1), data[['target_time']]
 
+    # 1. Get unique years and assign weights (MOVED UP)
+    unique_years = X['year'].unique() # Use X, not X_train, as it has all the years
+    year_weights = {}
+    for i, year in enumerate(sorted(unique_years)):
+        year_weights[year] = int(abs(year**2))
+
+    # 2. Create weight arrays for the WHOLE dataset (before splitting)
+    year_weight = np.array([year_weights[year] for year in X['year']])
+
     # Implement one-hot encoding for categorical features
-    categorical_features = ['driver', 'track']
+    categorical_features = ['driver', 'track', 'constructor']
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False) # Instantiate OHE
     ohe.fit(X[categorical_features])
     encoded_features = pd.DataFrame(ohe.transform(X[categorical_features]),
@@ -337,7 +347,7 @@ def split_data(data: pd.DataFrame) -> tuple:
     X = pd.concat([X, encoded_features], axis=1) # concatenate encoded features to DataFrame
 
     X['year_x_avg_time'] = X['year'] * X['track_avg_lap_time']
-    
+
     # Extract numerical features for scaling
     num_cols = X.select_dtypes(include=np.number).columns.tolist()
 
@@ -351,24 +361,19 @@ def split_data(data: pd.DataFrame) -> tuple:
     # Convert to Pandas category
     for col in cats:
         X[col] = X[col].astype('category')
-    
+
     # Split into testing and training sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, ) # Removed shuffle from dataset: made positive impact on accuracy
-    return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols
+    X_train, X_test, y_train, y_test = train_test_split(X, y) # Removed shuffle from dataset: made positive impact on accuracy
+
+    # 3. Split the year_weight array AFTER data splitting
+    train_year_weight = year_weight[X_train.index]
+    test_year_weight = year_weight[X_test.index]
+
+    return X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols, train_year_weight, test_year_weight
 
 
 # Create DMatrixes for training and testing data (required for native implementation of XGBoost)
-def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
-    # 1. Get unique years and assign weights
-    unique_years = X_train['year'].unique()
-    year_weights = {}
-    for i, year in enumerate(sorted(unique_years)):
-        year_weights[year] = abs(year**2) # assign weights (higher for more recent years)
-
-    # 2. Create weight arrays for training and testing data
-    train_year_weight = np.array([year_weights[year] for year in X_train['year']])
-    test_year_weight = np.array([year_weights[year] for year in X_test['year']])
-
+def create_regression_matrices(X_train, X_test, y_train, y_test, train_year_weight, test_year_weight) -> tuple: # pass in the year weights
     # Create DMatrixes with weights
     dtrain_reg = xgb.DMatrix(X_train, y_train, enable_categorical=True, weight=train_year_weight)
     dtest_reg = xgb.DMatrix(X_test, y_test, enable_categorical=True, weight=test_year_weight)
@@ -424,7 +429,7 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
         'year': [year],
         'avg_grid_pos_track': [average_grid_positions[driver][track]],
         'track_avg_lap_time': [track_list[track]],
-        'temperature': [data[data['track'] == track]['temperature'].mean()], # get average temperature for track
+        'temperature': [statistics.mean(list(map(float, re.findall(r'\d{2}.\d', str(data[data['track'] == track]['temperature'])))))], # get average temperature for track
         'rain': [rain],
         'years_since_reg_change': [get_years_since_reg_change(year)]
     })
@@ -458,9 +463,9 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
 
 def train_and_test_model(data: pd.DataFrame) -> tuple:
     # Split the data up
-    X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols = split_data(data)
+    X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols, train_year_weight, test_year_weight = split_data(data)
 
-    dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
+    dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test, train_year_weight, test_year_weight) # pass the year weights
 
     model = train_model(dtrain_reg, dtest_reg, 100)
     test_model(model, dtest_reg, y_test)
@@ -544,6 +549,8 @@ def __main__():
     }).sort_values('Importance', ascending=False)
 
     print(feature_importances)
+
+    plot_importances(feature_importances)
 
     run_interface(dataset, model, ohe, categorical_features, scaler, num_cols)
     # for driver in average_grid_positions:
