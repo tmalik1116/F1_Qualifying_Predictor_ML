@@ -2,7 +2,6 @@ import fastf1
 import pandas as pd
 import re
 import F1_Quali
-import requests
 
 from fastf1.core import Laps
 from fastf1.ergast import Ergast
@@ -79,21 +78,6 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
 }
 
 
-def get_driver_team_ergast(driver_id, year):
-    """Gets the driver's team using the Ergast API."""
-    url = f"http://ergast.com/api/f1/{year}/drivers/{driver_id}/constructors.json"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        constructors = data['MRData']['ConstructorTable']['Constructors']
-        if constructors:
-            return constructors[0]['name']  # Assume driver only raced for one constructor in the year
-        else:
-            return None
-    else:
-        print(f"Error fetching data from Ergast API: {response.status_code}")
-        return None
-
 
 # print(f"{session.results['Abbreviation']} {session.results['Q3']}")
 # for result in session.results['Q3']:
@@ -166,15 +150,14 @@ for num in num_races:
             except:
                 continue
 
-            if driver == 'VER' and year < 2017: # skip Jean Eric-Vergne (will cause errors when trying to find data for VER)
-                continue
-
-            if driver == 'VES': # Verstappen pre-2017
-                driver = 'VER'
-
             if driver not in average_grid_positions.keys():
                 continue
 
+            if driver == 'VER' and year < 2017: # skip Jean Eric-Vergne (will cause errors when trying to find data for VER)
+                continue
+
+            if driver == 'VES':
+                driver = 'VER'
 
             # print(str(data.iloc[i]))
             if i < 10: # driver made it to Q3
