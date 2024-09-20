@@ -156,7 +156,7 @@ for num in num_races:
             if driver == 'VER' and year < 2017: # skip Jean Eric-Vergne (will cause errors when trying to find data for VER)
                 continue
 
-            if driver == 'VES': # Verstappen pre-2017
+            if driver == 'VES':
                 driver = 'VER'
 
             # print(str(data.iloc[i]))
