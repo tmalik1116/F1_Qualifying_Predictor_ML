@@ -368,20 +368,24 @@ def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categori
         while to_predict == "driver":
             try:
                 driver, track, year = input("Get prediction for: ").split()
+                year = int(year)
             except:
                 if "exit" in [driver, track, year]:
                     break
 
             data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
             predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
-            print(f"Predicted Qualifying Time for {driver} at {track} {year}: {predicted_time:.3f} seconds")
+            print(f"Predicted Qualifying Time for {driver} at {track} {year}: {convert_time(predicted_time)}")
 
 
         while to_predict == "session":
             rain = False
             try:
                 list_input = input("Get prediction for: ").split()
-                if len(list_input) < 3:
+                if len(list_input) == 1:
+                    if 'quit' in list_input or 'exit' in list_input:
+                        break
+                elif len(list_input) < 3:
                     track, year = list_input
                 else:
                     track, year, rain = list_input
@@ -424,21 +428,34 @@ def plot_importances(feature_importances: pd.DataFrame):
 
 # Runs everything needed for manual testing/making predictions. Trains model, outputs feature importances, and runs user interface.
 def __main__():
-    dataset = 'data/lap_data_0.csv'
+    dataset = 'data/lap_data.csv'
 
     data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
 
-    print("Training...")
-    model, ohe, categorical_features, scaler, num_cols = train_and_test_model(data)
-    importance_scores = model.get_score(importance_type='gain')
+    option = input("Retrain model? Default behaviour is to use last saved model. ")
 
-    # # Create DataFrame from importance scores 
-    feature_importances = pd.DataFrame({
-        'Feature': list(importance_scores.keys()), 
-        'Importance': list(importance_scores.values())
-    }).sort_values('Importance', ascending=False)
+    # Retrain the model
+    if option.lower().__contains__('yes'):
+        print("Training...")
+        model, ohe, categorical_features, scaler, num_cols = train_and_test_model(data)
 
-    print(feature_importances)
+        importance_scores = model.get_score(importance_type='gain')
+
+        # Create DataFrame from importance scores 
+        feature_importances = pd.DataFrame({
+            'Feature': list(importance_scores.keys()), 
+            'Importance': list(importance_scores.values())
+        }).sort_values('Importance', ascending=False)
+
+        print(feature_importances)
+        
+    # Load the saved model
+    else:                
+        print("Loading pre-trained model...")
+        model = xgb.Booster()
+        model.load_model('trained_model.json')
+        X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols = split_data(data)
+
 
     run_interface(dataset, model, ohe, categorical_features, scaler, num_cols)
 
