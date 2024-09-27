@@ -8,7 +8,7 @@
 
 .curb.left { /* For the left curb */
     width: 5%; 
-    background-size: 20px 300px; 
+    background-size: 2% 30%; 
     background-image: linear-gradient(
         0deg, 
         #333 0%,
@@ -32,7 +32,7 @@
 
 .curb.right { /* For the right curb */
     width: 5%; 
-    background-size: 20px 300px; 
+    background-size: 2% 30%; 
     background-image: linear-gradient(
         0deg, 
         #333 0%,
@@ -81,4 +81,35 @@
 
 .content::after {
     right: calc(5% - 4px); /* Position right border */
+}
+
+.main.button {
+    background-color: darkred;
+    width: 80%;
+    height: 80%;
+    color: white;
+    border-radius: 35px;
+    margin: auto;
+    padding-top: 5%;
+    padding-bottom: 10%;
+    transition-duration: 0.4s;
+}
+
+.main.button:hover {
+    background-color: crimson;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.main.button:active {
+    width: 70%;
+    transition-duration: 0.3s;
+}
+
+#buttons {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+h1 {
+    font-style: italic;
 }
