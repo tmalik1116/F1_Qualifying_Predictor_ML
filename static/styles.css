@@ -101,8 +101,10 @@
 }
 
 .main.button:active {
-    width: 70%;
-    transition-duration: 0.3s;
+    width: 200%;
+    /* height: 250%; */
+    /* transform: translateY(-100); */
+    transition-duration: 0.2s;
 }
 
 #buttons {
@@ -113,3 +115,48 @@
 h1 {
     font-style: italic;
 }
+
+.submenu-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the card */
+    width: 80%; /* Adjust card width as needed */
+    background-color: crimson;
+    color: white;
+    border-radius: 35px;
+    padding: 20px; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add shadow effect */
+    opacity: 0;             /* Initially hidden */
+    pointer-events: none;    /* Not clickable when hidden */
+    transition: opacity 0.3s ease, height 0.3s ease; /* Smooth transitions */ 
+    height: 0;
+  }
+  
+  .submenu-card.active {
+    opacity: 1; 
+    pointer-events: auto;  /* Make clickable when active */
+    height: 50%;
+    
+    /* Add height transition or max-height to control expansion */ 
+  }
+  
+  .submenu-content {
+    /* Style the content inside the card */
+    display: none; /* Initially hidden */
+  }
+  
+  .submenu-content.active {
+    display: block; /* Show when the card is active */
+    animation: grow .3s
+  }
+
+  @keyframes grow {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+  }
+
