@@ -101,10 +101,12 @@
 }
 
 .main.button:active {
-    width: 200%;
+    width: 150%;
+    top: 400%;
     /* height: 250%; */
     /* transform: translateY(-100); */
-    transition-duration: 0.2s;
+    opacity: 0;
+    transition-duration: 0.3s;
 }
 
 #buttons {
@@ -129,7 +131,7 @@ h1 {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add shadow effect */
     opacity: 0;             /* Initially hidden */
     pointer-events: none;    /* Not clickable when hidden */
-    transition: opacity 0.3s ease, height 0.3s ease; /* Smooth transitions */ 
+    transition: opacity 0.2s ease, height 0.3s ease, width 0.2s ease;/* Smooth transitions */ 
     height: 0;
   }
   
