@@ -1,8 +1,13 @@
 modules = ["python-3.12", "web", "nodejs-20"]
-run = "npm start"
+run = "cd frontend && npm run build && cd ../backend && python app.py"
 
 [nix]
 channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm start"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+exposeLocalhost = true

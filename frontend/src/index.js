@@ -1,9 +1,19 @@
-const buttons = document.querySelectorAll('.main-button');
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
+
+const root = ReactDOM.createRoot(document.getElementById('root')); // Target the 'root' div in index.html
+
+const buttons = document.querySelectorAll('.main-button');
 const driverButton = document.getElementById('driver-button');
 const sessionButton = document.getElementById('session-button');
 const submenuCard = document.getElementById('submenu-card');
 const submenuContent = document.querySelector('.submenu-content'); 
+
+
+root.render(<App />);
+
 
 driverButton.addEventListener('click', () => {
     console.log('Driver click')
