@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import random
 import math
 import requests
+import os
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import root_mean_squared_error
@@ -451,9 +452,13 @@ def __main__():
         
     # Load the saved model
     else:                
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+
+        model_path = os.path.join(script_dir, 'trained_model.json')
+
         print("Loading pre-trained model...")
         model = xgb.Booster()
-        model.load_model('trained_model.json')
+        model.load_model(model_path)
         X_train, X_test, y_train, y_test, ohe, categorical_features, scaler, num_cols = split_data(data)
 
 
