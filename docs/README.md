@@ -5,7 +5,7 @@
 ### WIP, proper README to be made when project is more complete. 
 
 
-## Usage:
+## Usage (soon to be outdated, full web interface is in progress!):
 
 - Clone repository
 - Run F1_Quali.py
