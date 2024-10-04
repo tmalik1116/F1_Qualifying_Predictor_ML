@@ -1,6 +1,6 @@
 require("./main.css");
 var $3sv40$reactjsxruntime = require("react/jsx-runtime");
-require("react");
+var $3sv40$react = require("react");
 var $3sv40$reactdomclient = require("react-dom/client");
 
 
@@ -12,7 +12,61 @@ function $parcel$interopDefault(a) {
 
 
 
+
+function $da11a1101b2a894a$var$DriverButton(props) {
+    return /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+        className: "col-6",
+        children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("button", {
+            onClick: ()=>props.toggleSubmenu("driver"),
+            id: "driver-button",
+            className: "main button",
+            children: "Driver"
+        })
+    });
+}
+function $da11a1101b2a894a$var$SessionButton(props) {
+    return /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+        className: "col-6",
+        children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("button", {
+            onClick: ()=>props.toggleSubmenu("session"),
+            id: "session-button",
+            className: "main button",
+            children: "Session"
+        })
+    });
+}
+function $da11a1101b2a894a$var$Submenu(props) {
+    return /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+        id: "submenu-card",
+        className: `submenu-card ${props.isOpen ? "active" : ""}`,
+        children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsxs)("div", {
+            className: "submenu-content",
+            children: [
+                props.type === "driver" && /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+                    children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("h1", {
+                        children: "Driver Menu"
+                    })
+                }),
+                props.type === "session" && /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+                    children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("h1", {
+                        children: "Session Menu"
+                    })
+                })
+            ]
+        })
+    });
+}
 function $da11a1101b2a894a$var$App() {
+    const [submenuType, setSubmenuType] = (0, $3sv40$react.useState)(null); // state for submenu type (driver/session)
+    const [isSubmenuOpen, setIsSubmenuOpen] = (0, $3sv40$react.useState)(false);
+    const toggleSubmenu = (type)=>{
+        console.log("toggleSubmenu called"); // not working, investigate
+        if (submenuType === type && isSubmenuOpen) setIsSubmenuOpen(false); // close submenu if the same button is clicked again
+        else {
+            setSubmenuType(type); // update the type
+            setIsSubmenuOpen(true); // open submenu
+        }
+    };
     return /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsxs)("div", {
         className: "App",
         children: [
@@ -36,30 +90,17 @@ function $da11a1101b2a894a$var$App() {
                     /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsxs)("div", {
                         className: "row",
                         children: [
-                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
-                                className: "col-6",
-                                children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("button", {
-                                    id: "driver-button",
-                                    className: "main button",
-                                    children: "Driver"
-                                })
+                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$DriverButton, {
+                                toggleSubmenu: toggleSubmenu
                             }),
-                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
-                                className: "col-6",
-                                children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("button", {
-                                    id: "session-button",
-                                    className: "main button",
-                                    children: "Session"
-                                })
+                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$SessionButton, {
+                                toggleSubmenu: toggleSubmenu
                             })
                         ]
                     }),
-                    /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
-                        id: "submenu-card",
-                        className: "submenu-card",
-                        children: /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
-                            className: "submenu-content"
-                        })
+                    /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$Submenu, {
+                        type: submenuType,
+                        isOpen: isSubmenuOpen
                     })
                 ]
             }),
