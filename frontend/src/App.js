@@ -2,18 +2,24 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom/client';
 
 function DriverButton(props) {
+    function handleClick() {
+        console.log('Click');
+        props.toggleSubmenu('driver');
+    }
+    
     return (
-        <div className="col-6"> 
-            <button onClick={() => props.toggleSubmenu('driver')} id="driver-button" className="main button">Driver</button> 
-        </div>
+        <button onClick={handleClick} id="driver-button" className="main button">Driver</button> 
     )
 }
 
 function SessionButton(props) {
+    function handleClick() {
+        console.log('Clicked');
+        props.toggleSubmenu('session');
+    }
+    
     return (
-        <div className="col-6">
-            <button onClick={() => props.toggleSubmenu('session')} id="session-button" className="main button">Session</button> 
-        </div>
+        <button onClick={handleClick} id="session-button" className="main button">Session</button> 
     )
 }
 
@@ -24,24 +30,27 @@ function Submenu(props) {
         setIsOpen(!isOpen);
     }
 
+    let content;
+    if (props.type == 'driver') {
+        content = <div><h1>Driver Menu</h1></div>;
+    }else{
+        content = <div><h1>Session Menu</h1></div>;
+    }
+
     
     return (
         <div id="submenu-card" className={`submenu-card ${isOpen ? 'active' : ''}`}> 
             <div className="submenu-content">
                 {props.type === 'driver' && (
 
-                    <div>
-                        <h1>Driver Menu</h1>
-                    </div>
+                    <div>{content}</div>
                     // put driver UI here 
                     // INPUT: driver, track, year
                     // OUTPUT: predicted qualifying time
                 )}
                 {props.type === 'session' && (
 
-                    <div>
-                        <h1>Session Menu</h1>
-                    </div>
+                    <div>{content}</div>
                     // put session UI here
                     // INPUT: track, year, weather (optional)
                     // OUTPUT: predicted qualifying grid - times and positions
