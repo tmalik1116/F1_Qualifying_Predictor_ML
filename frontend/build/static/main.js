@@ -1,7 +1,7 @@
 require("./main.css");
-var $3sv40$reactjsxruntime = require("react/jsx-runtime");
 var $3sv40$react = require("react");
 var $3sv40$reactdomclient = require("react-dom/client");
+var $3sv40$reactjsxruntime = require("react/jsx-runtime");
 
 
 function $parcel$interopDefault(a) {
@@ -95,16 +95,8 @@ function $da11a1101b2a894a$var$App() {
                         },
                         children: "Predict Result For:"
                     }),
-                    /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsxs)("div", {
-                        className: "row",
-                        children: [
-                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$DriverButton, {
-                                toggleSubmenu: toggleSubmenu
-                            }),
-                            /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$SessionButton, {
-                                toggleSubmenu: toggleSubmenu
-                            })
-                        ]
+                    /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)("div", {
+                        className: "row"
                     }),
                     /*#__PURE__*/ (0, $3sv40$reactjsxruntime.jsx)($da11a1101b2a894a$var$Submenu, {
                         type: submenuType

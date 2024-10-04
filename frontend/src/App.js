@@ -79,8 +79,8 @@ function App(){
             <p style={{ marginTop: '5%', marginBottom: '10%' }}>Predict Result For:</p>
 
             <div className="row">
-                <DriverButton toggleSubmenu={toggleSubmenu} />
-                <SessionButton toggleSubmenu={toggleSubmenu} />
+                {/* <DriverButton toggleSubmenu={toggleSubmenu} /> */}
+                {/* <SessionButton toggleSubmenu={toggleSubmenu} /> */}
             </div>
 
             <Submenu type={submenuType}/>
