@@ -3,6 +3,7 @@
 ## Estimate future Formula 1 qualifying results using ML (XGBoost Regression)
 
 ### WIP, proper README to be made when project is more complete. 
+#### Add pictures of frontend when ready
 
 
 ## Usage (soon to be outdated, full web interface is in progress!):
