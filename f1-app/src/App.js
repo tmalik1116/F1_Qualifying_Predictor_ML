@@ -7,8 +7,9 @@ function App() {
       <div className="curb left"></div>
 
       <div className="content">
+        
         <h1 className="display-1">Formula 1 Qualif-AI</h1>
-        <p style={{ marginTop: '5%', marginBottom: '10%' }}>Predict Result For:</p>
+        <h3 style={{ marginTop: '5%', marginBottom: '10%' }}>Predict Result For:</h3>
 
         <div id="buttons">
           <div className="col-6">
