@@ -1,7 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import MainButton from "./MainButton"
+import React, {useState} from "react";
 
-function App() {
+export default function App() {
+  const [activeButton, setActiveButton] = useState(null); // State for active button (null means none)
+
+  const toggleSubmenu = (buttonType) => {
+    // If the clicked button is already active, close it
+    if (activeButton === buttonType) {
+      setActiveButton(null); 
+    } else {
+      // Otherwise, set the clicked button as active
+      setActiveButton(buttonType);
+    }
+  };
+
+
   return (
     <div id="body"> 
       <div className="curb left"></div>
@@ -9,21 +23,11 @@ function App() {
       <div className="content">
         
         <h1 className="display-1">Formula 1 Qualif-AI</h1>
-        <h3 style={{ marginTop: '5%', marginBottom: '10%' }}>Predict Result For:</h3>
+        <h3 style={{ marginTop: '5%', marginBottom: '5%' }}>Predict Result For:</h3>
 
-        <div id="buttons">
-          <div className="col-6">
-            <button id="driver-button" className="main button">Driver</button>
-          </div>
-          <div className="col-6">
-            <button id="session-button" className="main button">Session</button>
-          </div>
-        </div>
-
-        <div id="submenu-card" className="submenu-card">
-          <div className="submenu-content">
-            {/* Add your submenu content here */}
-          </div>
+        <div className="row-6" id="buttons">
+          <MainButton type="Driver" isActive={activeButton === 'Driver'} toggleSubmenu={toggleSubmenu}/>
+          <MainButton type="Session" isActive={activeButton === 'Session'} toggleSubmenu={toggleSubmenu}/>
         </div>
       </div>
 
@@ -32,4 +36,3 @@ function App() {
   );
 }
 
-export default App;

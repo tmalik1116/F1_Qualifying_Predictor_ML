@@ -104,32 +104,53 @@
   margin: auto;
   padding-top: 5%;
   padding-bottom: 10%;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   font-family: 'Zen Dots';
   font-size: larger;
+  /* overflow: hidden; */
+  /* transition: height 0.2s ease; */
+  /* transition: width 0.2s ease; */
+}
+
+.main.button.expanded {
+  height: 350%;
+  transition-duration: 0.4s;
+  padding-top: 3%;
+  padding-bottom: auto;
 }
 
 .main.button:hover {
   background-color: crimson;
+  /* width: 92%;
+  height: 82%; */
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
 }
 
 .main.button:active {
-  width: 85%;
+  width: 88%;
   /* top: 400%; */
-  height: 400%;
+  height: 78%;
   /* transform: translateY(-100); */
   /* opacity: 0; */
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
 }
 
-.col-6 {
-  width: 100%;
+.button-struct {
+  overflow: hidden;
+  transition: height 0.3s ease;
+  height: 500%;
 }
+
+.button-struct.expanded {
+  height: 1500%;
+}
+
 
 #buttons {
   margin-left: 6.5%;
   margin-right: 6.5%;
+  width: auto;
   display: flex;
 }
 
