@@ -205,23 +205,23 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
 export default function CustomizedSwitches() {
   return (
     <FormGroup>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
         label="MUI switch"
-      />
-      <FormControlLabel
+      /> */}
+      {/* <FormControlLabel
         control={<Android12Switch defaultChecked />}
         label="Android 12"
-      />
+      /> */}
       <FormControlLabel
         control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-        label="iOS style"
+        label=""
       />
-      <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+      {/* <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
         <Typography>Off</Typography>
         <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
         <Typography>On</Typography>
-      </Stack>
+      </Stack> */}
     </FormGroup>
   );
 }

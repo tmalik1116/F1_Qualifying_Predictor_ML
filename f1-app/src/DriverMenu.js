@@ -28,7 +28,7 @@ export default function DriverMenu(props){
                 </div>
                 <input type="text" id="Season" placeholder="Ex. 2024" className="input-field"></input>
 
-                <CustomizedSwitches disabled/>
+                <CustomizedSwitches disabled className="switch" color=""/>
                 
             </div>
         </div>

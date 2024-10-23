@@ -105,13 +105,13 @@
   margin: auto;
   padding-top: 7.5%;
   padding-bottom: 9%;
-  transition-duration: 0.2s;
+  /* transition-duration: 0.2s; */
   font-family: 'Zen Dots';
   font-size: larger;
   border: none;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   /* overflow: hidden; */
-  /* transition: height 0.2s ease; */
+  transition: all 0.5s ease;
   /* transition: width 0.2s ease; */
 }
 
@@ -120,6 +120,11 @@
   transition-duration: 0.5s;
   padding-top: 2%;
 }
+
+/* .main.button.clicking {
+  width: 88%;
+  transition: all 0.15s ease;
+} */
 
 .main.button.expanded .submenu-content {
   display: block;
@@ -218,6 +223,10 @@ h1 {
 
 .vertical-spacer-medium {
   margin: 5%;
+}
+
+.switch {
+  margin-left: 50%;
 }
 
 @keyframes grow {
