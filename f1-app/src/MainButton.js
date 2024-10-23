@@ -41,7 +41,7 @@ export default function MainButton(props) {
             
           ) : (
             // Collapsed content (just the button label)
-            props.type
+            <h2>{props.type}</h2>
           )}
           {/* {props.type} */}
         </div>

@@ -23,7 +23,7 @@ export default function App() {
       <div className="content">
         
         <h1 className="display-1">Formula 1 Qualif-AI</h1>
-        <h3 style={{ marginTop: '5%', marginBottom: '5%' }}>Predict Result For:</h3>
+        <h2 style={{ marginTop: '5%', marginBottom: '5%' }}>Predict Result For:</h2>
 
         <div className="row-6" id="buttons">
           <MainButton type="Driver" isActive={activeButton === 'Driver'} toggleSubmenu={toggleSubmenu}/>
