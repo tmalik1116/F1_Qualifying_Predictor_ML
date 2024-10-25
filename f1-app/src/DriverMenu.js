@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import CloseButton from "./CloseButton"
 import CustomizedSwitches from "./CustomizedSwitches"
 
 export default function DriverMenu(props){
+    const [isRain, setIsRain] = useState(true); // State to manage the Switch
 
+    const handleChange = (event) => {
+        setIsRain(event.target.checked);
+    };
 
     return (
         <div>
@@ -28,7 +32,14 @@ export default function DriverMenu(props){
                 </div>
                 <input type="text" id="Season" placeholder="Ex. 2024" className="input-field"></input>
 
-                <CustomizedSwitches disabled className="switch" color=""/>
+                <div className="vertical-spacer-medium"></div>
+
+                <div className="row" id="driver-submenu-top">
+                    <label className="input-label" for="Rain">Rain? (On/Off) {isRain ? 'True': 'False'}</label>
+                </div>
+                <div className="switch">
+                    <CustomizedSwitches color="" id="Rain" checked={isRain} onChange={handleChange}/>
+                </div>
                 
             </div>
         </div>

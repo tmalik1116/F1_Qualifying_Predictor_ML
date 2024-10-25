@@ -131,7 +131,7 @@
 }
 
 .main.button:hover {
-  background-color: crimson;
+  background-color: #AA0000;
   /* width: 92%;
   height: 82%; */
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 10px 20px 0 rgba(0,0,0,0.19);
@@ -226,8 +226,9 @@ h1 {
 }
 
 .switch {
-  width: 50%;
-  margin-left: 50%;
+  width: 10%;
+  margin-left: 6%;
+  /* padding-left: 20%; */
 }
 
 @keyframes grow {
