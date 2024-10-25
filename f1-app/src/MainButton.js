@@ -1,8 +1,6 @@
 import React from "react";
 import DriverMenu from "./DriverMenu";
 
-
-
 export default function MainButton(props) {
 
     function closeSubmenu(){
