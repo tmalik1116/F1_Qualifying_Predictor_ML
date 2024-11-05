@@ -112,8 +112,9 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
 
 track = 'Brazil'
 
-session = fastf1.get_session(year=2024, gp=21, identifier='Q')
-session.load(laps=True)
+session0 = fastf1.get_session(year=2024, gp=21, identifier='Q')
+session0.load(laps=True, weather=True)
+session = session0
 
 drivers = pd.unique(session.laps['Driver'])
 

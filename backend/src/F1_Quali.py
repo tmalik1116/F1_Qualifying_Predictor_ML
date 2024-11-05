@@ -401,7 +401,7 @@ def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categori
 
             data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
             for driver in current_drivers:
-                predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
+                predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, bool(rain))
                 times[driver] = (convert_time(predicted_time))
 
             # Sort the times from fastest to slowest
@@ -430,7 +430,7 @@ def plot_importances(feature_importances: pd.DataFrame):
 
 # Runs everything needed for manual testing/making predictions. Trains model, outputs feature importances, and runs user interface.
 def __main__():
-    dataset = 'data/lap_data.csv'
+    dataset = 'backend/data/lap_data.csv'
 
     data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
 
