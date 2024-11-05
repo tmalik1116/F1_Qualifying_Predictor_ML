@@ -97,7 +97,7 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'year': [],
     'avg_grid_pos_track': [],
     'track_avg_lap_time': [],
-    'temperature': [], # higher temp == slower laps (significant, from tire deg and lower engine RPM)
+    'temperature': [], # higher temp == slower laps (significant, from tire deg and lower engine RPM) -> doubt this will reflect on Mercedes superior performance in cool conditions, but keep an eye out
     'rain': [],
     'target_time': [], # just get the actual times basically
     'years_since_reg_change': []
