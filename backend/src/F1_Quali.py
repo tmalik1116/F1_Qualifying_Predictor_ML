@@ -79,7 +79,7 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
 }
 
 # number of races in seasons
-num_races = [21, 21, 17, 22, 22, 22, 14]
+num_races = [21, 21, 17, 22, 22, 22, 21]
 
 # STRATEGY FOR PREDICTING TIMES:
 # take each driver's proximity to pole (avg) and use in conjunction with previous year pole time for prediction <- old strategy doesn't account for additional data
