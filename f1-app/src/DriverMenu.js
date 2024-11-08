@@ -58,12 +58,12 @@ export default function DriverMenu(props) {
         </div>
         <div className="switch">
           <CustomizedSwitch
-            id="Rain"
             checked={isChecked}
             onChange={handleChange}
             inputProps={{ "ari-label": "controlled" }}
           />
           <Switch
+            color="default"
             checked={isChecked}
             onChange={handleChange}
             inputProps={{ "ari-label": "controlled" }}
