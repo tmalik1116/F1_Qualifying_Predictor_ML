@@ -53,21 +53,19 @@ export default function DriverMenu(props) {
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
           <label className="input-label" for="Rain">
-            Rain? (On/Off) {isChecked ? "True" : "False"}
+            Rain?
           </label>
         </div>
         <div className="switch">
-          <CustomizedSwitch
-            checked={isChecked}
-            onChange={handleChange}
-            inputProps={{ "ari-label": "controlled" }}
-          />
-          <Switch
-            color="default"
-            checked={isChecked}
-            onChange={handleChange}
-            inputProps={{ "ari-label": "controlled" }}
-          />
+          <div className="row">
+            <Switch
+              color="default"
+              checked={isChecked}
+              onChange={handleChange}
+              // inputProps={{ "aria-label": "controlled" }}
+            />
+          </div>
+          <h6>{isChecked ? "On" : "Off"}</h6>
         </div>
       </div>
     </div>

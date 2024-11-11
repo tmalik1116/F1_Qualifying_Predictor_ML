@@ -227,8 +227,9 @@ h1 {
 }
 
 .switch {
-  width: 10%;
+  width: 80%;
   margin-left: 6%;
+  color: white;
   /* padding-left: 20%; */
 }
 
