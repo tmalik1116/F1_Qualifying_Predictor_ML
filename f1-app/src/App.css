@@ -227,10 +227,15 @@ h1 {
 }
 
 .switch {
-  width: 80%;
+  width: 50%;
   margin-left: 6%;
   color: white;
-  /* padding-left: 20%; */
+  margin-right: 10%;
+}
+
+.switch-label {
+  width: 30%;
+  padding-bottom: 0%;
 }
 
 @keyframes grow {

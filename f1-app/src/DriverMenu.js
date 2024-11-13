@@ -65,7 +65,7 @@ export default function DriverMenu(props) {
               // inputProps={{ "aria-label": "controlled" }}
             />
           </div>
-          <h6>{isChecked ? "On" : "Off"}</h6>
+          <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
         </div>
       </div>
     </div>
