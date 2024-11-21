@@ -44,16 +44,16 @@ export default function SessionMenu(props) {
             Rain?
           </label>
         </div>
-        <div className="switch">
+        <div>
           <div className="row">
             <Switch
+              className="switch"
               color="default"
               checked={isChecked}
               onChange={handleChange}
-              // inputProps={{ "aria-label": "controlled" }}
             />
+            <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
           </div>
-          <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
         </div>
       </div>
     </div>

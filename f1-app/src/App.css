@@ -229,7 +229,7 @@ h1 {
 .switch {
   margin-left: 6%;
   color: white;
-  margin-right: 5%;
+  margin-right: auto;
   width: 20%;
 }
 
