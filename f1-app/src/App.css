@@ -142,7 +142,7 @@
 }
 
 .main.button:active {
-  width: 89.5%;
+  /* width: 89.5%; */
   /* top: 400%; */
   /* height: 78%; */
   /* transform: translateY(-100); */
@@ -211,6 +211,8 @@ h1 {
 
 #submenu-column {
   width: 100%;
+  margin-bottom: none;
+  padding-bottom: none;
 }
 
 .input-field {
@@ -236,8 +238,36 @@ h1 {
 .switch-label {
   width: 10%;
   padding-top: 2.5%;
-  margin-right: 70%;
+  margin-right: auto;
   margin-left: auto;
+}
+
+.enter-button {
+  margin-bottom: none;
+}
+
+.internal-button {
+  margin-bottom: 25px;
+  width: 50%;
+  background-color: white;
+  border-radius: 35px;
+  border: none;
+  height: 60px;
+}
+
+.internal-button:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.internal-button:active {
+  height: 58px;
+  width: 48%;
+  transition-duration: 0.15s;
+}
+.internal-button::after {
+  height: 60px;
+  width: 50%;
+  transition-duration: 0.25s;
 }
 
 @keyframes grow {

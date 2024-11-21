@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CloseButton from "./CloseButton";
 import CustomizedSwitch from "./CustomizedSwitches";
+import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
 
 export default function DriverMenu(props) {
@@ -67,6 +68,8 @@ export default function DriverMenu(props) {
             />
             <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
           </div>
+          <div className="vertical-spacer-medium"></div>
+          <EnterButton className="enter-button" />
         </div>
       </div>
     </div>
