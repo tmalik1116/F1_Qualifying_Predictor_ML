@@ -1,5 +1,6 @@
 import React from "react";
 import DriverMenu from "./DriverMenu";
+import SessionMenu from "./SessionMenu";
 
 export default function MainButton(props) {
   function closeSubmenu() {
@@ -33,7 +34,7 @@ export default function MainButton(props) {
               )}
               {props.type === "Session" && (
                 <div>
-                  <h3>{props.type}</h3>
+                  <SessionMenu closeSubmenu={closeSubmenu} />
                 </div>
               )}
             </div>

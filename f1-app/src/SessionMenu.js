@@ -3,7 +3,7 @@ import CloseButton from "./CloseButton";
 import CustomizedSwitch from "./CustomizedSwitches";
 import { Switch } from "@mui/material";
 
-export default function DriverMenu(props) {
+export default function SessionMenu(props) {
   const [isChecked, setIsChecked] = useState(true); // State to manage the Switch
 
   const handleChange = (event) => {
@@ -14,24 +14,12 @@ export default function DriverMenu(props) {
     <div>
       <div className="col" id="submenu-column">
         <div className="row" id="driver-submenu-top">
-          <label className="input-label-top" for="Driver">
-            Driver
+          <label className="input-label-top" for="Race">
+            Race
           </label>
           <CloseButton closeSubmenu={props.closeSubmenu} />
         </div>
-        <input
-          type="text"
-          id="Driver"
-          placeholder="Ex. LEC, SAI"
-          className="input-field"
-        ></input>
-        <div className="vertical-spacer-medium"></div>{" "}
-        {/* Make 'spacer' CSS class for a div, can reuse wherever I want */}
-        <div className="row" id="driver-submenu-top">
-          <label className="input-label" for="Race">
-            Race
-          </label>
-        </div>
+
         <input
           type="text"
           id="Race"
@@ -56,17 +44,16 @@ export default function DriverMenu(props) {
             Rain?
           </label>
         </div>
-        <div>
+        <div className="switch">
           <div className="row">
             <Switch
-              className="switch"
               color="default"
               checked={isChecked}
               onChange={handleChange}
               // inputProps={{ "aria-label": "controlled" }}
             />
-            <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
           </div>
+          <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
         </div>
       </div>
     </div>
