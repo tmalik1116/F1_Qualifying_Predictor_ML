@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CloseButton from "./CloseButton";
+import EnterButton from "./EnterButton";
 import CustomizedSwitch from "./CustomizedSwitches";
 import { Switch } from "@mui/material";
 
@@ -45,7 +46,7 @@ export default function SessionMenu(props) {
           </label>
         </div>
         <div>
-          <div className="row">
+          <div className="switch-row">
             <Switch
               className="switch"
               color="default"
@@ -54,6 +55,8 @@ export default function SessionMenu(props) {
             />
             <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
           </div>
+          <div className="vertical-spacer-medium"></div>
+          <EnterButton className="enter-button" />
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ export default function DriverMenu(props) {
           </label>
         </div>
         <div>
-          <div className="row">
+          <div className="switch-row">
             <Switch
               className="switch"
               color="default"
