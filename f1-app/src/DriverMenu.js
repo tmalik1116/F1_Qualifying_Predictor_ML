@@ -12,7 +12,7 @@ export default function DriverMenu(props) {
   };
 
   return (
-    <div>
+    // <div>
       <div className="col" id="submenu-column">
         <div className="row" id="driver-submenu-top">
           <label className="input-label-top" for="Driver">
@@ -72,6 +72,6 @@ export default function DriverMenu(props) {
           <EnterButton className="enter-button" />
         </div>
       </div>
-    </div>
+    // {/* </div> */}
   );
 }
