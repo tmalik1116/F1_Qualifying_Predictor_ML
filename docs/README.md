@@ -12,5 +12,6 @@
 ## Usage (soon to be outdated, full web interface is in progress):
 
 - Clone repository
+- cd backend/src/
 - Run F1_Quali.py
 - Follow instructions in terminal
