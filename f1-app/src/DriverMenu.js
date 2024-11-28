@@ -13,7 +13,7 @@ export default function DriverMenu(props) {
 
   return (
     // <div>
-      <div className="col" id="submenu-column">
+      <div className="submenu-content">
         <div className="row" id="driver-submenu-top">
           <label className="input-label-top" for="Driver">
             Driver
@@ -57,7 +57,7 @@ export default function DriverMenu(props) {
             Rain?
           </label>
         </div>
-        <div>
+        
           <div className="switch-row">
             <Switch
               className="switch"
@@ -69,8 +69,8 @@ export default function DriverMenu(props) {
             <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
           </div>
           <div className="vertical-spacer-medium"></div>
-          <EnterButton className="enter-button" />
-        </div>
+        <EnterButton className="enter-button" />
+        
       </div>
     // {/* </div> */}
   );
