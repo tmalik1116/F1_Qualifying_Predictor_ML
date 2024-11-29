@@ -124,6 +124,7 @@
   height: 350%;
   transition-duration: 0.5s;
   padding-top: 2%;
+  padding-bottom: none;
 }
 
 .main.button.expanded .submenu-content {
@@ -189,7 +190,7 @@ h1 {
 
 .back-button:active {
   background-color: lightgray;
-  width: 30%;
+  width: 60%;
   transition-duration: 0.25s;
 }
 
@@ -274,7 +275,7 @@ h1 {
 
 .internal-button:active {
   /* height: 59px; */
-  width: 49%;
+  width: 48%;
   background-color: lightgray;
   transition-duration: 0.15s;
 }
