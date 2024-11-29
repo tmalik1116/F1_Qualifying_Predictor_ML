@@ -171,13 +171,18 @@ h1 {
   font-style: italic;
 }
 
-
 .back-image {
-  width: 15%;
-  height: 15%;
-  margin-right: 0%;
+  width: 150%;
+  height: 150%;
+  /* margin-right: 0%; */
   /* margin-top: 1.5%; */
-  margin-left: auto;
+  /* margin-left: auto; */
+}
+
+.back-button {
+  width: 13%;
+  height: 20%;
+  border-radius: 40px;
 }
 
 .input-label-top {
@@ -254,7 +259,7 @@ h1 {
 .internal-button:active {
   /* height: 59px; */
   width: 49%;
-  background-color:lightgray;
+  background-color: lightgray;
   transition-duration: 0.15s;
 }
 .internal-button::after {

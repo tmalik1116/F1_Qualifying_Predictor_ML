@@ -1,13 +1,14 @@
-import React from 'react';
-import arrowImage from "./images/arrow1.png";
+import React from "react";
+import arrowImage from "./images/back_button_transparent.png";
 
-export default function (props){
+export default function (props) {
+  function handleClick() {
+    props.closeSubmenu();
+  }
 
-    function handleClick(){
-        props.closeSubmenu()
-    }
-
-    return (
-        <img src={arrowImage} className="back-image" onClick={handleClick}/>
-    )
+  return (
+    <button className="back-button" onClick={handleClick}>
+      <img src={arrowImage} className="back-image" />
+    </button>
+  );
 }
