@@ -7,8 +7,10 @@ export default function (props) {
   }
 
   return (
-    <button className="back-button" onClick={handleClick}>
-      <img src={arrowImage} className="back-image" />
-    </button>
+    <div className="back-button-container">
+      <button className="back-button" onClick={handleClick}>
+        <img src={arrowImage} className="back-image" />
+      </button>
+    </div>
   );
 }

@@ -172,24 +172,24 @@ h1 {
 }
 
 .back-image {
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 70%;
   /* margin-right: 0%; */
   /* margin-top: 1.5%; */
   /* margin-left: auto; */
 }
 
 .back-button {
-  width: 13%;
-  height: 20%;
+  width: 90%;
+  height: 90%;
   border-radius: 40px;
   border: none;
-  transition-duration: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .back-button:active {
   background-color: lightgray;
-  width: 12%;
+  width: 30%;
   transition-duration: 0.25s;
 }
 
@@ -197,8 +197,12 @@ h1 {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
+.back-button-container {
+  width: 25%;
+}
+
 .input-label-top {
-  width: 80%;
+  width: 70%;
   margin-left: 5%;
   text-align: start;
   font-size: larger;
