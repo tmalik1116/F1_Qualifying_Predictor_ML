@@ -5,7 +5,7 @@ import SessionMenu from "./SessionMenu";
 export default function MainButton(props) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [maxHeight, setMaxHeight] = useState("0px");
-  const [isOverflowVisible, setIsOverflowVisible] = useState(false);
+  const [isOverflowHidden, setIsOverflowHidden] = useState(true); // Starts with overflow hidden
   const contentRef = useRef(null); // Reference to the submenu content
 
   useEffect(() => {
@@ -13,10 +13,10 @@ export default function MainButton(props) {
       const scrollHeight = contentRef.current.scrollHeight; // Get the natural height of the content
       setMaxHeight(`${scrollHeight}px`); // Set it as max-height
       setIsAnimating(true);
-      setIsOverflowVisible(false); // disable overflow during animation for proper visual effect
+      setIsOverflowHidden(true); // disable overflow during animation for proper visual effect
     } else {
       setMaxHeight("0px");
-      setIsOverflowVisible(true); // enable overflow after animation for proper shadow appearance on button
+      setIsOverflowHidden(true); // enable overflow after animation for proper shadow appearance on button
       setTimeout(() => setIsAnimating(false), 200); // play with value to get smooth visual
     }
   }, [props.isActive]);
@@ -24,17 +24,19 @@ export default function MainButton(props) {
   // After animation make overflow visible
   useEffect(() => {
     if (props.isActive) {
-      const timeout = setTimeout(() => setIsOverflowVisible(true), 200);
+      const timeout = setTimeout(() => setIsOverflowHidden(true), 500);
       return () => clearTimeout(timeout); // clean up timeout
     }
   });
 
   function closeSubmenu() {
+    // setIsOverflowVisible(false);
     props.toggleSubmenu(props.type);
   }
 
   function handleButtonClick() {
     if (!props.isActive) {
+      setIsOverflowHidden(true);
       props.toggleSubmenu(props.type);
     }
   }
@@ -53,7 +55,7 @@ export default function MainButton(props) {
               className="submenu-content"
               style={{
                 maxHeight: maxHeight,
-                overflow: isOverflowVisible ? "visible" : "hidden",
+                overflow: isOverflowHidden ? "hidden" : "visible",
                 transition: "max-height 0.3s ease",
               }}
             >
