@@ -1,9 +1,11 @@
 import "./App.css"
 import MainButton from "./MainButton"
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 export default function App() {
   const [activeButton, setActiveButton] = useState(null); // State for active button (null means none)
+  // const [data, setData] = useState(null)
+
 
   const toggleSubmenu = (buttonType) => {
     // If the clicked button is already active, close it
@@ -14,6 +16,19 @@ export default function App() {
       setActiveButton(buttonType);
     }
   };
+
+  // Testing the server connection
+  // useEffect(() => {
+    fetch("/test").then(
+      res => res.json()
+    ).then(
+      data => {
+        // setData(data)
+        // console.log("received")
+        console.log(data)
+      }
+    )
+  // }, [])
 
 
   return (

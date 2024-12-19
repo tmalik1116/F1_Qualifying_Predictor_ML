@@ -14,7 +14,7 @@ export default function DriverMenu(props) {
     // <div>
     <div className="submenu-content">
       <div className="row" id="driver-submenu-top">
-        <label className="input-label-top" for="Driver">
+        <label className="input-label-top" htmlFor="Driver">
           Driver
         </label>
         <CloseButton closeSubmenu={props.closeSubmenu} />
@@ -28,7 +28,7 @@ export default function DriverMenu(props) {
       <div className="vertical-spacer-medium"></div>{" "}
       {/* Make 'spacer' CSS class for a div, can reuse wherever I want */}
       <div className="row" id="driver-submenu-top">
-        <label className="input-label" for="Race">
+        <label className="input-label" htmlFor="Race">
           Race
         </label>
       </div>
@@ -40,7 +40,7 @@ export default function DriverMenu(props) {
       ></input>
       <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
-        <label className="input-label" for="Season">
+        <label className="input-label" htmlFor="Season">
           Season
         </label>
       </div>
@@ -52,7 +52,7 @@ export default function DriverMenu(props) {
       ></input>
       <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
-        <label className="input-label" for="Rain">
+        <label className="input-label" htmlFor="Rain">
           Rain?
         </label>
       </div>

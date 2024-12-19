@@ -15,7 +15,7 @@ export default function SessionMenu(props) {
     <div>
       <div className="col" id="submenu-column">
         <div className="row" id="driver-submenu-top">
-          <label className="input-label-top" for="Race">
+          <label className="input-label-top" htmlFor="Race">
             Race
           </label>
           <CloseButton closeSubmenu={props.closeSubmenu} />
@@ -29,7 +29,7 @@ export default function SessionMenu(props) {
         ></input>
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
-          <label className="input-label" for="Season">
+          <label className="input-label" htmlFor="Season">
             Season
           </label>
         </div>
@@ -41,7 +41,7 @@ export default function SessionMenu(props) {
         ></input>
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
-          <label className="input-label" for="Rain">
+          <label className="input-label" htmlFor="Rain">
             Rain?
           </label>
         </div>

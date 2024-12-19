@@ -259,7 +259,7 @@ h1 {
 }
 
 .internal-button {
-  margin-bottom: none;
+  margin-bottom: 10px;
   width: 50%;
   background-color: white;
   border-radius: 35px;
@@ -269,7 +269,7 @@ h1 {
 }
 
 .internal-button:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 5px 10px 0 rgba(0, 0, 0, 0.025);
   /* transition-duration: 0.5s; */
 }
 

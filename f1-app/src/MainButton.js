@@ -17,7 +17,7 @@ export default function MainButton(props) {
     } else {
       setMaxHeight("0px");
       setIsOverflowHidden(true); // enable overflow after animation for proper shadow appearance on button
-      setTimeout(() => setIsAnimating(false), 200); // play with value to get smooth visual
+      setTimeout(() => setIsAnimating(false), 200); // play with value to get smooth visual (fallback to 200)
     }
   }, [props.isActive]);
 
@@ -56,7 +56,7 @@ export default function MainButton(props) {
               style={{
                 maxHeight: maxHeight,
                 overflow: isOverflowHidden ? "hidden" : "visible",
-                transition: "max-height 0.3s ease",
+                transition: "max-height 0.3s ease", // go back to 0.3 if desired
               }}
             >
               {props.type === "Driver" && (
