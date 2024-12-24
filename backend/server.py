@@ -17,6 +17,12 @@ def test():
         app.logger.error(f"Error in /test endpoint: {e}")
         return "Internal Server Error", 500
 
+@app.route("/submitDriver", methods=["POST"])
+def submitDriver():
+    data = request.json
+    print(f"Data received successfully: {data['driver'], data['race'], data['season'], data['rain']}")
+
+    return jsonify("Success!")
 
 if __name__ == "__main__":
     app.run(debug=True)

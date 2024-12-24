@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function EnterButton(props) {
-  return <button className="internal-button">Calculate!</button>;
+export default function EnterButton({className, onClick}) {
+  return <button className="internal-button" onClick={onClick}>Calculate!</button>;
 }

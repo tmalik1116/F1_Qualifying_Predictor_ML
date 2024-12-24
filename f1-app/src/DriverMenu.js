@@ -4,10 +4,43 @@ import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
 
 export default function DriverMenu(props) {
-  const [isChecked, setIsChecked] = useState(true); // State to manage the Switch
+  
+  const [driver, setDriver] = useState("");
+  const [race, setRace] = useState("");
+  const [season, setSeason] = useState("");
+  const [rain, setrain] = useState(true); // State to manage the Switch
 
-  const handleChange = (event) => {
-    setIsChecked(event.target.checked);
+  const handleDriverChange = (event) => {
+    setDriver(event.target.value);
+  };
+  
+  const handleRaceChange = (event) => {
+    setRace(event.target.value);
+  };
+  
+  const handleSeasonChange = (event) => {
+    setSeason(event.target.value);
+  };
+  
+  const handleRainChange = (event) => {
+    setrain(event.target.checked);
+  };
+
+  const submitData = () => {
+    const formData = {
+      driver,
+      race,
+      season,
+      rain,
+    };
+
+    fetch("/submitDriver", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData)
+    });
   };
 
   return (
@@ -24,6 +57,7 @@ export default function DriverMenu(props) {
         id="Driver"
         placeholder="Ex. LEC, SAI"
         className="input-field"
+        onChange={handleDriverChange}
       ></input>
       <div className="vertical-spacer-medium"></div>{" "}
       {/* Make 'spacer' CSS class for a div, can reuse wherever I want */}
@@ -37,6 +71,7 @@ export default function DriverMenu(props) {
         id="Race"
         placeholder="Ex. Monaco, Bahrain"
         className="input-field"
+        onChange={handleRaceChange}
       ></input>
       <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
@@ -49,6 +84,7 @@ export default function DriverMenu(props) {
         id="Season"
         placeholder="Ex. 2024"
         className="input-field"
+        onChange={handleSeasonChange}
       ></input>
       <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
@@ -60,14 +96,14 @@ export default function DriverMenu(props) {
         <Switch
           className="switch"
           color="default"
-          checked={isChecked}
-          onChange={handleChange}
+          checked={rain}
+          onChange={handleRainChange}
           // inputProps={{ "aria-label": "controlled" }}
         />
-        <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
+        <h6 className="switch-label">{rain ? "On" : "Off"}</h6>
       </div>
       <div className="vertical-spacer-medium"></div>
-      <EnterButton className="enter-button" />
+      <EnterButton className="enter-button" onClick={submitData}/>
     </div>
     // {/* </div> */}
   );

@@ -36,8 +36,14 @@ export default function MainButton(props) {
 
   function handleButtonClick() {
     if (!props.isActive) {
-      setIsOverflowHidden(true);
-      props.toggleSubmenu(props.type);
+      var delayInMilliseconds = 0; //0.15 seconds
+
+      setTimeout(function() {
+        setIsOverflowHidden(true);
+        props.toggleSubmenu(props.type);
+        
+      }, delayInMilliseconds);
+      
     }
   }
 

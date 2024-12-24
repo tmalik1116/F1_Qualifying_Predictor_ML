@@ -19,15 +19,15 @@ export default function App() {
 
   // Testing the server connection
   // useEffect(() => {
-    fetch("/test").then(
-      res => res.json()
-    ).then(
-      data => {
-        // setData(data)
-        // console.log("received")
-        console.log(data)
-      }
-    )
+    // fetch("/test").then(
+    //   res => res.json()
+    // ).then(
+    //   data => {
+    //     // setData(data)
+    //     // console.log("received")
+    //     console.log(data)
+    //   }
+    // )
   // }, [])
 
 
