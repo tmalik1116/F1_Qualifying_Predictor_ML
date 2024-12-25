@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
@@ -9,6 +9,9 @@ export default function DriverMenu(props) {
   const [race, setRace] = useState("");
   const [season, setSeason] = useState("");
   const [rain, setrain] = useState(true); // State to manage the Switch
+
+  const dialogRef = useRef(null);
+  const [responseMsg, setResponseMsg] = useState("");
 
   const handleDriverChange = (event) => {
     setDriver(event.target.value);
@@ -40,7 +43,20 @@ export default function DriverMenu(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setResponseMsg("Predicted Time: " + data);
+      dialogRef.current.showModal(); // open dialog
+    })
+    .catch((error) => {
+      setResponseMsg("Error sending data to server.");
+      dialogRef.current.showModal();
     });
+  };
+
+  const closeDialog = () => {
+    dialogRef.current.close(); // Close the dialog
   };
 
   return (
@@ -104,6 +120,11 @@ export default function DriverMenu(props) {
       </div>
       <div className="vertical-spacer-medium"></div>
       <EnterButton className="enter-button" onClick={submitData}/>
+
+      <dialog ref={dialogRef}>
+        <p>{responseMsg}</p>
+        <button onClick={closeDialog}>Close</button>
+      </dialog>
     </div>
     // {/* </div> */}
   );

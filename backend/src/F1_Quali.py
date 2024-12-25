@@ -364,6 +364,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
+
 def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categorical_features, scaler, num_cols):
     while True:
         to_predict = input("Predict results for a driver or a session? ")
@@ -427,6 +428,17 @@ def plot_importances(feature_importances: pd.DataFrame):
     plt.xlabel('Importance Score')
     plt.title('XGBoost Feature Importances')
     plt.show()
+
+
+def load_model() -> xgb.Booster:
+    model = xgb.Booster()
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(script_dir, 'trained_model.json')
+
+    model.load_model(model_path)
+
+    return model
 
 
 # Runs everything needed for manual testing/making predictions. Trains model, outputs feature importances, and runs user interface.
