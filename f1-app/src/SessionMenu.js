@@ -1,15 +1,40 @@
 import React, { useState } from "react";
 import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
-import CustomizedSwitch from "./CustomizedSwitches";
 import { Switch } from "@mui/material";
 
 export default function SessionMenu(props) {
-  const [isChecked, setIsChecked] = useState(true); // State to manage the Switch
-
-  const handleChange = (event) => {
-    setIsChecked(event.target.checked);
-  };
+    const [race, setRace] = useState("");
+    const [season, setSeason] = useState("");
+    const [rain, setrain] = useState(true); // State to manage the Switch
+    
+    const handleRaceChange = (event) => {
+      setRace(event.target.value);
+    };
+    
+    const handleSeasonChange = (event) => {
+      setSeason(event.target.value);
+    };
+    
+    const handleRainChange = (event) => {
+      setrain(event.target.checked);
+    };
+  
+    const submitData = () => {
+      const formData = {
+        race,
+        season,
+        rain,
+      };
+  
+      fetch("/submitSession", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      });
+    };
 
   return (
     <div>
@@ -26,6 +51,7 @@ export default function SessionMenu(props) {
           id="Race"
           placeholder="Ex. Monaco, Bahrain"
           className="input-field"
+          onChange={handleRaceChange}
         ></input>
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
@@ -38,6 +64,7 @@ export default function SessionMenu(props) {
           id="Season"
           placeholder="Ex. 2024"
           className="input-field"
+          onChange={handleSeasonChange}
         ></input>
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
@@ -50,13 +77,13 @@ export default function SessionMenu(props) {
             <Switch
               className="switch"
               color="default"
-              checked={isChecked}
-              onChange={handleChange}
+              checked={rain}
+              onChange={handleRainChange}
             />
-            <h6 className="switch-label">{isChecked ? "On" : "Off"}</h6>
+            <h6 className="switch-label">{rain ? "On" : "Off"}</h6>
           </div>
           <div className="vertical-spacer-medium"></div>
-          <EnterButton className="enter-button" />
+          <EnterButton className="enter-button" onClick={submitData}/>
         </div>
       </div>
     </div>
