@@ -37,6 +37,12 @@ export default function DriverMenu(props) {
       rain,
     };
 
+    if (!driver || !race || !season){
+      setResponseMsg("Please fill out all fields and try again.");
+      dialogRef.current.showModal();
+      return;
+    }
+
     fetch("/submitDriver", {
       method: "POST",
       headers: {
@@ -124,7 +130,7 @@ export default function DriverMenu(props) {
 
       <dialog ref={dialogRef}>
         <p>{responseMsg}</p>
-        <button onClick={closeDialog}>Close</button>
+        <button onClick={closeDialog} className="dialog-button">Close</button>
       </dialog>
     </div>
     // {/* </div> */}
