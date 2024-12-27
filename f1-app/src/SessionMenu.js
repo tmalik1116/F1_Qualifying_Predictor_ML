@@ -6,7 +6,7 @@ import { Switch } from "@mui/material";
 export default function SessionMenu(props) {
     const [race, setRace] = useState("");
     const [season, setSeason] = useState("");
-    const [rain, setrain] = useState(true); // State to manage the Switch
+    const [rain, setRain] = useState(false); // State to manage the Switch
     
     const handleRaceChange = (event) => {
       setRace(event.target.value);
@@ -17,7 +17,7 @@ export default function SessionMenu(props) {
     };
     
     const handleRainChange = (event) => {
-      setrain(event.target.checked);
+      setRain(event.target.checked);
     };
   
     const submitData = () => {
@@ -33,6 +33,10 @@ export default function SessionMenu(props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData)
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // Should probably create new menu for this, will not look good in a popup dialog
       });
     };
 
@@ -69,7 +73,7 @@ export default function SessionMenu(props) {
         <div className="vertical-spacer-medium"></div>
         <div className="row" id="driver-submenu-top">
           <label className="input-label" htmlFor="Rain">
-            Rain?
+            Rain
           </label>
         </div>
         <div>
@@ -77,10 +81,11 @@ export default function SessionMenu(props) {
             <Switch
               className="switch"
               color="default"
+              defaultChecked={false}
               checked={rain}
               onChange={handleRainChange}
             />
-            <h6 className="switch-label">{rain ? "On" : "Off"}</h6>
+            <h6 className="switch-label">{rain ? "Wet" : "Dry"}</h6>
           </div>
           <div className="vertical-spacer-medium"></div>
           <EnterButton className="enter-button" onClick={submitData}/>

@@ -8,7 +8,7 @@ export default function DriverMenu(props) {
   const [driver, setDriver] = useState("");
   const [race, setRace] = useState("");
   const [season, setSeason] = useState("");
-  const [rain, setrain] = useState(true); // State to manage the Switch
+  const [rain, setRain] = useState(false); // State to manage the Switch
 
   const dialogRef = useRef(null);
   const [responseMsg, setResponseMsg] = useState("");
@@ -26,7 +26,7 @@ export default function DriverMenu(props) {
   };
   
   const handleRainChange = (event) => {
-    setrain(event.target.checked);
+    setRain(event.target.checked);
   };
 
   const submitData = () => {
@@ -105,18 +105,19 @@ export default function DriverMenu(props) {
       <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
         <label className="input-label" htmlFor="Rain">
-          Rain?
+          Rain
         </label>
       </div>
       <div className="switch-row">
         <Switch
           className="switch"
           color="default"
+          defaultChecked={false}
           checked={rain}
           onChange={handleRainChange}
           // inputProps={{ "aria-label": "controlled" }}
         />
-        <h6 className="switch-label">{rain ? "On" : "Off"}</h6>
+        <h6 className="switch-label">{rain ? "Wet" : "Dry"}</h6>
       </div>
       <div className="vertical-spacer-medium"></div>
       <EnterButton className="enter-button" onClick={submitData}/>

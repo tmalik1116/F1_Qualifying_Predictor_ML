@@ -25,12 +25,12 @@ track_list = {
     "Miami": 88.051,
     "Imola": 75.737,
     "Monaco": 71.266,
-    "Canada": 72.705,
+    "Canada": 68.705,
     "Spain": 72.256,
     "Austria": 65.288,
-    "Silverstone": 88.924,
+    "Silverstone": 85.924,
     "Hungary": 76.498,
-    "Spa-Francorchamps": 106.075,
+    "Spa-Francorchamps": 100.075,
     "Zandvoort": 76.690, # from zandvoort onwards should subtract 0.5-1s for 2024 cars
     "Monza": 81.451,
     "Baku": 102.465,
@@ -118,7 +118,7 @@ def convert_time(time):
         return num
     else:
         mins = time // 60
-        string = f"0{int(mins)}:{time - (60.0 * mins):06.3f}"
+        string = f"{int(mins)}:{time - (60.0 * mins):06.3f}"
         return string
 
 
@@ -227,7 +227,7 @@ def split_data(data: pd.DataFrame) -> tuple:
     X, y = data.drop('target_time', axis=1), data[['target_time']]
 
     # Implement one-hot encoding for categorical features
-    categorical_features = ['driver', 'track']
+    categorical_features = ['driver', 'track', 'rain']
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False) # Instantiate OHE
     ohe.fit(X[categorical_features])
     encoded_features = pd.DataFrame(ohe.transform(X[categorical_features]),
@@ -276,7 +276,7 @@ def create_regression_matrices(X_train, X_test, y_train, y_test) -> tuple:
 
 
 # Creates a new XGBoost model and trains it for a specified number of epochs
-def train_model(dtrain_reg, dtest_reg, epochs=100) -> xgb.Booster:
+def train_model(dtrain_reg, dtest_reg, epochs) -> xgb.Booster:
     # Define hyperparameters
     params = {"objective": "reg:squarederror", 
               "tree_method": "hist",
@@ -314,7 +314,7 @@ def predict_specific_input(model: xgb.Booster, # Should add rain probaility chec
                            categorical_features, 
                            scaler: StandardScaler, 
                            num_cols,
-                           rain=False) -> float:
+                           rain) -> float:
     # Create a DataFrame for the specific input
     specific_input = pd.DataFrame({
         'driver': [driver],
@@ -360,7 +360,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 100)
+    model = train_model(dtrain_reg, dtest_reg, 50)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
@@ -370,15 +370,22 @@ def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categori
         to_predict = input("Predict results for a driver or a session? ")
 
         while to_predict == "driver":
+
+            list_input = input("Get prediction for: ").split()
             try:
-                driver, track, year = input("Get prediction for: ").split()
-                year = int(year)
+                if len(list_input) == 3:
+                    driver, track, year = list_input[0], list_input[1], int(list_input[2])
+                elif len(list_input) > 3:
+                    driver, track, year, rain = list_input[0], list_input[1], int(list_input[2]), list_input[3]
+                elif len(list_input) == 1:
+                    if 'exit' in list_input:
+                        break
             except:
                 if "exit" in [driver, track, year]:
                     break
 
             data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
-            predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols)
+            predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
             print(f"Predicted Qualifying Time for {driver} at {track} {year}: {convert_time(predicted_time)}")
 
 
@@ -403,7 +410,7 @@ def run_interface(dataset: str, model: xgb.Booster, ohe: OneHotEncoder, categori
 
             data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
             for driver in current_drivers:
-                predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, bool(rain))
+                predicted_time = predict_specific_input(model, driver, track, year, data, ohe, categorical_features, scaler, num_cols, rain)
                 times[driver] = (convert_time(predicted_time))
 
             # Sort the times from fastest to slowest
