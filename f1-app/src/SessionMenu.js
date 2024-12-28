@@ -36,8 +36,8 @@ export default function SessionMenu(props) {
       })
       .then((response) => response.json())
       .then((data) => {
-        for (var i = 0; i < data.length(); i++){
-          console.log(data);
+        for (var i = 0; i < 20; i++){
+          console.log(data[0]);
         }
         // Should probably create new menu for this, will not look good in a popup dialog
       });
