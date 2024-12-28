@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
+import stopwatchIcon from "./images/istockphoto-1462617826-612x612-removebg.png";
+import { use } from "react";
 
 export default function DriverMenu(props) {
   
@@ -11,6 +13,7 @@ export default function DriverMenu(props) {
   const [rain, setRain] = useState(false); // State to manage the Switch
 
   const dialogRef = useRef(null);
+  const nullRef = useRef(null);
   const [responseMsg, setResponseMsg] = useState("");
 
   const handleDriverChange = (event) => {
@@ -39,7 +42,7 @@ export default function DriverMenu(props) {
 
     if (!driver || !race || !season){
       setResponseMsg("Please fill out all fields and try again.");
-      dialogRef.current.showModal();
+      nullRef.current.showModal();
       return;
     }
 
@@ -52,7 +55,7 @@ export default function DriverMenu(props) {
     })
     .then((response) => response.json())
     .then((data) => {
-      setResponseMsg("Predicted Time: " + data);
+      setResponseMsg("Predicted Time: \n" + data);
       dialogRef.current.showModal(); // open dialog
     })
     .catch((error) => {
@@ -61,8 +64,9 @@ export default function DriverMenu(props) {
     });
   };
 
-  const closeDialog = () => {
+  const closeDialog = (event) => {
     dialogRef.current.close(); // Close the dialog
+    nullRef.current.close();
   };
 
   return (
@@ -129,6 +133,18 @@ export default function DriverMenu(props) {
       <EnterButton className="enter-button" onClick={submitData}/>
 
       <dialog ref={dialogRef}>
+        <h2>
+          Driver Prediction  
+          <img src={stopwatchIcon} alt="Ranking icon" className="dialog-image-top"></img>
+        </h2>
+        
+        <p>{responseMsg}</p>
+        <button onClick={closeDialog} className="dialog-button">Close</button>
+      </dialog>
+
+      <dialog ref={nullRef}>
+        <h2>Error
+        </h2>
         <p>{responseMsg}</p>
         <button onClick={closeDialog} className="dialog-button">Close</button>
       </dialog>

@@ -62,21 +62,23 @@ def submitSession():
     print(f"Data received successfully: {data['race'], data['season'], data['rain']}")
 
     dataset, ohe, categorical_features, scaler, num_cols, rain = setupAPI(data)
-    times = []
+
+    # Dictionary to store driver: time pairings
+    times = {}
 
     for driver in F1_Quali.current_drivers:
-        times.append(F1_Quali.convert_time(F1_Quali.predict_specific_input(
+        times[driver] = F1_Quali.convert_time(F1_Quali.predict_specific_input(
             F1_Quali.load_model(),
             driver,
             data['race'].strip(),
-            int(data['season']).strip(),
+            int(data['season'].strip()),
             dataset,
             ohe,
             categorical_features,
             scaler,
             num_cols,
             rain
-        )))
+        ))
 
     return jsonify(times)
 

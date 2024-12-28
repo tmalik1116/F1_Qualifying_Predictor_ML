@@ -290,20 +290,54 @@ dialog {
   border-radius: 35px;
   box-shadow: 0 36px 36px 0 rgba(0, 0, 0, 0.5), 0 50px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
+  width: 60%;
+  transition-duration: 0.5s;
 }
 
 dialog::backdrop {
   background-color: black;
   opacity: 0.75;
+  transition-duration: 0.5s;
 }
 
 dialog::after {
   transition: all ease-out 0.25s;
+  transition-duration: 0.5s;
 }
+
+dialog {
+  --duration: 0.55s;
+
+  transition: 
+    translate var(--duration) ease-in-out, 
+    scale     var(--duration) ease-in-out,
+    display   var(--duration) ease-in-out allow-discrete;
+
+  &[open] {
+
+    /* Post-Entry (Normal) State */
+    translate: 0 0;
+    scale: 1;
+
+    /* Pre-Entry State */
+    @starting-style {
+      translate: 0 100vh;
+      scale: 0.45;
+    }
+  }
+
+  /* Exiting State */
+  &:not([open]) {
+    translate: 0 -100vh;
+    scale: 0.45;
+  }
+}
+
 
 .dialog-button {
   border-radius: 35px;
-  width: 40%;
+  width: 30%;
+  height: 50px;
   border:none;
   background-color: #aa0000;
   color: white;
@@ -317,6 +351,12 @@ dialog::after {
 }
 
 .dialog-button:active {
-  width: 35%;
+  width: 25%;
   transition-duration: 0.2s;
+}
+
+.dialog-image-top {
+  width: 10%;
+  height: 10%;
+  padding-left: 3%;
 }
