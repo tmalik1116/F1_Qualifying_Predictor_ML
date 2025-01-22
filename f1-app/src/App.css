@@ -309,7 +309,7 @@ dialog {
   --duration: 0.55s;
 
   transition: 
-    translate var(--duration) ease-in-out, 
+    translate var(--duration) ease-in-out,
     scale     var(--duration) ease-in-out,
     display   var(--duration) ease-in-out allow-discrete;
 
@@ -359,4 +359,63 @@ dialog {
   width: 10%;
   height: 10%;
   padding-left: 3%;
+}
+
+.session-results-modal {
+  width: 70%;
+  border-radius: 35px;
+  box-shadow: 0 36px 36px 0 rgba(0, 0, 0, 0.5), 0 50px 50px 0 rgba(0, 0, 0, 0.19);
+  border: none;
+  background-color: rgb(56, 56, 56);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-title {
+  font-family: "Zen Dots", sans-serif;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.results-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 18px;
+  border-bottom: 1px solid lightgray;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+.driver-abbreviation {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.lap-time {
+  font-family: "Zen Dots", sans-serif;
+}
+
+.dialog-button {
+  margin-top: 20px;
 }

@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
+import SessionResultsModal from "./SessionResultsModal";
 
 export default function SessionMenu(props) {
     const [race, setRace] = useState("");
     const [season, setSeason] = useState("");
     const [rain, setRain] = useState(false); // State to manage the Switch
+    const [isSessionResultsOpen, setIsSessionResultsOpen] = useState(false);
+    const [crossData, setCrossData] = useState([]);
+
+    const nullRef = useRef(null);
+    const [responseMsg, setResponseMsg] = useState("");
     
     const handleRaceChange = (event) => {
       setRace(event.target.value);
@@ -38,9 +44,16 @@ export default function SessionMenu(props) {
       .then((data) => {
         for (var i = 0; i < 20; i++){
           console.log(data[0]);
+          crossData.push(data[i]);
         }
+        
+        setIsSessionResultsOpen(true); // Open the dialog
         // Should probably create new menu for this, will not look good in a popup dialog
       });
+    };
+
+    const closeDialog = (event) => {
+      nullRef.current.close();
     };
 
   return (
@@ -94,6 +107,15 @@ export default function SessionMenu(props) {
           <EnterButton className="enter-button" onClick={submitData}/>
         </div>
       </div>
+
+      <SessionResultsModal isOpen={isSessionResultsOpen} onClose={() => setIsSessionResultsOpen(false)} results={crossData} />
+
+      <dialog ref={nullRef}>
+        <h2>Error
+        </h2>
+        <p>{responseMsg}</p>
+        <button onClick={closeDialog} className="dialog-button">Close</button>
+      </dialog>
     </div>
   );
 }
