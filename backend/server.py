@@ -80,6 +80,7 @@ def submitSession():
             rain
         ))
 
+    
     return jsonify(times)
 
 if __name__ == "__main__":

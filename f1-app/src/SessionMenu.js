@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
+import SessionResultsModal from "./SessionResultsModal";
 
 export default function SessionMenu(props) {
     const [race, setRace] = useState("");
     const [season, setSeason] = useState("");
     const [rain, setRain] = useState(false); // State to manage the Switch
+    const [isSessionResultsOpen, setIsSessionResultsOpen] = useState(false);
+    const [crossData, setCrossData] = useState([]);
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const nullRef = useRef(null);
+    const [responseMsg, setResponseMsg] = useState("");
     
     const handleRaceChange = (event) => {
       setRace(event.target.value);
@@ -19,32 +27,63 @@ export default function SessionMenu(props) {
     const handleRainChange = (event) => {
       setRain(event.target.checked);
     };
-  
+
     const submitData = () => {
       const formData = {
         race,
         season,
         rain,
       };
-  
+    
       fetch("/submitSession", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       })
-      .then((response) => response.json())
-      .then((data) => {
-        for (var i = 0; i < 20; i++){
-          console.log(data[0]);
-        }
-        // Should probably create new menu for this, will not look good in a popup dialog
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          // Format the data into an array of objects with driver and time
+          const formattedResults = Object.entries(data)
+            .map(([driver, time]) => {
+              // Convert time string to total milliseconds for sorting
+              const [minutes, seconds] = time.split(":").map(parseFloat);
+              const totalMilliseconds = minutes * 60 * 1000 + seconds * 1000;
+    
+              return { driver, time, totalMilliseconds };
+            })
+            .sort((a, b) => a.totalMilliseconds - b.totalMilliseconds) // Sort by totalMilliseconds
+            .map(({ driver, time }) => ({ driver, time })); // Remove `totalMilliseconds` for clean data
+    
+          // Update state with formatted results
+          setCrossData(formattedResults);
+    
+          // Open the session results modal
+          setIsSessionResultsOpen(true);
+        })
+        .catch((error) => {
+          console.error("Error submitting data:", error);
+          setResponseMsg("An error occurred while processing your request.");
+          nullRef.current.showModal(); // Show the error dialog
+        });
+    };
+    
+    
+
+    const closeDialog = (event) => {
+      nullRef.current.close();
     };
 
   return (
     <div>
+
+      <SessionResultsModal
+        className="modal"
+        isOpen={isSessionResultsOpen}
+        onClose={() => setIsSessionResultsOpen(false)}
+        results={crossData}
+      />
       <div className="col" id="submenu-column">
         <div className="row" id="driver-submenu-top">
           <label className="input-label-top" htmlFor="Race">
@@ -94,6 +133,15 @@ export default function SessionMenu(props) {
           <EnterButton className="enter-button" onClick={submitData}/>
         </div>
       </div>
+
+      
+
+      <dialog ref={nullRef}>
+        <h2>Error
+        </h2>
+        <p>{responseMsg}</p>
+        <button onClick={closeDialog} className="dialog-button">Close</button>
+      </dialog>
     </div>
   );
 }
