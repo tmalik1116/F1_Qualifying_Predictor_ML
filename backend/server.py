@@ -67,7 +67,7 @@ def submitSession():
     times = {}
 
     for driver in F1_Quali.current_drivers:
-        times[driver] = F1_Quali.predict_specific_input(
+        times[driver] = F1_Quali.convert_time(F1_Quali.predict_specific_input(
             F1_Quali.load_model(),
             driver,
             data['race'].strip(),
@@ -78,7 +78,7 @@ def submitSession():
             scaler,
             num_cols,
             rain
-        )
+        ))
 
     
     return jsonify(times)
