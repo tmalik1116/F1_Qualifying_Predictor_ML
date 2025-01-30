@@ -12,6 +12,8 @@ export default function DriverMenu(props) {
   const [season, setSeason] = useState("");
   const [rain, setRain] = useState(false); // State to manage the Switch
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const dialogRef = useRef(null);
   const nullRef = useRef(null);
   const [responseMsg, setResponseMsg] = useState("");
@@ -40,6 +42,8 @@ export default function DriverMenu(props) {
       rain,
     };
 
+    setIsLoading(true);
+
     if (!driver || !race || !season){
       setResponseMsg("Please fill out all fields and try again.");
       nullRef.current.showModal();
@@ -56,6 +60,7 @@ export default function DriverMenu(props) {
     .then((response) => response.json())
     .then((data) => {
       setResponseMsg("Predicted Time: \n" + data);
+      setIsLoading(false);
       dialogRef.current.showModal(); // open dialog
     })
     .catch((error) => {
@@ -130,7 +135,7 @@ export default function DriverMenu(props) {
         <h6 className="switch-label">{rain ? "Wet" : "Dry"}</h6>
       </div>
       <div className="vertical-spacer-medium"></div>
-      <EnterButton className="enter-button" onClick={submitData}/>
+      <EnterButton className="enter-button" onClick={submitData} disabled={isLoading}/>
 
       <dialog ref={dialogRef}>
         <h2>

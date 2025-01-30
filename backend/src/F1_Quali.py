@@ -360,7 +360,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 50)
+    model = train_model(dtrain_reg, dtest_reg, 30)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
@@ -450,7 +450,7 @@ def load_model() -> xgb.Booster:
 
 # Runs everything needed for manual testing/making predictions. Trains model, outputs feature importances, and runs user interface.
 def __main__():
-    dataset = 'backend/data/lap_data.csv'
+    dataset = '../data/lap_data.csv'
 
     data = pd.read_csv(dataset).drop('Unnamed: 0', axis=1)
 

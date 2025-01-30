@@ -34,6 +34,8 @@ export default function SessionMenu(props) {
         season,
         rain,
       };
+
+      setIsLoading(true);
     
       fetch("/submitSession", {
         method: "POST",
@@ -61,8 +63,10 @@ export default function SessionMenu(props) {
     
           // Open the session results modal
           setIsSessionResultsOpen(true);
+          setIsLoading(false);
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error("Error submitting data:", error);
           setResponseMsg("An error occurred while processing your request.");
           nullRef.current.showModal(); // Show the error dialog
@@ -121,7 +125,7 @@ export default function SessionMenu(props) {
         <div>
           <div className="switch-row">
             <Switch
-              className="switch"
+              className={`switch${isSessionResultsOpen ? "-hidden" : ""}`}
               color="default"
               defaultChecked={false}
               checked={rain}
@@ -130,7 +134,7 @@ export default function SessionMenu(props) {
             <h6 className="switch-label">{rain ? "Wet" : "Dry"}</h6>
           </div>
           <div className="vertical-spacer-medium"></div>
-          <EnterButton className="enter-button" onClick={submitData}/>
+          <EnterButton className="enter-button" onClick={submitData} disabled={isLoading}/>
         </div>
       </div>
 

@@ -241,8 +241,15 @@ h1 {
   color: white;
   margin-right: auto;
   width: 10%;
-  z-index: 1;
-  position: relative;
+  opacity: 100;
+  transition-duration: 1s;
+  /* z-index: 1;
+  position: relative; */
+}
+
+.switch-hidden {
+  opacity: 0;
+  transition-duration: 0.15s;
 }
 
 .switch-label {
@@ -255,8 +262,9 @@ h1 {
 .switch-row {
   width: 90%;
   display: flex;
-  position: relative;
-  z-index: 0;
+  overflow: visible;
+  /* position: absolute;
+  z-index: 0; */
 }
 
 .enter-button {
@@ -270,7 +278,7 @@ h1 {
   border-radius: 35px;
   border: none;
   height: 60px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .internal-button:hover {
@@ -286,8 +294,20 @@ h1 {
 }
 .internal-button::after {
   height: 60px;
-  width: 50%;
+  width: 20%;
   transition-duration: 0.25s;
+}
+
+.internal-button.loading {
+  padding: 6px 6px; /* Smaller padding to make the button shrink */
+  width: 50px; /* Fixed width for the spinner */
+  height: 50px; /* Make it more circular for the spinner */
+  border-radius: 50%; /* Circle shape while loading */
+}
+
+.internal-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 dialog {
@@ -371,7 +391,8 @@ session-results-modal {
   box-shadow: 0 36px 36px 0 rgba(0, 0, 0, 0.5), 0 50px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
   background-color: rgb(56, 56, 56);
-  z-index: 1001;
+  position: relative;
+  z-index: 2001;
   color: white;
   padding: 20px;
   text-align: center;
@@ -406,11 +427,11 @@ session-results-modal {
 }
 
 .modal {
-  position: fixed;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-100%, -100%);
-  z-index: 1000; /* Ensure it's above other elements */
+  z-index: 2000; /* Ensure it's above other elements */
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -424,12 +445,13 @@ session-results-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 2001;
 }
 
 .modal-title {
   font-family: "Zen Dots", sans-serif;
   margin-bottom: 20px;
-  font-size: 24px;
 }
 
 .results-table {
@@ -440,6 +462,7 @@ session-results-modal {
   overflow-y: auto;
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
+  z-index: 2000;
 }
 
 .result-row {
@@ -465,4 +488,20 @@ session-results-modal {
 
 .dialog-button {
   margin-top: 20px;
+}
+
+.loading-spinner {
+  border: 8px solid #f3f3f3; /* Light background */
+  border-top: 8px solid #ba0000; /* Blue color */
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  animation: spin 1s linear infinite;
+  opacity: 100;
+  transition: opacity 0.5s ease; /* Fades in over 0.5 seconds */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
