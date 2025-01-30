@@ -1,17 +1,21 @@
-# F1_Qualifying_Predictor_ML
+# Formula 1 Qualif-AI
 
 ## Estimate future Formula 1 qualifying results using ML (XGBoost Regression)
 
-### WIP, proper README to be made when project is more complete. 
-#### Add pictures of frontend when ready
-![f1_project_ss_1](https://github.com/user-attachments/assets/5b6f6086-c5ee-4f10-abd9-3ab01083c42c)
-![f1_project_ss_2](https://github.com/user-attachments/assets/cc46c171-0657-4689-8a0c-7d6ed2d3f0e1)
-![f1_project_ss_3](https://github.com/user-attachments/assets/0ad3ed7e-f8c7-4852-9f7b-f6e68735d435)
+## Usage
+
+The user is given a choice between predicting results for a single driver or for all participants in a session. Shown below are the menus for both and example inputs. 
+
+### Driver Prediction
+https://github.com/user-attachments/assets/10a2d042-d3bd-470a-aa2a-3d0270f36414
 
 
-## Usage (soon to be outdated, full web interface is in progress):
 
-- Clone repository
-- cd backend/src/
-- Run F1_Quali.py
-- Follow instructions in terminal
+### Session Prediction
+https://github.com/user-attachments/assets/84aaae1c-0758-46e2-9646-06f82d8068d2
+
+
+
+## Deep-Dive
+The entire frontend UI is built using React. GET and POST requests are made to the backend server which runs a custom Python API using the trained model. The model used was an XGBoost Regressor from the open-source xgboost library in Python. I trained an instance of this model on a custom dataset which includes data from the past decade of the sport. 
+The relevant data was obtained programatically from theOehrly's fastf1 Python library (https://github.com/theOehrly/Fast-F1). 
