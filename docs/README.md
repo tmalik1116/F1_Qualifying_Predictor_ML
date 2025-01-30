@@ -1,6 +1,9 @@
 # Formula 1 Qualif-AI
+#### V1.0
 
 ## Estimate future Formula 1 qualifying results using ML (XGBoost Regression)
+![F1_UI](https://github.com/user-attachments/assets/fb577ccd-3e13-45aa-bdf7-cf0aa4185ab6)
+
 
 ## Usage
 
