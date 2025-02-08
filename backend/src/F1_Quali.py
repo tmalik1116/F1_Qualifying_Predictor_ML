@@ -24,7 +24,7 @@ track_list = {
     "China": 94.837,
     "Miami": 88.051,
     "Imola": 75.737,
-    "Monaco": 71.266,
+    "Monaco": 70.266,
     "Canada": 68.705,
     "Spain": 72.256,
     "Austria": 65.288,
@@ -49,7 +49,7 @@ track_list = {
     "Nürburgring": 86.637
 }
 
-current_drivers = ['VER', 'PER', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'LAW', 'TSU', 'HUL', 'MAG', 'GAS', 'OCO', 'ALB', 'COL', 'BOT', 'ZHO']
+current_drivers = ['VER', 'LAW', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'ANT', 'TSU', 'HUL', 'BOR', 'GAS', 'OCO', 'ALB', 'BEA', 'HAD', 'DOO']
 
 # from statsf1.com Leclercs is altered
 average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrain, Jeddah, ... Abu Dhabi + additionals now (any circuit from 2018 - 2024))
@@ -75,8 +75,11 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
     "ZHO": {"Bahrain": 15.0, "Jeddah": 14.33, "Australia": 16.67, "Suzuka": 17.67, "China": 16.0, "Miami": 16.67, "Imola": 18.5, "Monaco": 19.0, "Canada": 16.67, "Spain": 14.33, "Austria": 16.67, "Silverstone": 13.33, "Hungary": 11.67, "Spa-Francorchamps": 18.0, "Zandvoort": 14.5, "Monza": 12.5, "Baku": 14.5, "Singapore": 16.5, "Austin": 15.0, "Mexico": 11.0, "Brazil": 16.5, "Las Vegas": 17.0, "Qatar": 19.0, "Abu Dhabi": 17.0, "France": 16.0, "Hockenheim": 15.69, "Russia": 15.69, "Turkey": 15.69, "Portugal": 15.69, "Nürburgring": 15.69},
     "COL": {"Bahrain": 13.0, "Jeddah": 13.0, "Australia": 13.0, "Suzuka": 13.0, "China": 13.0, "Miami": 13.0, "Imola": 13.0, "Monaco": 13.0, "Canada": 13.0, "Spain": 13.0, "Austria": 13.0, "Silverstone": 13.0, "Hungary": 13.0, "Spa-Francorchamps": 13.0, "Zandvoort": 13.0, "Monza": 17.0, "Baku": 9.0, "Singapore": 13.0, "Austin": 13.0, "Mexico": 13.0, "Brazil": 13.0, "Las Vegas": 13.0, "Qatar": 13.0, "Abu Dhabi": 13.0, "France": 13.0, "Hockenheim": 13.0, "Russia": 13.0, "Turkey": 13.0, "Portugal": 13.0, "Nürburgring": 13.0},
     "BEA": {"Bahrain": 10.5, "Jeddah": 11.0, "Australia": 10.5, "Suzuka": 10.5, "China": 10.5, "Miami": 10.5, "Imola": 10.5, "Monaco": 10.5, "Canada": 10.5, "Spain": 10.5, "Austria": 10.5, "Silverstone": 10.5, "Hungary": 10.5, "Spa-Francorchamps": 10.5, "Zandvoort": 10.5, "Monza": 10.5, "Baku": 10.0, "Singapore": 10.5, "Austin": 10.5, "Mexico": 10.5, "Brazil": 10.5, "Las Vegas": 10.5, "Qatar": 10.5, "Abu Dhabi": 10.5, "France": 10.5, "Hockenheim": 10.5, "Russia": 10.5, "Turkey": 10.5, "Portugal": 10.5, "Nürburgring": 10.5},
-    "LAW": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 15.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 10.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0},
-    "DOO": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 15.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 15.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0}
+    "LAW": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 18.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 10.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0},
+    "DOO": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 15.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 15.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0},
+    "ANT": {"Bahrain": 8.0, "Jeddah": 7.5, "Australia": 8.5, "Suzuka": 10.75, "China": 12.5, "Miami": 8.33, "Imola": 8.0, "Monaco": 8.0, "Canada": 7.75, "Spain": 8.0, "Austria": 10.5, "Silverstone": 11.5, "Hungary": 13.33, "Spa-Francorchamps": 8.33, "Zandvoort": 6.67, "Monza": 10.6, "Baku": 11.75, "Singapore": 13.33, "Austin": 11.75, "Mexico": 11.25, "Brazil": 11.0, "Las Vegas": 3.0, "Qatar": 8.5, "Abu Dhabi": 12.2, "France": 13.33, "Hockenheim": 17.0, "Russia": 11.0, "Turkey": 16.5, "Portugal": 12.5, "Nürburgring": 17},
+    "BOR": {"Bahrain": 17.6, "Jeddah": 19.5, "Australia": 18.0, "Suzuka": 19.5, "China": 20.0, "Miami": 18.5, "Imola": 19.0, "Monaco": 15.5, "Canada": 15.5, "Spain": 19.5, "Austria": 18.5, "Silverstone": 13.0, "Hungary": 17.0, "Spa-Francorchamps": 18.0, "Zandvoort": 10.0, "Monza": 15.0, "Baku": 14.0, "Singapore": 18.0, "Austin": 16.0, "Mexico": 19.0, "Brazil": 19.0, "Las Vegas": 6.0, "Qatar": 15.0, "Abu Dhabi": 20.0, "France": 16.91, "Hockenheim": 16.91, "Russia": 16.91, "Turkey": 16.91, "Portugal": 16.91, "Nürburgring": 16.91},
+    "HAD": {"Bahrain": 13.56, "Jeddah": 11.5, "Australia": 13.83, "Suzuka": 15.33, "China": 13.75, "Miami": 13.0, "Imola": 13.25, "Monaco": 15.57, "Canada": 15.33, "Spain": 13.0, "Austria": 11.9, "Silverstone": 13.11, "Hungary": 13.25, "Spa-Francorchamps": 13.63, "Zandvoort": 11.0, "Monza": 10.0, "Baku": 13.0, "Singapore": 17.0, "Austin": 13.67, "Mexico": 17.33, "Brazil": 14.0, "Las Vegas": 19.0, "Qatar": 14.0, "Abu Dhabi": 13.57, "France": 17.5, "Hockenheim": 16.0, "Russia": 11.6, "Turkey": 4.5, "Portugal": 14.5, "Nürburgring": 13.56},
 }
 
 # number of races in seasons
@@ -360,7 +363,7 @@ def train_and_test_model(data: pd.DataFrame) -> tuple:
 
     dtrain_reg, dtest_reg = create_regression_matrices(X_train, X_test, y_train, y_test)
 
-    model = train_model(dtrain_reg, dtest_reg, 30)
+    model = train_model(dtrain_reg, dtest_reg, 50)
     test_model(model, dtest_reg, y_test)
     return model, ohe, categorical_features, scaler, num_cols
 
