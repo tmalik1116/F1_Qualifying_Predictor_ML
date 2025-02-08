@@ -1,7 +1,7 @@
 import "./App.css"
 import MainButton from "./MainButton"
 import React, {useState, useEffect} from "react";
-import { Analytics } from "@vercel/analytics/react"
+// import { Analytics } from "@vercel/analytics/react"
 
 export default function App() {
   const [activeButton, setActiveButton] = useState(null); // State for active button (null means none)

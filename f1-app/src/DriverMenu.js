@@ -50,7 +50,7 @@ export default function DriverMenu(props) {
       return;
     }
 
-    fetch("/submitDriver", {
+    fetch("https://tmalik1116.pythonanywhere.com/submitDriver", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

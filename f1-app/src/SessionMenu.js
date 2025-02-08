@@ -37,7 +37,7 @@ export default function SessionMenu(props) {
 
       setIsLoading(true);
     
-      fetch("/submitSession", {
+      fetch("https://tmalik1116.pythonanywhere.com/submitSession", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
