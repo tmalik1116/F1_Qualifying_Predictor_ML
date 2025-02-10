@@ -7,6 +7,8 @@
 
 ## Usage
 
+https://www.f1quali.online/
+
 The user is given a choice between predicting results for a single driver or for all participants in a session. Shown below are the menus for both and example inputs. 
 
 ### Driver Prediction
