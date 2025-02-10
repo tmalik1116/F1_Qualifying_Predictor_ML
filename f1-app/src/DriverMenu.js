@@ -46,6 +46,7 @@ export default function DriverMenu(props) {
 
     if (!driver || !race || !season){
       setResponseMsg("Please fill out all fields and try again.");
+      setIsLoading(false);
       nullRef.current.showModal();
       return;
     }
@@ -65,6 +66,7 @@ export default function DriverMenu(props) {
     })
     .catch((error) => {
       setResponseMsg("Error sending data to server.");
+      setIsLoading(false);
       dialogRef.current.showModal();
     });
   };
