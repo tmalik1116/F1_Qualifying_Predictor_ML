@@ -63,7 +63,7 @@ def submitSession():
 
     dataset, ohe, categorical_features, scaler, num_cols, rain = setupAPI(data)
 
-    current_drivers = F1_Quali.get_current_drivers()
+    current_drivers = ['VER', 'LAW', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'ANT', 'TSU', 'HUL', 'BOR', 'GAS', 'OCO', 'ALB', 'BEA', 'HAD', 'DOO']
 
     # Dictionary to store driver: time pairings
     times = {}
