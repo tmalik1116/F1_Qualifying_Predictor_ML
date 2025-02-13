@@ -143,6 +143,11 @@ def is_rain(session) -> bool:
         return False
     
 
+# Returns the list of active drivers in the current season
+def get_current_drivers() -> list[str]:
+    return current_drivers
+    
+
 # Returns the number fo years since a reg change for known time periods, otherwise returns random reasonable value
 def get_years_since_reg_change(year: int) -> int:
     if year >= 2030:

@@ -63,10 +63,12 @@ def submitSession():
 
     dataset, ohe, categorical_features, scaler, num_cols, rain = setupAPI(data)
 
+    current_drivers = F1_Quali.get_current_drivers()
+
     # Dictionary to store driver: time pairings
     times = {}
 
-    for driver in F1_Quali.current_drivers:
+    for driver in current_drivers:
         times[driver] = F1_Quali.convert_time(F1_Quali.predict_specific_input(
             F1_Quali.load_model(),
             driver,
