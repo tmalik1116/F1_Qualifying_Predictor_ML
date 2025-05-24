@@ -455,6 +455,30 @@ session-results-modal {
   margin-bottom: 20px;
 }
 
+session-results-modal .results-table, .modal .results-table {
+  background-color: rgb(30, 30, 30) !important;
+  color: white !important;
+}
+
+session-results-modal .result-row,
+.modal .result-row {
+  background-color: #2e2e2e !important;
+  color: white !important;
+  border-bottom: 1px solid #444 !important;
+}
+
+session-results-modal .result-row:nth-child(even),
+.modal .result-row:nth-child(even) {
+  background-color: #3a3a3a !important;
+}
+
+session-results-modal .driver-abbreviation,
+session-results-modal .lap-time,
+.modal .driver-abbreviation,
+.modal .lap-time {
+  color: white !important;
+}
+
 .results-table {
   background-color: rgb(30, 30, 30);
   color: white;
