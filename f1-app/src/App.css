@@ -432,7 +432,8 @@ session-results-modal {
   left: 50%;
   transform: translate(-100%, -100%);
   z-index: 2000; /* Ensure it's above other elements */
-  background: white;
+  background: rgb(30, 30, 30);
+  color: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
