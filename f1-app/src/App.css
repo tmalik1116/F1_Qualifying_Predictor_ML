@@ -455,17 +455,20 @@ session-results-modal {
 }
 
 .results-table {
+  background-color: rgb(30, 30, 30);
+  color: white;
   display: flex;
   flex-direction: column;
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid lightgray;
+  border-top: 1px solid #555;
+  border-bottom: 1px solid #555;
   z-index: 2000;
 }
 
 .result-row {
+  background-color: rgb(30, 30, 30);
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -473,16 +476,22 @@ session-results-modal {
   border-bottom: 1px solid lightgray;
 }
 
+.result-row:nth-child(even) {
+  background-color: rgb(50, 50, 50);
+}
+
 .result-row:last-child {
   border-bottom: none;
 }
 
 .driver-abbreviation {
+  color: white;
   font-weight: bold;
   margin-right: 10px;
 }
 
 .lap-time {
+  color: white;
   font-family: "Zen Dots", sans-serif;
 }
 
