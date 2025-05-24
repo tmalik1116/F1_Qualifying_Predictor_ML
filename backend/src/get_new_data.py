@@ -12,11 +12,11 @@ def convert_time(time: str) -> float:
     num += float(arr[1])
     return num
 
-def is_rain(session) -> bool:
+def is_rain(session) -> str:
     if "True" in str(session.weather_data['Rainfall']):
-        return True
+        return "Wet"
     else:
-        return False
+        return "Dry"
     
     # Returns the number fo years since a reg change for known time periods, otherwise returns random reasonable value
 def get_years_since_reg_change(year: int) -> int:
@@ -35,7 +35,7 @@ def get_years_since_reg_change(year: int) -> int:
     else:
         return random.randint(0, 5)
     
-current_drivers = ['VER', 'PER', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'LAW', 'TSU', 'HUL', 'MAG', 'GAS', 'OCO', 'ALB', 'COL', 'BOT', 'ZHO']
+current_drivers = ['VER', 'HAD', 'HAM', 'RUS', 'LEC', 'SAI', 'NOR', 'PIA', 'ALO', 'STR', 'LAW', 'TSU', 'HUL', 'BOR', 'GAS', 'OCO', 'ALB', 'COL', 'BEA', 'ANT']
     
 average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrain, Jeddah, ... Abu Dhabi + additionals now (any circuit from 2018 - 2024))
     "VER": {"Bahrain": 5.64, "Jeddah": 5.75, "Australia": 4.13, "Suzuka": 4.38, "China": 8.17, "Miami": 4.33, "Imola": 2.0, "Monaco": 7.78, "Canada": 5.63, "Spain": 3.4, "Austria": 2.92, "Silverstone": 4.0, "Hungary": 5.1, "Spa-Francorchamps": 7.2, "Zandvoort": 1.0, "Monza": 8.78, "Baku": 4.43, "Singapore": 5.57, "Austin": 7.25, "Mexico": 3.25, "Brazil": 3.63, "Las Vegas": 2.0, "Qatar": 4.0, "Abu Dhabi": 3.89, "France": 2.75, "Hockenheim": 3.33, "Russia": 10.71, "Turkey": 2.0, "Portugal": 3.0, "Nürburgring": 3.0},
@@ -61,7 +61,10 @@ average_grid_positions = { # indexed based on order in the 2024 calendar (Bahrai
     "COL": {"Bahrain": 13.0, "Jeddah": 13.0, "Australia": 13.0, "Suzuka": 13.0, "China": 13.0, "Miami": 13.0, "Imola": 13.0, "Monaco": 13.0, "Canada": 13.0, "Spain": 13.0, "Austria": 13.0, "Silverstone": 13.0, "Hungary": 13.0, "Spa-Francorchamps": 13.0, "Zandvoort": 13.0, "Monza": 17.0, "Baku": 9.0, "Singapore": 13.0, "Austin": 13.0, "Mexico": 13.0, "Brazil": 13.0, "Las Vegas": 13.0, "Qatar": 13.0, "Abu Dhabi": 13.0, "France": 13.0, "Hockenheim": 13.0, "Russia": 13.0, "Turkey": 13.0, "Portugal": 13.0, "Nürburgring": 13.0},
     "BEA": {"Bahrain": 10.5, "Jeddah": 11.0, "Australia": 10.5, "Suzuka": 10.5, "China": 10.5, "Miami": 10.5, "Imola": 10.5, "Monaco": 10.5, "Canada": 10.5, "Spain": 10.5, "Austria": 10.5, "Silverstone": 10.5, "Hungary": 10.5, "Spa-Francorchamps": 10.5, "Zandvoort": 10.5, "Monza": 10.5, "Baku": 10.0, "Singapore": 10.5, "Austin": 10.5, "Mexico": 10.5, "Brazil": 10.5, "Las Vegas": 10.5, "Qatar": 10.5, "Abu Dhabi": 10.5, "France": 10.5, "Hockenheim": 10.5, "Russia": 10.5, "Turkey": 10.5, "Portugal": 10.5, "Nürburgring": 10.5},
     "LAW": {"Bahrain": 10.5, "Jeddah": 11.0, "Australia": 10.5, "Suzuka": 10.5, "China": 10.5, "Miami": 10.5, "Imola": 10.5, "Monaco": 10.5, "Canada": 10.5, "Spain": 10.5, "Austria": 10.5, "Silverstone": 10.5, "Hungary": 10.5, "Spa-Francorchamps": 10.5, "Zandvoort": 10.5, "Monza": 10.5, "Baku": 10.0, "Singapore": 10.5, "Austin": 10.5, "Mexico": 10.5, "Brazil": 10.5, "Las Vegas": 10.5, "Qatar": 10.5, "Abu Dhabi": 10.5, "France": 10.5, "Hockenheim": 10.5, "Russia": 10.5, "Turkey": 10.5, "Portugal": 10.5, "Nürburgring": 10.5},
-    "DOO": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 15.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 15.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0}
+    "DOO": {"Bahrain": 15.0, "Jeddah": 15.0, "Australia": 15.0, "Suzuka": 15.0, "China": 15.0, "Miami": 15.0, "Imola": 15.0, "Monaco": 15.0, "Canada": 15.0, "Spain": 15.0, "Austria": 15.0, "Silverstone": 15.0, "Hungary": 15.0, "Spa-Francorchamps": 15.0, "Zandvoort": 15.0, "Monza": 15.0, "Baku": 15.0, "Singapore": 15.0, "Austin": 15.0, "Mexico": 15.0, "Brazil": 15.0, "Las Vegas": 15.0, "Qatar": 15.0, "Abu Dhabi": 15.0, "France": 15.0, "Hockenheim": 15.0, "Russia": 15.0, "Turkey": 15.0, "Portugal": 15.0, "Nürburgring": 15.0},
+    "HAD": {"Bahrain": 13.0, "Jeddah": 13.0, "Australia": 13.0, "Suzuka": 13.0, "China": 13.0, "Miami": 13.0, "Imola": 13.0, "Monaco": 13.0, "Canada": 13.0, "Spain": 13.0, "Austria": 13.0, "Silverstone": 13.0, "Hungary": 13.0, "Spa-Francorchamps": 13.0, "Zandvoort": 13.0, "Monza": 17.0, "Baku": 9.0, "Singapore": 13.0, "Austin": 13.0, "Mexico": 13.0, "Brazil": 13.0, "Las Vegas": 13.0, "Qatar": 13.0, "Abu Dhabi": 13.0, "France": 13.0, "Hockenheim": 13.0, "Russia": 13.0, "Turkey": 13.0, "Portugal": 13.0, "Nürburgring": 13.0},
+    "ANT": {"Bahrain": 13.0, "Jeddah": 13.0, "Australia": 13.0, "Suzuka": 13.0, "China": 13.0, "Miami": 13.0, "Imola": 13.0, "Monaco": 13.0, "Canada": 13.0, "Spain": 13.0, "Austria": 13.0, "Silverstone": 13.0, "Hungary": 13.0, "Spa-Francorchamps": 13.0, "Zandvoort": 13.0, "Monza": 17.0, "Baku": 9.0, "Singapore": 13.0, "Austin": 13.0, "Mexico": 13.0, "Brazil": 13.0, "Las Vegas": 13.0, "Qatar": 13.0, "Abu Dhabi": 13.0, "France": 13.0, "Hockenheim": 13.0, "Russia": 13.0, "Turkey": 13.0, "Portugal": 13.0, "Nürburgring": 13.0},
+    "BOR": {"Bahrain": 13.0, "Jeddah": 13.0, "Australia": 13.0, "Suzuka": 13.0, "China": 13.0, "Miami": 13.0, "Imola": 13.0, "Monaco": 13.0, "Canada": 13.0, "Spain": 13.0, "Austria": 13.0, "Silverstone": 13.0, "Hungary": 13.0, "Spa-Francorchamps": 13.0, "Zandvoort": 13.0, "Monza": 17.0, "Baku": 9.0, "Singapore": 13.0, "Austin": 13.0, "Mexico": 13.0, "Brazil": 13.0, "Las Vegas": 13.0, "Qatar": 13.0, "Abu Dhabi": 13.0, "France": 13.0, "Hockenheim": 13.0, "Russia": 13.0, "Turkey": 13.0, "Portugal": 13.0, "Nürburgring": 13.0},
 }
 
 track_list = {
@@ -109,9 +112,9 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'years_since_reg_change': []
 }
 
-track = 'Abu Dhabi'
+track = 'Imola'
 
-session0 = fastf1.get_session(year=2024, gp=24, identifier='Q')
+session0 = fastf1.get_session(year=2025, gp=7, identifier='Q')
 session0.load(laps=True, weather=True)
 session = session0
 
@@ -131,7 +134,7 @@ for k in range(len(drivers)):
     lap_data["track_avg_lap_time"].append(track_list[track]) # find the average lap time for the track (can do avg for one session or try and do historical avg - hist would be less accurate to current cars)
     lap_data['temperature'].append(float(session.weather_data['TrackTemp'][0])) # see how this outputs (if it's even correct)
     lap_data['rain'].append(is_rain(session))
-    lap_data["years_since_reg_change"].append(get_years_since_reg_change(2024))
+    lap_data["years_since_reg_change"].append(get_years_since_reg_change(2025))
 
     try:
         if str(session.laps.pick_drivers(drivers[k]).pick_fastest()['LapTime']).__contains__("nan"):
