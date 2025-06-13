@@ -420,6 +420,11 @@ dialog {
   opacity: 1;
 }
 
+.session-results-modal.closed {
+  transform: translateY(100vh) scale(0.85);
+  opacity: 0;
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 const SessionResultsModal = ({ isOpen, onClose, results }) => {
-  const [shouldRender, setShouldRender] = useState(isOpen);
+  const [shouldRender, setShouldRender] = useState(false);
+  const [animateIn, setAnimateIn] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      setShouldRender(true);
+      setShouldRender(true);           // Mount the modal
+      setTimeout(() => setAnimateIn(true), 10); // Delay to trigger transition
     } else {
-      const timeout = setTimeout(() => setShouldRender(false), 500); // match animation
-      return () => clearTimeout(timeout);
+      setAnimateIn(false);             // Trigger exit animation
+      setTimeout(() => setShouldRender(false), 500); // Unmount after animation
     }
   }, [isOpen]);
 
@@ -16,7 +18,7 @@ const SessionResultsModal = ({ isOpen, onClose, results }) => {
 
   return (
     <div className="session-results-modal-overlay">
-      <div className={`session-results-modal ${isOpen ? "open" : "closed"}`}>
+      <div className={`session-results-modal ${animateIn ? "open" : "closed"}`}>
         <div className="modal-content">
           <h2 className="modal-title">Session Results</h2>
           <div className="results-table">
