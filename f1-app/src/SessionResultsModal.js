@@ -3,8 +3,8 @@ import "./App.css";
 
 const SessionResultsModal = ({ isOpen, onClose, results }) => {
   return (
-    <dialog className="session-results-modal" open={isOpen}>
-      <div className="modal-content" style={{ backgroundColor: "#222", color: "#fff" }}>
+    <dialog className="session-results-modal" open={isOpen} style="padding: 0px;">
+      <div className="modal-content" style={{ backgroundColor: "#222", color: "#fff", margin: "0px", borderRadius: "15px" }}>
         <h2 className="modal-title">Session Results</h2>
         <div className="results-table">
           {results.map((result, index) => (
