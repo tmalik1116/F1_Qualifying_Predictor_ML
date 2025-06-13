@@ -390,7 +390,7 @@ dialog {
   border-radius: 35px;
   box-shadow: 0 36px 36px 0 rgba(0, 0, 0, 0.5), 0 50px 50px 0 rgba(0, 0, 0, 0.19);
   border: none;
-  background-color: rgb(56, 56, 56);
+  background-color: rgb(30, 30, 30);
   position: relative;
   z-index: 2001;
   color: white;
@@ -448,6 +448,7 @@ dialog {
   align-items: center;
   position: relative;
   z-index: 2001;
+  width: 100%;
 }
 
 .modal-title {
