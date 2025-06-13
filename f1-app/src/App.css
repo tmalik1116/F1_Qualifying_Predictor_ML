@@ -385,7 +385,7 @@ dialog {
   padding-left: 3%;
 }
 
-session-results-modal {
+.session-results-modal {
   width: 70%;
   border-radius: 35px;
   box-shadow: 0 36px 36px 0 rgba(0, 0, 0, 0.5), 0 50px 50px 0 rgba(0, 0, 0, 0.19);
