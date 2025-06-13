@@ -394,7 +394,7 @@ session-results-modal {
   position: relative;
   z-index: 2001;
   color: white;
-  padding: 20px;
+  /* padding: 20px; */
   text-align: center;
   transition: all 0.5s ease;
   margin-top: -80%;
