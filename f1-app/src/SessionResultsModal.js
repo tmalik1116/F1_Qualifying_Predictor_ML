@@ -1,12 +1,22 @@
-import React from "react";
-import "./App.css";
+import React, { useEffect, useState } from "react";
 
 const SessionResultsModal = ({ isOpen, onClose, results }) => {
-  if (!isOpen) return null;
+  const [shouldRender, setShouldRender] = useState(isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+    } else {
+      const timeout = setTimeout(() => setShouldRender(false), 500); // match animation
+      return () => clearTimeout(timeout);
+    }
+  }, [isOpen]);
+
+  if (!shouldRender) return null;
 
   return (
     <div className="session-results-modal-overlay">
-      <div className="session-results-modal">
+      <div className={`session-results-modal ${isOpen ? "open" : "closed"}`}>
         <div className="modal-content">
           <h2 className="modal-title">Session Results</h2>
           <div className="results-table">
