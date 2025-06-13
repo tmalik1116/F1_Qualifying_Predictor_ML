@@ -2,24 +2,29 @@ import React from "react";
 import "./App.css";
 
 const SessionResultsModal = ({ isOpen, onClose, results }) => {
+  if (!isOpen) return null;
+
   return (
-    <dialog className="session-results-modal" open={isOpen}>
-      <div className="modal-content" style={{ backgroundColor: "#222", color: "#fff", margin: "0px", borderRadius: "15px" }}>
-        <h2 className="modal-title">Session Results</h2>
-        <div className="results-table">
-          {results.map((result, index) => (
-            <div key={index} className="result-row">
-              <span className="driver-abbreviation">{result.driver}</span>
-              <span className="lap-time">{result.time}</span>
-            </div>
-          ))}
+    <div className="session-results-modal-overlay">
+      <div className="session-results-modal">
+        <div className="modal-content">
+          <h2 className="modal-title">Session Results</h2>
+          <div className="results-table">
+            {results.map((result, index) => (
+              <div key={index} className="result-row">
+                <span className="driver-abbreviation">{result.driver}</span>
+                <span className="lap-time">{result.time}</span>
+              </div>
+            ))}
+          </div>
+          <button className="dialog-button" onClick={onClose}>
+            Close
+          </button>
         </div>
-        <button className="dialog-button" onClick={onClose}>
-          Close
-        </button>
       </div>
-    </dialog>
+    </div>
   );
 };
+
 
 export default SessionResultsModal;
