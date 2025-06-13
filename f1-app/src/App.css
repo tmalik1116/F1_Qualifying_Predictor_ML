@@ -446,6 +446,7 @@ dialog {
   flex: 1 1 auto; /* allow to grow */
   overflow-y: auto;
   max-height: 50vh; /* control scrollable area height */
+  width: 90vh;
   border-top: 1px solid #555;
   border-bottom: 1px solid #555;
   scrollbar-width: none; /* Firefox */
