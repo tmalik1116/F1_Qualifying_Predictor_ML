@@ -3,6 +3,25 @@ import React, { useEffect, useState } from "react";
 const SessionResultsModal = ({ isOpen, onClose, results }) => {
   const [shouldRender, setShouldRender] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Add responsive detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -18,7 +37,7 @@ const SessionResultsModal = ({ isOpen, onClose, results }) => {
 
   return (
     <div className="session-results-modal-overlay">
-      <div className={`session-results-modal ${animateIn ? "open" : "closed"}`}>
+      <div className={`session-results-modal ${animateIn ? "open" : "closed"} ${isMobile ? "mobile" : ""}`}>
         <div className="modal-content">
           <h2 className="modal-title">Session Results</h2>
           <div className="results-table">
@@ -29,7 +48,11 @@ const SessionResultsModal = ({ isOpen, onClose, results }) => {
               </div>
             ))}
           </div>
-          <button className="dialog-button" onClick={onClose}>
+          <button 
+            className="dialog-button"
+            onClick={onClose}
+            style={{ minHeight: isMobile ? "44px" : "auto" }} // Better touch target on mobile
+          >
             Close
           </button>
         </div>

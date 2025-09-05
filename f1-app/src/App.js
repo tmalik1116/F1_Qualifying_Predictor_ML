@@ -5,8 +5,25 @@ import React, {useState, useEffect} from "react";
 
 export default function App() {
   const [activeButton, setActiveButton] = useState(null); // State for active button (null means none)
-  // const [data, setData] = useState(null)
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
+  // Add responsive detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleSubmenu = (buttonType) => {
     // If the clicked button is already active, close it
@@ -18,20 +35,6 @@ export default function App() {
     }
   };
 
-  // Testing the server connection
-  // useEffect(() => {
-    // fetch("/test").then(
-    //   res => res.json()
-    // ).then(
-    //   data => {
-    //     // setData(data)
-    //     // console.log("received")
-    //     console.log(data)
-    //   }
-    // )
-  // }, [])
-
-
   return (
     <div id="body"> 
       <div className="curb left"></div>
@@ -39,9 +42,9 @@ export default function App() {
       <div className="content">
         
         <h1 className="display-1">Formula 1 Qualif-AI</h1>
-        <h2 style={{ marginTop: '5%', marginBottom: '5%' }}>Predict Result For:</h2>
+        <h2 style={{ marginTop: isMobile ? '3%' : '5%', marginBottom: isMobile ? '3%' : '5%' }}>Predict Result For:</h2>
 
-        <div className="row-6" id="buttons">
+        <div className={isMobile ? "column" : "row-6"} id="buttons">
           <MainButton type="Driver" isActive={activeButton === 'Driver'} toggleSubmenu={toggleSubmenu}/>
           <MainButton type="Session" isActive={activeButton === 'Session'} toggleSubmenu={toggleSubmenu}/>
         </div>
@@ -51,4 +54,3 @@ export default function App() {
     </div>
   );
 }
-

@@ -567,78 +567,112 @@ dialog {
   }
 }
 
+/* Responsive adjustments */
 @media screen and (max-width: 768px) {
-  .curb.left, .curb.right {
-    width: 10% !important;
-  }
-  /* .content {
-    border-left: 5px solid lightgray;
-    border-right: 5px solid lightgray;
-  } */
-  .main.button {
-    width: 70%;
-    font-size: small;
-  }
-  #buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  .switch-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .switch-label {
-    width: auto;
-    text-align: center;
-  }
-  .back-button-container {
-    width: 50%;
-  }
-
-  .content::before {
-    left: 10%; /* Position left border */
+  /* General container adjustments */
+  .content {
+    width: 95%;
+    margin: 0 auto;
+    padding: 0 10px;
   }
   
-  .content::after {
-    right: 10%; /* Position right border */
+  /* Adjust the curb design for mobile */
+  .curb.left, .curb.right {
+    width: 20px; /* Thinner curbs on mobile */
+  }
+  
+  /* Headers adjustment */
+  h1.display-1 {
+    font-size: 2.5rem; /* Smaller title on mobile */
+    margin-top: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    margin: 1rem 0 !important; /* Override inline styles */
+  }
+  
+  /* Button container layout change */
+  #buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Make each button container full width */
+  #buttons .col-6 {
+    width: 90%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Adjust main buttons */
+  .main.button {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Adjust expanded menus */
+  .main.button.expanded {
+    width: 100%;
+  }
+  
+  /* Form element adjustments */
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  .switch-row {
+    justify-content: flex-start;
+  }
+  
+  /* Dialog adjustments */
+  dialog {
+    width: 90%;
+    max-width: 350px;
+  }
+  
+  /* Ensure submenu-content is properly sized */
+  .submenu-content {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  /* Adjust vertical spacing */
+  .vertical-spacer-medium {
+    height: 15px; /* Slightly smaller spacing on mobile */
+  }
+  
+  /* Session results modal adjustments */
+  .session-results-modal {
+    width: 90%;
+    max-width: 350px;
+  }
+  
+  .results-table {
+    max-height: 60vh;
   }
 }
 
+/* Extra small devices */
 @media screen and (max-width: 480px) {
-  .curb.left, .curb.right {
-    width: 12% !important;
-  }
-  .content {
-    padding: 5px;
-    font-size: small;
-  }
-  .main.button {
-    width: 90%;
-    font-size: smaller;
-  }
-  .back-button {
-    width: 50px;
-    height: 25px;
-    font-size: smaller;
-  }
-  .back-button-container {
-    width: 60%;
-  }
-  .switch {
-    width: 20%;
-  }
-  .dialog-button {
-    width: 50%;
-  }
-  dialog {
-    width: 90%;
-  }
-
-  .content::before {
-    left: 12%; /* Position left border */
+  h1.display-1 {
+    font-size: 2rem;
   }
   
-  .content::after {
-    right: 12%; /* Position right border */
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  #buttons .col-6 {
+    width: 95%;
+  }
+  
+  /* Ensure buttons are still clickable with good touch targets */
+  .dialog-button, .enter-button {
+    min-height: 44px; /* Minimum touch target size */
+    font-size: 1rem;
   }
 }

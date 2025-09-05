@@ -7,11 +7,32 @@ export default function MainButton(props) {
   const [maxHeight, setMaxHeight] = useState("0px");
   const [isOverflowHidden, setIsOverflowHidden] = useState(true); // Starts with overflow hidden
   const contentRef = useRef(null); // Reference to the submenu content
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Add responsive detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (props.isActive) {
-      const scrollHeight = contentRef.current.scrollHeight; // Get the natural height of the content
-      setMaxHeight(`${scrollHeight}px`); // Set it as max-height
+      // When activating, get the natural height of the content
+      const scrollHeight = contentRef.current.scrollHeight;
+      // Set max-height with additional space for mobile to ensure content fits
+      setMaxHeight(isMobile ? `${scrollHeight + 30}px` : `${scrollHeight}px`);
       setIsAnimating(true);
       setIsOverflowHidden(true); // disable overflow during animation for proper visual effect
     } else {
@@ -19,7 +40,7 @@ export default function MainButton(props) {
       setIsOverflowHidden(true); // enable overflow after animation for proper shadow appearance on button
       setTimeout(() => setIsAnimating(false), 200); // play with value to get smooth visual (fallback to 200)
     }
-  }, [props.isActive]);
+  }, [props.isActive, isMobile]);
 
   // After animation make overflow visible
   useEffect(() => {
@@ -30,7 +51,6 @@ export default function MainButton(props) {
   });
 
   function closeSubmenu() {
-    // setIsOverflowVisible(false);
     props.toggleSubmenu(props.type);
   }
 
@@ -43,12 +63,11 @@ export default function MainButton(props) {
         props.toggleSubmenu(props.type);
         
       }, delayInMilliseconds);
-      
     }
   }
 
   return (
-    <div className="col-6">
+    <div className={isMobile ? "col-12" : "col-6"}>
       <button
         id={props.type.toLowerCase() + "-button"}
         className={`main button ${props.isActive ? "expanded" : ""}`}
@@ -63,6 +82,7 @@ export default function MainButton(props) {
                 maxHeight: maxHeight,
                 overflow: isOverflowHidden ? "hidden" : "visible",
                 transition: "max-height 0.3s ease", // go back to 0.3 if desired
+                width: isMobile ? "100%" : "auto"
               }}
             >
               {props.type === "Driver" && (
