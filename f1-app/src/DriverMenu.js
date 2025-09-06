@@ -3,9 +3,9 @@ import CloseButton from "./CloseButton";
 import EnterButton from "./EnterButton";
 import { Switch } from "@mui/material";
 import stopwatchIcon from "./images/istockphoto-1462617826-612x612-removebg.png";
-import { use } from "react";
 
 export default function DriverMenu(props) {
+  const { isMobile = window.innerWidth <= 768 } = props;
   
   const [driver, setDriver] = useState("");
   const [race, setRace] = useState("");
@@ -77,13 +77,14 @@ export default function DriverMenu(props) {
   };
 
   return (
-    // <div>
     <div className="submenu-content">
       <div className="row" id="driver-submenu-top">
         <label className="input-label-top" htmlFor="Driver">
           Driver
         </label>
-        <CloseButton closeSubmenu={props.closeSubmenu} />
+        <div className="close-button-wrapper">
+          <CloseButton closeSubmenu={props.closeSubmenu} />
+        </div>
       </div>
       <input
         type="text"
@@ -92,8 +93,7 @@ export default function DriverMenu(props) {
         className="input-field"
         onChange={handleDriverChange}
       ></input>
-      <div className="vertical-spacer-medium"></div>{" "}
-      {/* Make 'spacer' CSS class for a div, can reuse wherever I want */}
+      <div className="vertical-spacer-medium"></div>
       <div className="row" id="driver-submenu-top">
         <label className="input-label" htmlFor="Race">
           Race
@@ -132,30 +132,47 @@ export default function DriverMenu(props) {
           defaultChecked={false}
           checked={rain}
           onChange={handleRainChange}
-          // inputProps={{ "aria-label": "controlled" }}
         />
         <h6 className="switch-label">{rain ? "Wet" : "Dry"}</h6>
       </div>
       <div className="vertical-spacer-medium"></div>
-      <EnterButton className="enter-button" onClick={submitData} disabled={isLoading}/>
+      <EnterButton 
+        className="enter-button" 
+        onClick={submitData} 
+        disabled={isLoading}
+        style={{
+          width: "100%",
+          minHeight: isMobile ? "44px" : "auto"
+        }}
+      />
 
-      <dialog ref={dialogRef}>
+      <dialog ref={dialogRef} className={isMobile ? "mobile-dialog" : ""}>
         <h2>
           Driver Prediction  
           <img src={stopwatchIcon} alt="Ranking icon" className="dialog-image-top"></img>
         </h2>
         
         <p>{responseMsg}</p>
-        <button onClick={closeDialog} className="dialog-button">Close</button>
+        <button 
+          onClick={closeDialog} 
+          className="dialog-button"
+          style={{ minHeight: isMobile ? "44px" : "auto" }}
+        >
+          Close
+        </button>
       </dialog>
 
-      <dialog ref={nullRef}>
-        <h2>Error
-        </h2>
+      <dialog ref={nullRef} className={isMobile ? "mobile-dialog" : ""}>
+        <h2>Error</h2>
         <p>{responseMsg}</p>
-        <button onClick={closeDialog} className="dialog-button">Close</button>
+        <button 
+          onClick={closeDialog} 
+          className="dialog-button"
+          style={{ minHeight: isMobile ? "44px" : "auto" }}
+        >
+          Close
+        </button>
       </dialog>
     </div>
-    // {/* </div> */}
   );
 }

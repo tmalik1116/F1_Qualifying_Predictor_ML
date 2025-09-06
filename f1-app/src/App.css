@@ -567,29 +567,36 @@ dialog {
   }
 }
 
+/* Base styles remain the same */
+
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   /* General container adjustments */
   .content {
-    width: 95%;
+    width: 92%;
     margin: 0 auto;
-    padding: 0 10px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   /* Adjust the curb design for mobile */
   .curb.left, .curb.right {
-    width: 20px; /* Thinner curbs on mobile */
+    width: 15px; /* Thinner curbs on mobile */
   }
   
   /* Headers adjustment */
   h1.display-1 {
-    font-size: 2.5rem; /* Smaller title on mobile */
-    margin-top: 1rem;
+    font-size: 2.2rem; /* Smaller title on mobile */
+    margin-top: 0.5rem;
+    text-align: center;
   }
   
   h2 {
-    font-size: 1.8rem;
-    margin: 1rem 0 !important; /* Override inline styles */
+    font-size: 1.5rem;
+    margin: 0.5rem 0 1rem 0 !important; /* Override inline styles */
+    text-align: center;
   }
   
   /* Button container layout change */
@@ -598,81 +605,235 @@ dialog {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin: 0;
+    padding: 0;
   }
   
   /* Make each button container full width */
-  #buttons .col-6 {
-    width: 90%;
-    margin-bottom: 1rem;
+  #buttons .col-6, #buttons .col-12 {
+    width: 85%;
+    margin-bottom: 0.75rem;
+    padding: 0;
   }
   
   /* Adjust main buttons */
   .main.button {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    /* Set a fixed, appropriate height for non-expanded buttons */
+    height: 60px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .main.button h2 {
+    margin: 0 !important;
   }
   
   /* Adjust expanded menus */
   .main.button.expanded {
     width: 100%;
+    height: auto;
+    max-height: 85vh; /* Prevent expanding beyond screen */
+    overflow-y: auto; /* Allow scrolling for tall content */
+  }
+  
+  /* Critical fix for submenu layout */
+  #driver-submenu-top, .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  /* Ensure proper back button alignment */
+  .close-button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
   }
   
   /* Form element adjustments */
   .input-field {
     width: 100%;
-    padding: 10px;
-    font-size: 1rem;
+    padding: 8px;
+    font-size: 16px; /* iOS minimum to prevent zoom */
+    margin-bottom: 10px;
+    box-sizing: border-box;
   }
   
   .switch-row {
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+  }
+  
+  .switch-label {
+    margin-left: 10px;
   }
   
   /* Dialog adjustments */
   dialog {
     width: 90%;
-    max-width: 350px;
+    max-width: 300px;
+    padding: 15px;
+    border-radius: 20px;
   }
   
   /* Ensure submenu-content is properly sized */
   .submenu-content {
     width: 100%;
     padding: 15px;
+    box-sizing: border-box;
+    position: relative; /* For absolute positioning of close button */
+    overflow-y: visible;
   }
   
   /* Adjust vertical spacing */
   .vertical-spacer-medium {
-    height: 15px; /* Slightly smaller spacing on mobile */
+    height: 10px; /* Smaller spacing on mobile */
   }
   
   /* Session results modal adjustments */
   .session-results-modal {
     width: 90%;
-    max-width: 350px;
+    max-width: 320px;
   }
   
   .results-table {
-    max-height: 60vh;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  
+  /* Calculate button */
+  .enter-button, .dialog-button {
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 10px;
+    min-height: 44px; /* Minimum touch target size */
   }
 }
 
 /* Extra small devices */
 @media screen and (max-width: 480px) {
   h1.display-1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
-  #buttons .col-6 {
-    width: 95%;
+  #buttons .col-6, #buttons .col-12 {
+    width: 90%;
+    justify-content: center;
   }
   
-  /* Ensure buttons are still clickable with good touch targets */
+  /* Prevent UI elements from being too tall on small screens */
+  .main.button.expanded {
+    max-height: 80vh;
+  }
+  
+  /* Increase touch targets for better usability */
+  .input-field {
+    padding: 12px 8px;
+  }
+  
   .dialog-button, .enter-button {
-    min-height: 44px; /* Minimum touch target size */
+    min-height: 48px;
     font-size: 1rem;
+  }
+}
+
+/* CloseButton styling */
+.close-button-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Ensure the close button is properly positioned on mobile */
+@media screen and (max-width: 768px) {
+  .close-button-wrapper {
+    margin-left: auto;
+  }
+  
+  /* Force the proper layout for the top row */
+  #driver-submenu-top {
+    display: flex !important; 
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Make sure there's no overflow in expanded menus that causes scrollbars */
+  .main.button.expanded .submenu-content {
+    overflow: visible !important;
+  }
+  
+  /* Add scrolling for the content instead */
+  .main.button.expanded {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* For iOS */
+  }
+  
+  /* Fix input fields truncation */
+  .input-field {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+  }
+  
+  /* Fix dialog display on mobile */
+  .mobile-dialog {
+    width: 85%;
+    max-width: 320px;
+    padding: 15px;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure dialogs are centered */
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Better touch targets for mobile */
+  .switch {
+    transform: scale(1.2);
+    margin-right: 10px;
+  }
+  
+  /* Text sizing */
+  .input-label, .input-label-top, .switch-label {
+    font-size: 16px;
+  }
+}
+
+/* Animation improvements */
+.main.button {
+  transition: all 0.3s ease-in-out;
+}
+
+.main.button.expanded {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Force proper positioning for iOS */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific override */
+  .main.button.expanded {
+    position: relative;
+    z-index: 10;
+  }
+  
+  dialog.mobile-dialog {
+    max-width: 85vw;
   }
 }

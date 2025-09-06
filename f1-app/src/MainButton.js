@@ -28,27 +28,34 @@ export default function MainButton(props) {
   }, []);
 
   useEffect(() => {
-    if (props.isActive) {
-      // When activating, get the natural height of the content
-      const scrollHeight = contentRef.current.scrollHeight;
-      // Set max-height with additional space for mobile to ensure content fits
-      setMaxHeight(isMobile ? `${scrollHeight + 30}px` : `${scrollHeight}px`);
+    if (props.isActive && contentRef.current) {
+      // When activating, recalculate height after a short delay to ensure content is rendered
+      setTimeout(() => {
+        const scrollHeight = contentRef.current ? contentRef.current.scrollHeight : 0;
+        // Set a reasonable max height that won't exceed viewport
+        const viewportHeight = window.innerHeight;
+        const maxHeightValue = Math.min(scrollHeight, viewportHeight * 0.8);
+        
+        setMaxHeight(`${maxHeightValue}px`);
+      }, 50);
+      
       setIsAnimating(true);
-      setIsOverflowHidden(true); // disable overflow during animation for proper visual effect
+      setIsOverflowHidden(true);
     } else {
       setMaxHeight("0px");
-      setIsOverflowHidden(true); // enable overflow after animation for proper shadow appearance on button
-      setTimeout(() => setIsAnimating(false), 200); // play with value to get smooth visual (fallback to 200)
+      setIsOverflowHidden(true);
+      setTimeout(() => setIsAnimating(false), 200);
     }
-  }, [props.isActive, isMobile]);
+  }, [props.isActive]);
 
-  // After animation make overflow visible
+  // After animation make overflow visible for scrolling if needed
   useEffect(() => {
     if (props.isActive) {
-      const timeout = setTimeout(() => setIsOverflowHidden(true), 500);
-      return () => clearTimeout(timeout); // clean up timeout
+      // After animation completes, allow overflow for scrolling if content is tall
+      const timeout = setTimeout(() => setIsOverflowHidden(false), 500);
+      return () => clearTimeout(timeout);
     }
-  });
+  }, [props.isActive]);
 
   function closeSubmenu() {
     props.toggleSubmenu(props.type);
@@ -56,12 +63,10 @@ export default function MainButton(props) {
 
   function handleButtonClick() {
     if (!props.isActive) {
-      var delayInMilliseconds = 0; //0.15 seconds
-
+      var delayInMilliseconds = 0;
+      
       setTimeout(function() {
-        setIsOverflowHidden(true);
         props.toggleSubmenu(props.type);
-        
       }, delayInMilliseconds);
     }
   }
@@ -72,6 +77,10 @@ export default function MainButton(props) {
         id={props.type.toLowerCase() + "-button"}
         className={`main button ${props.isActive ? "expanded" : ""}`}
         onClick={handleButtonClick}
+        style={{
+          // Ensure consistent height when collapsed
+          height: props.isActive ? "auto" : (isMobile ? "60px" : "auto")
+        }}
       >
         <div className="button-content">
           {props.isActive || isAnimating ? (
@@ -80,16 +89,17 @@ export default function MainButton(props) {
               className="submenu-content"
               style={{
                 maxHeight: maxHeight,
-                overflow: isOverflowHidden ? "hidden" : "visible",
-                transition: "max-height 0.3s ease", // go back to 0.3 if desired
-                width: isMobile ? "100%" : "auto"
+                overflow: isOverflowHidden ? "hidden" : "auto", // Change to auto to allow scrolling
+                transition: "max-height 0.4s ease-in-out", 
+                width: "100%",
+                boxSizing: "border-box"
               }}
             >
               {props.type === "Driver" && (
-                <DriverMenu closeSubmenu={closeSubmenu} />
+                <DriverMenu closeSubmenu={closeSubmenu} isMobile={isMobile} />
               )}
               {props.type === "Session" && (
-                <SessionMenu closeSubmenu={closeSubmenu} />
+                <SessionMenu closeSubmenu={closeSubmenu} isMobile={isMobile} />
               )}
             </div>
           ) : (
