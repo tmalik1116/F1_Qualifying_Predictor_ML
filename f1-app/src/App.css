@@ -741,6 +741,10 @@ dialog {
   .enter-button {
     width: 70%;
   }
+
+  .submenu-content {
+    padding-left: -5%;
+  }
   
   /* Prevent UI elements from being too tall on small screens */
   .main.button.expanded {
@@ -832,6 +836,37 @@ dialog {
 
 .main.button.expanded {
   transition: all 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  /* Make form elements smaller */
+  .input-field {
+    font-size: 14px;
+    height: 36px;
+    padding: 6px 8px;
+  }
+  
+  /* Labels smaller */
+  .input-label, .input-label-top {
+    font-size: 15px;
+  }
+  
+  /* Reduce vertical space */
+  .vertical-spacer-medium {
+    height: 8px;
+  }
+  
+  /* Keep Calculate button prominent */
+  .enter-button {
+    width: 70%;
+    margin: 8px auto;
+    display: block;
+  }
+  
+  /* Shift content left */
+  .submenu-content {
+    padding-left: 8px;
+  }
 }
 
 /* Force proper positioning for iOS */
