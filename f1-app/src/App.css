@@ -869,20 +869,21 @@ dialog {
   }
 
   .back-button {
-    width: 55px;
+    width: 30px;
     height: 30px;
-    margin-right: -5px;
+    margin-right: -15px;
+    padding-right: -10px;
   }
   
   /* Adjust the close button container */
   .close-button-wrapper {
     margin-left: auto;
-    padding-right: 5px;
+    padding-right: 0px;
   }
   
   /* Ensure the back image is scaled properly */
   .back-image {
-    width: 45%;
+    width: 35%;
     height: 65%;
   }
 }

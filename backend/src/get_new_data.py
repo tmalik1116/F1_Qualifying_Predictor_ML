@@ -3,6 +3,7 @@ import fastf1
 import re
 import pandas as pd
 import random
+import os
 # import FastF1_testing
 
 # Converts the default string output from the database into a float that can be worked with
@@ -100,88 +101,204 @@ track_list = {
     "Nürburgring": 86.637
 }
 
-lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever bullshit)
-    'driver': [],
-    'track': [],
-    'year': [],
-    'avg_grid_pos_track': [],
-    'track_avg_lap_time': [],
-    'temperature': [], # higher temp == slower laps (significant, from tire deg and lower engine RPM)
-    'rain': [],
-    'target_time': [], # just get the actual times basically
-    'years_since_reg_change': []
+# Define the track name mapping for FastF1
+track_name_mapping = {
+    'Bahrain': 'Bahrain',
+    'Saudi Arabia': 'Jeddah',
+    'Australia': 'Australia',
+    'Azerbaijan': 'Baku',
+    'Miami': 'Miami',
+    'Monaco': 'Monaco',
+    'Spain': 'Spain',
+    'Canada': 'Canada',
+    'Austria': 'Austria',
+    'Great Britain': 'Silverstone',
+    'Hungary': 'Hungary',
+    'Belgium': 'Spa-Francorchamps',
+    'Netherlands': 'Zandvoort',
+    'Italy': 'Monza',
+    'Singapore': 'Singapore',
+    'Japan': 'Suzuka',
+    'United States': 'Austin',
+    'Mexico': 'Mexico',
+    'Brazil': 'Brazil',
+    'Las Vegas': 'Las Vegas',
+    'Qatar': 'Qatar',
+    'Abu Dhabi': 'Abu Dhabi',
+    'China': 'China',
+    'Emilia Romagna': 'Imola',
+    'France': 'France',
+    'Germany': 'Hockenheim',
+    'Russia': 'Russia',
+    'Turkey': 'Turkey',
+    'Portugal': 'Portugal',
+    'Eifel': 'Nürburgring'
 }
 
-track = 'Imola'
-
-session0 = fastf1.get_session(year=2025, gp=7, identifier='Q')
-session0.load(laps=True, weather=True)
-session = session0
-
-drivers = pd.unique(session.laps['Driver'])
-
-for k in range(len(drivers)):
-
-    # Skip entry if driver is not one of the current 20 drivers
-    # if drivers[k] not in average_grid_positions.keys():
-    #     continue
-
-    # new code (using more data and different data structure)
-    lap_data['driver'].append(drivers[k]) # get driver
-    lap_data['track'].append(track) # get track name - figure out how
-    lap_data['year'].append(re.findall(r'\d{4}', str(session.date))[0]) # get the year
-    lap_data['avg_grid_pos_track'].append(average_grid_positions[drivers[k]][track]) # get the current driver's avg grid position for the given track
-    lap_data["track_avg_lap_time"].append(track_list[track]) # find the average lap time for the track (can do avg for one session or try and do historical avg - hist would be less accurate to current cars)
-    lap_data['temperature'].append(float(session.weather_data['TrackTemp'][0])) # see how this outputs (if it's even correct)
-    lap_data['rain'].append(is_rain(session))
-    lap_data["years_since_reg_change"].append(get_years_since_reg_change(2025))
-
+def process_session_data(year, gp_number, session_identifier='Q'):
+    """
+    Process data for a single session and return the data dictionary
+    """
+    print(f"Processing Year: {year}, GP: {gp_number}, Session: {session_identifier}")
+    
     try:
-        if str(session.laps.pick_drivers(drivers[k]).pick_fastest()['LapTime']).__contains__("nan"):
-            lap_data["target_time"].append(None)
-        else:
-            lap_data["target_time"].append(convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_drivers(drivers[k]).pick_fastest()['LapTime']))[0])) # what we're predicting (eq. to y in pytorch examples, will compare predicted time to this for model testing)
-    except:
-        try:
-            if re.findall(r'\d{2}\:\d{2}', str(session.laps.pick_driver(drivers[k]).pick_fastest()['LapTime'])):
-                lap_data["target_time"].append(convert_time(re.findall(r'(01:\d{2})', str(session.laps.pick_drivers(drivers[k]).pick_fastest()['LapTime']))[0] + '.000'))
-        except:
-            lap_data["target_time"].append(None)
+        # Get session data
+        session = fastf1.get_session(year=year, gp=gp_number, identifier=session_identifier)
+        session.load(laps=True, weather=True)
+        
+        # Get track name from session
+        event_name = session.event['EventName']
+        track = track_name_mapping.get(event_name, event_name)
+        
+        # Skip if track not in our data
+        # if track not in track_list:
+        #     print(f"Track '{track}' not found in track_list, skipping...")
+        #     return None
+        
+        print(f"Processing track: {track}")
+        
+        drivers = pd.unique(session.laps['Driver'])
+        
+        # Initialize data structure for this session
+        session_data = {
+            'driver': [],
+            'track': [],
+            'year': [],
+            'avg_grid_pos_track': [],
+            'track_avg_lap_time': [],
+            'temperature': [],
+            'rain': [],
+            'target_time': [],
+            'years_since_reg_change': []
+        }
+        
+        for driver in drivers:
+            # Skip if driver not in our average grid positions data
+            if driver not in average_grid_positions.keys():
+                print(f"Driver '{driver}' not found in average_grid_positions, skipping...")
+                continue
+            
+            # Skip if track not in driver's data
+            if track not in average_grid_positions[driver]:
+                print(f"Track '{track}' not found for driver '{driver}', skipping...")
+                continue
+            
+            session_data['driver'].append(driver)
+            session_data['track'].append(track)
+            session_data['year'].append(int(re.findall(r'\d{4}', str(session.date))[0]))
+            session_data['avg_grid_pos_track'].append(average_grid_positions[driver][track])
+            session_data["track_avg_lap_time"].append(track_list[track])
+            session_data['temperature'].append(float(session.weather_data['TrackTemp'][0]))
+            session_data['rain'].append(is_rain(session))
+            session_data["years_since_reg_change"].append(get_years_since_reg_change(year))
 
-for key in lap_data:
-    print(lap_data[key])
+            try:
+                fastest_lap = session.laps.pick_drivers(driver).pick_fastest()['LapTime']
+                if str(fastest_lap).__contains__("nan"):
+                    session_data["target_time"].append(None)
+                else:
+                    time_match = re.findall(r'\d{2}\:\d{2}\.\d{3}', str(fastest_lap))
+                    if time_match:
+                        session_data["target_time"].append(convert_time(time_match[0]))
+                    else:
+                        session_data["target_time"].append(None)
+            except:
+                try:
+                    fastest_lap = session.laps.pick_drivers(driver).pick_fastest()['LapTime']
+                    time_match = re.findall(r'(01:\d{2})', str(fastest_lap))
+                    if time_match:
+                        session_data["target_time"].append(convert_time(time_match[0] + '.000'))
+                    else:
+                        session_data["target_time"].append(None)
+                except:
+                    session_data["target_time"].append(None)
+        
+        print(f"Processed {len(session_data['driver'])} driver entries for {track}")
+        return session_data
+        
+    except Exception as e:
+        print(f"Error processing Year: {year}, GP: {gp_number} - {str(e)}")
+        return None
 
-data = pd.DataFrame.from_dict(lap_data)
-data = data.dropna(subset=['target_time'])
-data.to_csv('backend/data/new_race.csv')
+def collect_multi_race_data(race_ranges, csv_file_path="../data/lap_data.csv", session_type='Q'):
+    """
+    Collect data for multiple races and append to CSV file
+    
+    Parameters:
+    race_ranges: List of tuples in format [(year, gp_start, gp_end), ...] or [(year, gp_number), ...]
+    csv_file_path: Path to the CSV file to append data to
+    session_type: Type of session ('Q' for Qualifying, 'R' for Race, etc.)
+    """
+    
+    all_data = {
+        'driver': [],
+        'track': [],
+        'year': [],
+        'avg_grid_pos_track': [],
+        'track_avg_lap_time': [],
+        'temperature': [],
+        'rain': [],
+        'target_time': [],
+        'years_since_reg_change': []
+    }
+    
+    for race_info in race_ranges:
+        if len(race_info) == 2:
+            # Single race: (year, gp_number)
+            year, gp_number = race_info
+            session_data = process_session_data(year, gp_number, session_type)
+            if session_data:
+                for key in all_data.keys():
+                    all_data[key].extend(session_data[key])
+        
+        elif len(race_info) == 3:
+            # Range of races: (year, gp_start, gp_end)
+            year, gp_start, gp_end = race_info
+            for gp_number in range(gp_start, gp_end + 1):
+                session_data = process_session_data(year, gp_number, session_type)
+                if session_data:
+                    for key in all_data.keys():
+                        all_data[key].extend(session_data[key])
+    
+    # Convert to DataFrame and remove rows with None target_time
+    df = pd.DataFrame.from_dict(all_data)
+    df = df.dropna(subset=['target_time'])
+    
+    # Append to existing CSV file or create new one
+    if os.path.exists(csv_file_path):
+        print(f"Appending {len(df)} rows to existing file: {csv_file_path}")
+        df.to_csv(csv_file_path, mode='a', header=False, index=False)
+    else:
+        print(f"Creating new file with {len(df)} rows: {csv_file_path}")
+        df.to_csv(csv_file_path, index=False)
+    
+    print(f"Successfully processed and saved data for {len(df)} entries")
+    return df
 
-# for i in range(20):
-#     print(str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']))
-#     print(str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']).__contains__('nan'))
-
-
-# Code for getting avg lap time
-# avg_time = 0.0
-# num = 20
-# for i in range(20):
-#     try:
-#         avg_time += convert_time(re.findall(r'\d{2}\:\d{2}\.\d{3}', str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']))[0])
-#     except:
-#         try:
-#             avg_time += convert_time(re.findall(r'(01:\d{2})', str(session.laps.pick_drivers(drivers[i]).pick_fastest()['LapTime']))[0] + ".000")
-#         except:
-#             num -= 1
-#             continue
-
-# avg_time /= num
-# print(avg_time)
-
-
-#################################
-### TEST THE is_rain FUNCTION ###
-#################################
-
-
-# print(is_rain(session))
-
-# print(session.laps.pick_drivers("HAM").pick_fastest()['LapTime'])
+# Example usage:
+if __name__ == "__main__":
+    # Example 1: Collect data for specific races
+    # Format: (year, gp_number) for single races
+    single_races = [
+        (2025, 8),  # Imola 2025
+        (2024, 1),  # Bahrain 2024
+        (2024, 2),  # Saudi Arabia 2024
+    ]
+    
+    # Example 2: Collect data for range of races
+    # Format: (year, gp_start, gp_end) for ranges
+    race_ranges = [
+        (2025, 8, 16),   # Race 8-16 2025
+    ]
+    
+    # You can mix both formats
+    mixed_ranges = [
+        (2025, 8),      # Single race
+        (2024, 1, 3),   # Range of races
+        (2023, 20),     # Single race
+    ]
+    
+    # Collect the data - uncomment the line you want to use:
+    # collect_multi_race_data(single_races)
+    # collect_multi_race_data(race_ranges)
+    collect_multi_race_data(race_ranges, session_type='Q')
