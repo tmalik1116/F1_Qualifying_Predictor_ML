@@ -867,6 +867,24 @@ dialog {
   .submenu-content {
     padding-left: 8px;
   }
+
+  .back-button {
+    width: 55px;
+    height: 30px;
+    margin-right: -5px;
+  }
+  
+  /* Adjust the close button container */
+  .close-button-wrapper {
+    margin-left: auto;
+    padding-right: 5px;
+  }
+  
+  /* Ensure the back image is scaled properly */
+  .back-image {
+    width: 45%;
+    height: 65%;
+  }
 }
 
 /* Force proper positioning for iOS */
