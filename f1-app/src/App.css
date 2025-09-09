@@ -869,7 +869,7 @@ dialog {
   }
 
   .back-button {
-    width: 30px;
+    width: 55px;
     height: 30px;
     margin-right: -15px;
     padding-right: -10px;
@@ -883,8 +883,40 @@ dialog {
   
   /* Ensure the back image is scaled properly */
   .back-image {
-    width: 35%;
+    width: 45%;
     height: 65%;
+  }
+
+  .input-label-top {
+    margin-right: none;
+    padding-right: none;
+  }
+
+  h2 {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Make sure the labels stay inside the buttons */
+  .main.button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+  }
+  
+  /* Adjust the header layout */
+  .content h2 {
+    position: static;
+    margin-bottom: 15px !important;
+  }
+  
+  /* Make sure "Predict Result For:" text is properly positioned */
+  .content h2:first-of-type {
+    margin-bottom: 5px !important;
+    margin-top: 10px !important;
   }
 }
 
