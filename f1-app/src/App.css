@@ -731,6 +731,15 @@ dialog {
   #buttons .col-6, #buttons .col-12 {
     width: 90%;
     justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .input-label-top {
+    width: 50%;
+  }
+
+  .enter-button {
+    width: 70%;
   }
   
   /* Prevent UI elements from being too tall on small screens */
