@@ -518,54 +518,7 @@ dialog {
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
-@media screen and (max-width: 1200px) {
-  .curb.left, .curb.right {
-    width: 7% !important;
-  }
-  .content {
-    padding: 15px;
-  }
-  .main.button {
-    width: 80%;
-    font-size: medium;
-  }
 
-  .content::before {
-    left: 7%; /* Position left border */
-  }
-  
-  .content::after {
-    right: 7%; /* Position right border */
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .curb.left, .curb.right {
-    width: 8% !important;
-  }
-  .content {
-    padding: 10px;
-  }
-  .main.button {
-    width: 75%;
-    font-size: medium;
-  }
-  .back-button-container {
-    width: 35%;
-  }
-  .switch {
-    width: 15%;
-  }
-
-  .content::before {
-    left: 8%; /* Position left border */
-  }
-  
-  .content::after {
-    right: 8%; /* Position right border */
-  }
-}
 
 /* Base styles remain the same */
 
@@ -891,33 +844,71 @@ dialog {
     margin-right: none;
     padding-right: none;
   }
+}
 
-  h2 {
-    position: relative;
-    z-index: 10;
-  }
-  
-  /* Make sure the labels stay inside the buttons */
-  .main.button {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0;
-  }
-  
-  /* Adjust the header layout */
-  .content h2 {
-    position: static;
-    margin-bottom: 15px !important;
-  }
-  
-  /* Make sure "Predict Result For:" text is properly positioned */
-  .content h2:first-of-type {
-    margin-bottom: 5px !important;
-    margin-top: 10px !important;
-  }
+/* Fix for desktop scrollbar issue */
+.main.button.expanded {
+  overflow: visible !important;
+  height: 350% !important;
+}
+
+.submenu-content {
+  overflow: hidden !important;
+}
+
+/* Reset button styling to original */
+.main.button {
+  background-color: darkred;
+  width: 90%;
+  height: 80%;
+  color: white;
+  border-radius: 35px;
+  margin: auto;
+  padding-top: 7.5%;
+  padding-bottom: 9%;
+  font-family: "Zen Dots";
+  font-size: larger;
+  border: none;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: all 0.5s ease;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+/* Remove any flex positioning that may have been added */
+.button-content {
+  display: block;
+}
+
+/* Fix for the back button alignment */
+#driver-submenu-top {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.input-label-top {
+  width: auto !important;
+  margin-right: auto !important;
+}
+
+.back-button-container {
+  width: auto !important;
+  margin-left: auto !important;
+}
+
+.back-button {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Remove any display:block that might be interfering */
+.close-button-wrapper {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: auto !important;
 }
 
 /* Force proper positioning for iOS */
