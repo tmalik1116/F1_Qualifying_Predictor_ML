@@ -911,6 +911,52 @@ dialog {
   width: auto !important;
 }
 
+/* Fix for mobile expansion and overflow issues */
+@media screen and (max-width: 768px) {
+  /* Prevent content from appearing outside during animation */
+  .main.button {
+    overflow: hidden !important;
+  }
+  
+  .main.button.expanded {
+    overflow: visible !important;
+    transition: all 0.5s ease !important;
+  }
+  
+  /* Fix overlapping buttons by adding proper margin */
+  #buttons .col-6, #buttons .col-12 {
+    margin-bottom: 15px !important;
+  }
+  
+  /* Fix for curb display on mobile */
+  .curb.left, .curb.right {
+    width: 5% !important;
+    background-size: 4% 20% !important;
+  }
+  
+  /* Ensure content is properly contained */
+  .submenu-content {
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in-out 0.2s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Ensure proper spacing between elements */
+  .vertical-spacer-medium {
+    height: 10px;
+  }
+}
+
+/* Adjust overflow behavior */
+.main.button.expanded .button-content {
+  overflow: hidden !important;
+  transition: all 0.3s ease-in-out;
+}
+
 /* Force proper positioning for iOS */
 @supports (-webkit-touch-callout: none) {
   /* iOS specific override */
