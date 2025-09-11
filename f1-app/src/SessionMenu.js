@@ -80,7 +80,7 @@ export default function SessionMenu(props) {
     };
 
   return (
-    <div>
+    <div className="submenu-content">
 
       <SessionResultsModal
         className="modal"
@@ -94,6 +94,7 @@ export default function SessionMenu(props) {
             Race
           </label>
           <CloseButton closeSubmenu={props.closeSubmenu} />
+          <div className="horizontal-spacer"></div>
         </div>
 
         <input
@@ -138,8 +139,7 @@ export default function SessionMenu(props) {
         </div>
       </div>
 
-      
-
+    
       <dialog ref={nullRef}>
         <h2>Error
         </h2>
