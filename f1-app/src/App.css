@@ -976,12 +976,20 @@ dialog {
   
   /* Reduce Session submenu height on mobile */
   #session-button.expanded {
-    max-height: 300px !important; /* Adjust this value as needed */
+    max-height: 450px !important; /* Adjust this value as needed */
   }
   
   /* Keep Driver button at appropriate size */
   #driver-button.expanded {
-    max-height: 450px !important; /* Adjust as needed */
+    max-height: 600px !important; /* Adjust as needed */
+  }
+
+  /* Ensure text doesn't overflow in Calculate button */
+  .internal-button {
+    text-overflow: ellipsis !important;
+    font-size: medium !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
   }
 }
 
@@ -992,12 +1000,7 @@ dialog {
   padding-right: 5px !important;
 }
 
-/* Ensure text doesn't overflow in Calculate button */
-.internal-button {
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-}
+
 
 /* Force proper positioning for iOS */
 @supports (-webkit-touch-callout: none) {
