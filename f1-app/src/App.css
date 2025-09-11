@@ -957,6 +957,48 @@ dialog {
   transition: all 0.3s ease-in-out;
 }
 
+/* Adjustments for mobile view */
+@media screen and (max-width: 768px) {
+  /* Move close button further right */
+  .back-button {
+    margin-right: -8px !important;
+  }
+  
+  .close-button-wrapper {
+    padding-right: 8px !important;
+  }
+  
+  /* Fix Calculate button text overflow */
+  .enter-button {
+    width: 90% !important; /* Wider button */
+    font-size: 15px !important; /* Smaller text */
+  }
+  
+  /* Reduce Session submenu height on mobile */
+  #session-button.expanded {
+    max-height: 300px !important; /* Adjust this value as needed */
+  }
+  
+  /* Keep Driver button at appropriate size */
+  #driver-button.expanded {
+    max-height: 450px !important; /* Adjust as needed */
+  }
+}
+
+/* Additional adjustment for button placement */
+.back-button-container {
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding-right: 5px !important;
+}
+
+/* Ensure text doesn't overflow in Calculate button */
+.internal-button {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
 /* Force proper positioning for iOS */
 @supports (-webkit-touch-callout: none) {
   /* iOS specific override */
