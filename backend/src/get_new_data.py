@@ -112,9 +112,9 @@ lap_data = { # will be accessed something like (lap_data['driver'][i] = whatever
     'years_since_reg_change': []
 }
 
-track = 'Spain'
+track = 'Monza'
 
-session0 = fastf1.get_session(year=2025, gp=9, identifier='Q')
+session0 = fastf1.get_session(year=2025, gp=16, identifier='Q')
 session0.load(laps=True, weather=True)
 session = session0
 
